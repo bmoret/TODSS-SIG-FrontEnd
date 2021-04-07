@@ -1,0 +1,7 @@
+node_modules
+workspace.code-workspace
+
+.idea
+*.iws
+*.iml
+*.ipr
