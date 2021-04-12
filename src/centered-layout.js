@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
 
-class TwoFourthsCenteredLayout extends LitElement {
+class CenteredLayout extends LitElement {
   static get styles() {
     return css`
       div {
@@ -9,7 +9,7 @@ class TwoFourthsCenteredLayout extends LitElement {
         margin: auto;
         box-sizing: border-box;
         width: 100%;
-        max-width: 950px;
+        max-width: 1350px;
         min-width: 250px;
         padding: 15px;
       }
@@ -29,4 +29,4 @@ class TwoFourthsCenteredLayout extends LitElement {
   }
 }
 
-window.customElements.define('two-fourths-centered-layout', TwoFourthsCenteredLayout)
+window.customElements.define('centered-layout', CenteredLayout)

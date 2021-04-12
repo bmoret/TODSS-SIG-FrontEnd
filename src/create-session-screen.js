@@ -22,7 +22,8 @@ class CreateSessionScreen extends LitElement {
 
   render() {
     return  html`
-       <two-fourths-centered-layout>
+       <centered-layout>
+          <h1>Sessie aanmaken</h1>
           <form-segment 
             .title="${"Inhoud"}" 
             .body="${"inputs"}"
@@ -35,7 +36,7 @@ class CreateSessionScreen extends LitElement {
              .title="${"Tijdsindeling"}" 
              .body="${"inputs"}"
           ></form-segment>
-        </two-fourths-centered-layout>
+       </centered-layout>
         
       `
   }
