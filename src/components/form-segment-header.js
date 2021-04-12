@@ -4,7 +4,7 @@ class FormSegmentHeader extends LitElement {
     static get styles() {
       return css`
         div {
-         position: relative;
+          position: relative;
           display: block;
           padding: 10px;
           width: 100%;
@@ -64,7 +64,7 @@ class FormSegmentHeader extends LitElement {
         <h2>
           <slot></slot>
         </h2>
-        <img src="down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
+        <img src="../image/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
       </div>
       `
     }

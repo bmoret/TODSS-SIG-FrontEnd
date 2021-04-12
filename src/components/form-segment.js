@@ -10,10 +10,12 @@ class FormSegment extends LitElement {
       } 
 
       div {
+         position: relative;
         display: none;
         padding: 10px;
         overflow: hidden;
-        width: max-content;
+        height: min-content;
+        max-width: 100%;
       }
 
       :host([open]) div {
@@ -45,9 +47,7 @@ class FormSegment extends LitElement {
         ${this.title}
       </form-segment-header>
       <div>
-        <form-segment-body>
-          ${this.body}
-        </form-segment-body>
+        <slot></slot>
       </div>
     `;
   }

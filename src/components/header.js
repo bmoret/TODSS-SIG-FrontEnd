@@ -28,7 +28,7 @@ class Header extends LitElement {
     render() {
         return html`
             <div>
-                <img src="image/cimsolutions-logo.png" alt="cimsolution logo">
+                <img src="../image/cimsolutions-logo.png" alt="cimsolution logo">
             </div>
         `;
     }
