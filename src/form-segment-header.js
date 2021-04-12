@@ -4,13 +4,12 @@ class FormSegmentHeader extends LitElement {
     static get styles() {
       return css`
         div {
-          position: relative;
+         position: relative;
           display: block;
-          margin: 0;
           padding: 10px;
           width: 100%;
           background-image: linear-gradient(45deg, #BFF679, #9FE247);
-          height:30px;
+          box-sizing: border-box;
         }
        
         :host([open]) div, 
@@ -26,8 +25,8 @@ class FormSegmentHeader extends LitElement {
         img {
           position: absolute;
           top: 10px;
-          right: 0;
-          transition: 0.2s ease-in;
+          right: 10px;
+          transition: 0.1s ease-in;
         }
 
         :host([open]) img {

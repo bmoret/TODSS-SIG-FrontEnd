@@ -6,12 +6,14 @@ class FormSegment extends LitElement {
       :host {
         display:block;
         margin-bottom: 10px;
+        width: 100%
       } 
 
       div {
         display: none;
         padding: 10px;
         overflow: hidden;
+        width: max-content;
       }
 
       :host([open]) div {
@@ -22,7 +24,9 @@ class FormSegment extends LitElement {
 
   static get properties() {
     return {
-      show: {type: Boolean, attribute: "open", reflect: true}
+      show: {type: Boolean, attribute: "open", reflect: true},
+      title: {type: String, attribute: false, reflect: true},
+      body: {type: Object, attribute: false, reflect: true}
     }
   }
 
@@ -38,11 +42,11 @@ class FormSegment extends LitElement {
   render() {
     return html`
       <form-segment-header .show="${this.show}" @toggle="${this._handleToggle}">
-        <slot name="title"></slot>
+        ${this.title}
       </form-segment-header>
       <div>
         <form-segment-body>
-          <slot name="body"></slot>
+          ${this.body}
         </form-segment-body>
       </div>
     `;
