@@ -22,6 +22,7 @@ class CreateSessionScreen extends LitElement {
 
   render() {
     return  html`
+        <cim-header></cim-header>
        <centered-layout>
           <h1>Sessie aanmaken</h1>
           <form-segment 

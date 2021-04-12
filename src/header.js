@@ -34,4 +34,4 @@ class Header extends LitElement {
     }
 }
 
-window.customElements.define('header-component', Header)
+window.customElements.define('cim-header', Header)
