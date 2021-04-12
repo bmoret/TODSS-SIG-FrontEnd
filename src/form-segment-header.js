@@ -3,7 +3,8 @@ import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1
 class FormSegmentHeader extends LitElement {
     static get styles() {
       return css`
-        :host div {
+        div {
+          position: relative;
           display: block;
           margin: 0;
           padding: 10px;
@@ -20,7 +21,6 @@ class FormSegmentHeader extends LitElement {
         h2 {
           left: 0;
           margin: auto;
-         
         }
 
         img {
