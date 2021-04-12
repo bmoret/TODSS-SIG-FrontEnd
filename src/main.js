@@ -3,3 +3,5 @@ import './form-segment.js'
 import './create-session-screen.js'
 import './centered-layout.js'
 import "./header.js"
+import './components/button.js'
+import './components/bodySegment.js'
