@@ -70,11 +70,10 @@ class CreateSessionScreen extends LitElement {
                 <form-item>Platform</form-item>
                 <form-item .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}" >Join Url</form-item>
               `
-      
     }
-            
           </form-segment>
           <form-segment .title="${"Tijdsindeling"}">
+            <form-time-item>Verwachtte duur</form-time-item>
             <form-item>Verwachtte duur (Time, to be implemented)</form-item>
           </form-segment>
           <div>

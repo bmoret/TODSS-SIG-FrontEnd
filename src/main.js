@@ -6,3 +6,4 @@ import "./components/header.js"
 import './components/button.js'
 import './components/form-item.js'
 import './components/form-dropdown-item.js'
+import './components/form-time-item.js'
