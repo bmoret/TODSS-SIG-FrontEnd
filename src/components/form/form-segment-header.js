@@ -64,7 +64,7 @@ class FormSegmentHeader extends LitElement {
         <h2>
           <slot></slot>
         </h2>
-        <img src="../assets/image/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
+        <img src="../../assets/icons/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
       </div>
       `
     }

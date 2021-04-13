@@ -3,7 +3,8 @@ import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1
 class Header extends LitElement {
     static get styles() {
         return css`
-            div {
+            header {
+                position: absolute;
                 padding: 0;
                 margin: auto;
                 Height: 80px;
@@ -29,9 +30,9 @@ class Header extends LitElement {
 
     render() {
         return html`
-            <div>
-                <img src="../assets/image/app-logo.svg" alt="cimsolution logo">
-            </div>
+            <header>
+                <img src="../../assets/icons/app-logo.svg" alt="cimsolution logo">
+            </header>
         `;
     }
 }

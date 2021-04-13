@@ -11,7 +11,7 @@ class CenteredLayout extends LitElement {
         width: 100%;
         max-width: 1350px;
         min-width: 250px;
-        padding: 0 15px;
+        padding: 100px 15px 0 15px;
       }
     `;
   }

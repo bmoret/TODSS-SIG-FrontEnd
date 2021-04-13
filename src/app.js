@@ -5,6 +5,9 @@ class App extends LitElement {
     return css`
       :host {
         display: block;
+        margin: 0;
+        padding: 0;
+        top: 0;
       }
     `;
   }
@@ -12,7 +15,9 @@ class App extends LitElement {
   render() {
     return html`
         <div>
-          <create-session-screen></create-session-screen>
+          <main>
+            <create-session-screen></create-session-screen>
+          </main>
         </div>
       `
   }

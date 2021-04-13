@@ -12,6 +12,10 @@ class CreateSessionScreen extends LitElement {
       sig-button {
         margin: 15px 10px;
       }
+      
+      h1 {
+        margin-top: 0;
+      }
     `;
   }
 
