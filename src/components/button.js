@@ -6,26 +6,25 @@ class Button extends LitElement {
           display: block;
         }
         button {
-          font-size: 100%;
-          background: #BFF678;
-          padding: 5px 0;
+          background-color: var(--cim-color-button);
+          padding: 5px;
           width: 100px;
           outline: none;
-          border: 0px;
-          border-radius: inherit;
+          border: none;
           border-radius: 4px;
           cursor: pointer;
         }
       
         button:hover,
         button:focus {
-          -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
-             -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
-                  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+            background-color: var(--cim-color-button-focused);
+          -webkit-box-shadow: var(--cim-shadow-button-default);
+             -moz-box-shadow: var(--cim-shadow-button-default);
+                  box-shadow: var(--cim-shadow-button-default);
         }
       
         slot {
-          font-size: 20px;
+          font-size: var(--cim-fond-size-button);
         }
         `
     }

@@ -10,7 +10,7 @@ class FormSegment extends LitElement {
       } 
 
       div {
-         position: relative;
+        position: relative;
         display: none;
         padding: 10px;
         overflow: hidden;

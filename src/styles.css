@@ -1,12 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 
+:root {
+    --cim-color-primary-dark: #8dc743;
+    --cim-color-primary-medium: #9fe247;
+    --cim-color-primary-light: #bff678;
+    --cim-color-secondary-dark: #3f3f3f;
+    --cim-color-secondary-light: #060606;
+    --cim-color-warning-primary: #e51b1b;
+    --cim-color-message-primary: #9fe247;
+    --cim-color-brand-logo: #76B729;
+    --cim-color-brand-text: #76B729;
+    --cim-color-background-primary: #ffffff;
+    --cim-color-background-secondary: #F5F5F5;
+    --cim-color-text-primary-light: #ffffff;
+    --cim-color-text-primary-dark: #000000;
+    --cim-color-text-secondary-light: #dddddd;
+    --cim-color-text-secondary-dark: #333333;
+    --cim-color-input-background-default: #ffffff;
+    --cim-color-input-background-disabled: #eeeeee;
+    --cim-color-gradient-light: linear-gradient(45deg, var(--cim-color-primary-light), var(--cim-color-primary-medium));
+    --cim-color-gradient-dark: linear-gradient(45deg, var(--cim-color-primary-medium), var(--cim-color-primary-dark));
+    --cim-color-button: var(--cim-color-primary-light);
+    --cim-color-button-focused: var(--cim-color-primary-medium);
+    --cim-color-shadow-subtle: rgba(0, 0, 0, 0.15);
+    --cim-color-shadow-medium: rgba(0, 0, 0, 0.2);
+
+    --cim-shadow-default: 0px 3px 6px var(--cim-color-shadow-subtle);
+    --cim-shadow-button-default: 0px 2px 4px var(--cim-color-shadow-medium);
+
+    --cim-font-size-button:     20px;
+    --cim-font-size-form-label: 16px;
+    --cim-font-size-form-input: 16px;
+    --cim-font-size-headings:   30px;
+}
+
 html,
 body {
     padding: 0;
     margin: 0;
+    background-color: var(--cim-color-background-primary);
+    color: var(--cim-color-text-primary-dark);
+}
+
+label {
+    font-size: var(--cim-font-size-form-label);
+}
+
+select,
+input,
+textarea,
+span {
+    font-size: var(--cim-font-size-form-input)
 }
 
 * {
-    font-family: Verdana;
+    font-family: Verdana, serif;
     font-weight: 400;
 }

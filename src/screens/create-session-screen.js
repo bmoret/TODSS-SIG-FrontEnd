@@ -50,7 +50,7 @@ class CreateSessionScreen extends LitElement {
             .items="${ 
               {"id1": "sig1", "id2": "sig2"} 
             }"
-            >Special Interest Group (dropdown, to be implemented)</form-dropdown-item>
+            >Special Interest Group</form-dropdown-item>
           </form-segment>
           <form-segment .title="${"Soort"}" >
           <form-dropdown-item
@@ -62,7 +62,7 @@ class CreateSessionScreen extends LitElement {
               }
             }"
             @change="${this._handleSessionType}"
-            >Type (dropdown, to be implemented)</form-dropdown-item>
+            >Type</form-dropdown-item>
             ${this.sessionType === "PHYSICAL_SESSION_REQUEST"?
               html`
                 <form-item>Adres</form-item>
@@ -74,7 +74,6 @@ class CreateSessionScreen extends LitElement {
           </form-segment>
           <form-segment .title="${"Tijdsindeling"}">
             <form-time-item>Verwachtte duur</form-time-item>
-            <form-item>Verwachtte duur (Time, to be implemented)</form-item>
           </form-segment>
           <div>
             <sig-button @click="${this._handleCancel}">Annuleren</sig-button>

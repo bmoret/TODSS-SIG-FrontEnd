@@ -28,11 +28,11 @@ class FormItem extends LitElement {
         border-radius: 2px;
         min-height: 31px;
         height: min-content;
-        background: #eee;
+        background: var(--cim-color-input-background-disabled);
       }
       
       :host([editable]) div span {
-        background: #fff;
+        background: var(--cim-color-input-background-default);
       }
       
       @media screen and (min-width: 1040px) {

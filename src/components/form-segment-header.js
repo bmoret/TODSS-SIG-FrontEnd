@@ -8,13 +8,13 @@ class FormSegmentHeader extends LitElement {
           display: block;
           padding: 10px;
           width: 100%;
-          background-image: linear-gradient(45deg, #BFF679, #9FE247);
+          background-image: var(--cim-color-gradient-light);
           box-sizing: border-box;
         }
        
         :host([open]) div, 
         div:hover {
-          background-image: linear-gradient(45deg, #9FE247, #8DC743);
+          background-image: var(--cim-color-gradient-dark);
         }
         
         h2 {
