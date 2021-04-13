@@ -15,15 +15,15 @@ class CreateSessionScreen extends LitElement {
     `;
   }
 
-
-
   static get properties() {
     return {
+      sessionType: {type: String, attribute: false, reflect: true}
     }
   }
 
   constructor() {
     super();
+    this.sessionType = "PHYSICAL_SESSION_REQUEST";
   }
 
   _handleCancel = () => {
@@ -34,27 +34,47 @@ class CreateSessionScreen extends LitElement {
 
   }
 
+  _handleSessionType = (e) => {
+    this.sessionType = e.detail;
+  }
+
   render() {
     return  html`
         <cim-header></cim-header>
         <centered-layout>
           <h1>Sessie aanmaken</h1>
-          <form-segment 
-            .title="${"Inhoud"}" 
-          >
+          <form-segment .title="${"Inhoud"}" >
             <form-item>Onderwerp</form-item>
             <form-item>Omschrijving</form-item>
+            <form-dropdown-item
+            .items="${ 
+              {"id1": "sig1", "id2": "sig2"} 
+            }"
+            >Special Interest Group (dropdown, to be implemented)</form-dropdown-item>
           </form-segment>
-          <form-segment 
-            .title="${"Soort"}" 
-          >
-            <form-item>Type (dropdown, to be implemented)</form-item>
-            <form-item>Platform</form-item>
-            <form-item>Join Url</form-item>
+          <form-segment .title="${"Soort"}" >
+          <form-dropdown-item
+            .items="${
+              {
+                "PHYSICAL_SESSION_REQUEST": "Fysiek", 
+                "ONLINE_SESSION_REQUEST": "Online", 
+                "TEAMS_ONLINE_SESSION_REQUEST": "Teams"
+              }
+            }"
+            @change="${this._handleSessionType}"
+            >Type (dropdown, to be implemented)</form-dropdown-item>
+            ${this.sessionType === "PHYSICAL_SESSION_REQUEST"?
+              html`
+                <form-item>Adres</form-item>
+              `:html`
+                <form-item>Platform</form-item>
+                <form-item .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}" >Join Url</form-item>
+              `
+      
+    }
+            
           </form-segment>
-          <form-segment
-             .title="${"Tijdsindeling"}" 
-          >
+          <form-segment .title="${"Tijdsindeling"}">
             <form-item>Verwachtte duur (Time, to be implemented)</form-item>
           </form-segment>
           <div>
