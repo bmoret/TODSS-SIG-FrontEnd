@@ -38,7 +38,7 @@
   "scripts": {
     "livereload": "livereload src --port 35729",
     "serve": "serve src",
-    "start": "npm-run-all  --parallel --print-label livereload serve",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -52,9 +52,11 @@
     "node": "15.2.*"
   },
   "dependencies": {
-    "jose": "^3.5.0",
-    "livereload": "0.9.1",
+    "express": "^4.17.1",
+    "lit-element": "^2.4.0",
+    "lit-element-router": "^2.0.3",
     "npm-run-all": "4.1.5",
+    "path": "^0.12.7",
     "serve": "11.3.2"
   }
 }

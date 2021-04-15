@@ -31,7 +31,7 @@ class Header extends LitElement {
     render() {
         return html`
             <header>
-                <img src="../../assets/icons/app-logo.svg" alt="cimsolution logo">
+                <img src="dist/assets/icons/app-logo.svg" alt="cimsolution logo">
             </header>
         `;
     }
