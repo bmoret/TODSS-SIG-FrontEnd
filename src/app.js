@@ -58,16 +58,18 @@ class App extends LitElement {
 
   render() {
     return html`
-        <div>
+        <div id="root">
           
-         <main>
-           <create-session-screen></create-session-screen>
-         </main>
+         
           
         </div>
       `
   }
 }
+//<main>
+//            <create-session-screen></create-session-screen>
+//          </main>
+
 
 // <app-link href="/">Home</app-link>
 // <app-link href="/session/123">Session</app-link>

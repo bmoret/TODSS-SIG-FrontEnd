@@ -52,6 +52,7 @@
     "node": "15.2.*"
   },
   "dependencies": {
+    "@vaadin/router": "^1.7.4",
     "express": "^4.17.1",
     "lit-element": "^2.4.0",
     "lit-element-router": "^2.0.3",
