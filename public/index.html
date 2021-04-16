@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta
+        name="description"
+        content="CIM app is een sessie planning en statistieken applicatie om inzicht te krijgen in werknemers' kennis"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Title</title>
-    <script defer type="module" src="/dist/main.js"></script>
-    <link rel="stylesheet" href="/dist/styles.css">
+    <link rel="icon" href="/dist/assets/favicon.svg" sizes="any" type="image/svg+xml" />
+    <link rel="icon" href="/dist/assets/favicon.ico" sizes="any" type="image/ico" />
+    <link rel="stylesheet" href="/dist/css/styles.css">
 </head>
 <body>
-    <div id="root"></div>
+    <noscript>Deze applicatie heeft JavaScript nodig om te werken...</noscript>
+    <div id="root" aria-live="polite"></div>
+    <script type="module" src="/dist/js/main.js"></script>
 </body>
 </html>
-<!--<app-root></app-root>-->

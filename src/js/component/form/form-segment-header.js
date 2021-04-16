@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
 class FormSegmentHeader extends LitElement {
     static get styles() {
@@ -64,7 +64,7 @@ class FormSegmentHeader extends LitElement {
         <h2>
           <slot></slot>
         </h2>
-        <img src="../../assets/icons/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
+        <img src="/dist/assets/icon/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
       </div>
       `
     }

@@ -1,6 +1,6 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
-class FormTimeItem extends LitElement {
+class FormDropdownItem extends LitElement {
   static get styles() {
     return css`
       div{ 
@@ -17,14 +17,12 @@ class FormTimeItem extends LitElement {
         margin: 0 10px 10px 0;
       }
       
-      input {
+      select {
         width: 100%;
         padding: 5px;
         margin auto;
-        box-sizing: border-box;
         border: 1px solid black;
         border-radius: 2px;
-        min-height: 31px;
         height: min-content;
       }
       
@@ -32,8 +30,7 @@ class FormTimeItem extends LitElement {
         label {
           min-width: 300px;
         }
-        
-        input {
+        select {
           max-width: calc(100% - 300px);
         }
       }
@@ -42,26 +39,42 @@ class FormTimeItem extends LitElement {
         div {
           flex-direction: column;
         }
-        
-        input {
-          max-width: 100%;
-        }
       }
       `
   }
-  constructor() {
-    super();
+
+  static get properties() {
+    return {
+      items: {type: Object, attribute: false, reflect: true},
+    }
   }
 
+  constructor() {
+    super();
+    this.items = [];
+  }
+
+  _handleChange = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    let event = new CustomEvent('change', { detail: e.path[0].value});
+    this.dispatchEvent(event);
+  }
 
   render() {
     return  html`
       <div> 
         <label><slot></slot></label>
-        <input min="00:15" type="time" value="01:00">
+        <select @change="${this._handleChange}">
+          ${Object.keys(this.items).map(key => {
+            return html`
+              <option value="${key}">${this.items[key]}</option>
+            `;
+            })}
+        </select>
       </div>
       `
   }
 }
 
-window.customElements.define('form-time-item', FormTimeItem)
+window.customElements.define('form-dropdown-item', FormDropdownItem)

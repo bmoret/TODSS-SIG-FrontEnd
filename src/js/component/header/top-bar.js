@@ -1,6 +1,6 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
-class Header extends LitElement {
+class TopBar extends LitElement {
     static get styles() {
         return css`
             header {
@@ -10,9 +10,9 @@ class Header extends LitElement {
                 Height: 80px;
                 width: 100%;
                 background-color: var(--cim-color-secondary-dark);
-                -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
-                   -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
-                        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+                -webkit-box-shadow: var(--cim-shadow-default);
+                   -moz-box-shadow: var(--cim-shadow-default);
+                        box-shadow: var(--cim-shadow-default);
             }
             
             img {
@@ -31,10 +31,10 @@ class Header extends LitElement {
     render() {
         return html`
             <header>
-                <img src="dist/assets/icons/app-logo.svg" alt="cimsolution logo">
+                <img src="dist/assets/image/app-logo.svg" alt="cimsolution logo">
             </header>
         `;
     }
 }
 
-window.customElements.define('cim-header', Header)
+window.customElements.define('cim-top-bar', TopBar)
