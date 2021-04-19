@@ -53,6 +53,7 @@
     "node": "15.2.*"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
     "@snowpack/plugin-optimize": "^0.2.10",
     "@snowpack/plugin-webpack": "^2.2.0",
     "@vaadin/router": "^1.7.4",

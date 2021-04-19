@@ -54,7 +54,7 @@ class FormSegmentHeader extends LitElement {
     _emitChange(e) {
       e.preventDefault();
       e.stopPropagation();
-      let event = new CustomEvent('toggle');
+      let event = new CustomEvent('toggle', {bubbles: true, composed: true});
       this.dispatchEvent(event);
     }
 
