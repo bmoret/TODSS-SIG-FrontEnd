@@ -1,6 +1,6 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
-class FormItem extends LitElement {
+class FormTimeItem extends LitElement {
   static get styles() {
     return css`
       div{ 
@@ -17,22 +17,15 @@ class FormItem extends LitElement {
         margin: 0 10px 10px 0;
       }
       
-      span {
+      input {
         width: 100%;
         padding: 5px;
         margin auto;
         box-sizing: border-box;
-        overflow: wrap;
-        resize: none;
         border: 1px solid black;
         border-radius: 2px;
         min-height: 31px;
         height: min-content;
-        background: #eee;
-      }
-      
-      :host([editable]) div span {
-        background: #fff;
       }
       
       @media screen and (min-width: 1040px) {
@@ -40,7 +33,7 @@ class FormItem extends LitElement {
           min-width: 300px;
         }
         
-        span {
+        input {
           max-width: calc(100% - 300px);
         }
       }
@@ -50,22 +43,14 @@ class FormItem extends LitElement {
           flex-direction: column;
         }
         
-        span {
+        input {
           max-width: 100%;
         }
       }
       `
   }
-
-  static get properties() {
-    return {
-      editable: {type: Boolean, attribute: "editable", reflect: true}
-    }
-  }
-
   constructor() {
     super();
-    this.editable = true;
   }
 
 
@@ -73,10 +58,10 @@ class FormItem extends LitElement {
     return  html`
       <div> 
         <label><slot></slot></label>
-         <span contenteditable="${this.editable}"></span>
+        <input min="00:15" type="time" value="01:00">
       </div>
       `
   }
 }
 
-window.customElements.define('form-item', FormItem)
+window.customElements.define('form-time-item', FormTimeItem)
