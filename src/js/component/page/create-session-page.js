@@ -56,6 +56,7 @@ class CreateSessionPage extends LitElement {
                   {"id1": "sig1", "id2": "sig2"} 
                 }"
               >Special Interest Group</form-dropdown-item>
+              <form-radio-item>Contact persoon</form-radio-item>
             </form-segment>
             <form-segment .title="${"Soort"}" >
             <form-dropdown-item
