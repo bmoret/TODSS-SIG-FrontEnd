@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import FormReadable from "../segment/form-readable";
 
-class FormTimeItem extends LitElement {
+class FormTimeItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
@@ -57,8 +58,8 @@ class FormTimeItem extends LitElement {
   render() {
     return  html`
       <div> 
-        <label><slot></slot></label>
-        <input min="00:15" type="time" value="01:00">
+        <label for="${this.name}">${this.label}</label>
+        <input name="t${this.name}" min="00:15" type="time" value="01:00">
       </div>
       `
   }

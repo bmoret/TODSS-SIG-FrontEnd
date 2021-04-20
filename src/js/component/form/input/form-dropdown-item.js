@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import FormReadable from "../segment/form-readable";
 
-class FormDropdownItem extends LitElement {
+class FormDropdownItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
@@ -64,7 +65,7 @@ class FormDropdownItem extends LitElement {
   render() {
     return  html`
       <div> 
-        <label><slot></slot></label>
+        <label for="${this.name}">${this.label}</label>
         <select @change="${this._handleChange}">
           ${Object.keys(this.items).map(key => {
             return html`

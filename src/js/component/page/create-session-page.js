@@ -87,32 +87,31 @@ class CreateSessionPage extends LitElement {
           <centered-layout slot="body">
             <h1>Sessie aanmaken</h1>
             <form>
-              <input name="title" type="text" value="test" required />  
               <form-segment 
                 .title="${"Inhoud"}" 
                 .show="${segments.inhoud.open}" 
                  @toggle="${ _ => this._handleSegmentToggle("inhoud", segments.inhoud.open) }">
-                <form-item .name="${"subject"}" label="Onderwerp"></form-item>
-                <form-item .name="${"description"}" label="Omschrijving"></form-item>
-                <form-dropdown-item .items="${ this.sigs }" .name="sig" >Special Interest Group</form-dropdown-item>
+                <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
+                <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
+                <form-dropdown-item .items="${ this.sigs }" .name="sig" .label="${"Special Interest Group"}" ></form-dropdown-item>
               </form-segment>
               <form-segment 
                 .title="${"Soort"}" 
                 .show="${segments.soort.open}" 
                 @toggle="${ _ => this._handleSegmentToggle("soort", segments.soort.open) }">
-                <form-dropdown-item .items="${ sessionTypes }" .name="sessionType" label="Sessie type" @change="${this._handleSessionType}"></form-dropdown-item>
+                <form-dropdown-item .items="${ sessionTypes }" .name="sessionType" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                 ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
-                  ? html`<form-item .name="${"address"}" label="Adres"></form-item>`
+                  ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
                   : html`
-                    <form-item .name="${"platform"}" label="Platform">Platform</form-item>
-                    <form-item .name="${"sessionType"}" label="Join link" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
+                    <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
+                    <form-item .name="${"sessionType"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
                   `}
               </form-segment>
               <form-segment 
                 .title="${"Tijdsindeling"}" 
                 .show="${segments.tijdsindeling.open}" 
                 @toggle="${ _ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open) }">
-                <form-time-item .name="${"duration"}" label="Verwachtte duur"></form-time-item>
+                <form-time-item .name="${"duration"}" .label="${"Duratie"}"></form-time-item>
               </form-segment>
               <div>
                 <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>

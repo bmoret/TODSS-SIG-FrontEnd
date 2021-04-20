@@ -1,5 +1,4 @@
 import { html, css } from 'lit-element';
-import '../segment/form-readable.js';
 import FormReadable from "../segment/form-readable";
 
 class FormItem extends FormReadable {
@@ -9,12 +8,14 @@ class FormItem extends FormReadable {
         position: relative;
         display: flex;
         flex-direction: row;
+        align-items: stretch;
         padding: 10px;
         box-sizing: border-box;
       }
       
       label {
         display: inline-block;
+        width: 300px;
         max-width: 300px;
         margin: 0 10px 10px 0;
       }
@@ -22,7 +23,7 @@ class FormItem extends FormReadable {
       input {
         width: 100%;
         padding: 5px;
-        margin auto;
+        margin: auto;
         box-sizing: border-box;
         overflow: wrap;
         resize: none;
@@ -30,11 +31,11 @@ class FormItem extends FormReadable {
         border-radius: 2px;
         min-height: 31px;
         height: min-content;
-        background: var(--cim-color-input-background-disabled);
+        background: var(--cim-color-input-background-default);
       }
       
-      :host([editable]) div span {
-        background: var(--cim-color-input-background-default);
+      input:disabled {
+        background: var(--cim-color-input-background-disabled);
       }
       
       @media screen and (min-width: 1040px) {
@@ -52,32 +53,30 @@ class FormItem extends FormReadable {
           flex-direction: column;
         }
         
-        span {
+        input {
           max-width: 100%;
         }
       }
       `
   }
-
   static get properties() {
     return {
       editable: {type: Boolean, attribute: "editable", reflect: true},
-      name: {type: String, attribute: true, reflect: true},
-      label: {type: String, attribute: true, reflect: true},
     }
   }
 
   constructor() {
     super();
     this.editable = true;
-    this.name = "";
+    console.log(this)
   }
 
   render() {
     return  html`
+      <style>${FormItem.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <input name="${this.name}">
+        <input name="${this.name}" ?disabled="${!this.editable}">
       </div>
       `
   }
