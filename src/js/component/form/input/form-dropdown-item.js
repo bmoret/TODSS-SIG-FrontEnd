@@ -64,6 +64,7 @@ class FormDropdownItem extends FormReadable {
 
   render() {
     return  html`
+      <style>${FormDropdownItem.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
         <select @change="${this._handleChange}">
