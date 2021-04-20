@@ -1,6 +1,8 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import '../segment/form-readable.js';
+import FormReadable from "../segment/form-readable";
 
-class FormItem extends LitElement {
+class FormItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
@@ -17,7 +19,7 @@ class FormItem extends LitElement {
         margin: 0 10px 10px 0;
       }
       
-      span {
+      input {
         width: 100%;
         padding: 5px;
         margin auto;
@@ -59,21 +61,23 @@ class FormItem extends LitElement {
 
   static get properties() {
     return {
-      editable: {type: Boolean, attribute: "editable", reflect: true}
+      editable: {type: Boolean, attribute: "editable", reflect: true},
+      name: {type: String, attribute: true, reflect: true},
+      label: {type: String, attribute: true, reflect: true},
     }
   }
 
   constructor() {
     super();
     this.editable = true;
+    this.name = "";
   }
-
 
   render() {
     return  html`
       <div> 
-        <label><slot></slot></label>
-         <span contenteditable="${this.editable}"></span>
+        <label for="${this.name}">${this.label}</label>
+        <input name="${this.name}">
       </div>
       `
   }

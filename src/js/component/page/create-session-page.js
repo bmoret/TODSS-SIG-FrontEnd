@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 
+import { jsonParseForm } from "../../utils/form-data-parser";
+
 import { actions} from "../../state/reducer/createSession.js";
 import { store } from "../../state/store/store.js";
 
@@ -42,13 +44,13 @@ class CreateSessionPage extends LitElement {
     store.subscribe(this._refresh)
   }
 
-   _refresh = async () => {
-    history.replaceState(store.getState(), document.title, window.location)
-    await this.requestUpdate();
-  }
-
   _loadSigs = () => {
     return {"id1": "sig1", "id2": "sig2"}
+  }
+
+  _refresh = async () => {
+    history.replaceState(store.getState(), document.title, window.location)
+    await this.requestUpdate();
   }
 
   _handleCancel = () => {
@@ -58,6 +60,9 @@ class CreateSessionPage extends LitElement {
   _handleSave = () => {
     //handle save request
     // .then()of .finaly() na saven, redirect, naar homepage of naar session overzicht
+    let form = this.shadowRoot.querySelector("form");
+    jsonParseForm(form);
+    console.log(jsonParseForm(form));
   }
 
   _handleSessionType = (e) => {
@@ -81,38 +86,41 @@ class CreateSessionPage extends LitElement {
           <cim-top-bar slot="header"></cim-top-bar>
           <centered-layout slot="body">
             <h1>Sessie aanmaken</h1>
-            <form-segment 
-              .title="${"Inhoud"}" 
-              .show="${segments.inhoud.open}" 
-               @toggle="${ _ => this._handleSegmentToggle("inhoud", segments.inhoud.open) }">
-              <form-item>Onderwerp</form-item>
-              <form-item>Omschrijving</form-item>
-              <form-dropdown-item .items="${ this.sigs }">Special Interest Group</form-dropdown-item>
-            </form-segment>
-            <form-segment 
-              .title="${"Soort"}" 
-              .show="${segments.soort.open}" 
-              @toggle="${ _ => this._handleSegmentToggle("soort", segments.soort.open) }">
-              <form-dropdown-item .items="${ sessionTypes }" @change="${this._handleSessionType}">Type</form-dropdown-item>
-              ${this.sessionType === "PHYSICAL_SESSION_REQUEST"?
-                html`<form-item>Adres</form-item>`:
-                html`
-                  <form-item>Platform</form-item>
-                  <form-item .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}" >Join Url</form-item>
-                `}
-            </form-segment>
-            <form-segment 
-              .title="${"Tijdsindeling"}" 
-              .show="${segments.tijdsindeling.open}" 
-              @toggle="${ _ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open) }">
-              <form-time-item>Verwachtte duur</form-time-item>
-            </form-segment>
-            <div>
-              <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
-              <sig-button @click="${() => this._handleSave}">Opslaan</sig-button>
-            </div>
-            </centered-layout>
-          </app-root>
+            <form>
+              <input name="title" type="text" value="test" required />  
+              <form-segment 
+                .title="${"Inhoud"}" 
+                .show="${segments.inhoud.open}" 
+                 @toggle="${ _ => this._handleSegmentToggle("inhoud", segments.inhoud.open) }">
+                <form-item .name="${"subject"}" label="Onderwerp"></form-item>
+                <form-item .name="${"description"}" label="Omschrijving"></form-item>
+                <form-dropdown-item .items="${ this.sigs }" .name="sig" >Special Interest Group</form-dropdown-item>
+              </form-segment>
+              <form-segment 
+                .title="${"Soort"}" 
+                .show="${segments.soort.open}" 
+                @toggle="${ _ => this._handleSegmentToggle("soort", segments.soort.open) }">
+                <form-dropdown-item .items="${ sessionTypes }" .name="sessionType" label="Sessie type" @change="${this._handleSessionType}"></form-dropdown-item>
+                ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
+                  ? html`<form-item .name="${"address"}" label="Adres"></form-item>`
+                  : html`
+                    <form-item .name="${"platform"}" label="Platform">Platform</form-item>
+                    <form-item .name="${"sessionType"}" label="Join link" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
+                  `}
+              </form-segment>
+              <form-segment 
+                .title="${"Tijdsindeling"}" 
+                .show="${segments.tijdsindeling.open}" 
+                @toggle="${ _ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open) }">
+                <form-time-item .name="${"duration"}" label="Verwachtte duur"></form-time-item>
+              </form-segment>
+              <div>
+                <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
+                <sig-button @click="${() => this._handleSave()}">Opslaan</sig-button>
+              </div>
+            </form>
+          </centered-layout>
+        </app-root>
       `
   }
 }
