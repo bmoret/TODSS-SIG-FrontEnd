@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import FormReadable from "../segment/form-readable";
 
-class FormItem extends LitElement {
+class FormDropdownItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
@@ -17,30 +18,20 @@ class FormItem extends LitElement {
         margin: 0 10px 10px 0;
       }
       
-      span {
+      select {
         width: 100%;
         padding: 5px;
         margin auto;
-        box-sizing: border-box;
-        overflow: wrap;
-        resize: none;
         border: 1px solid black;
         border-radius: 2px;
-        min-height: 31px;
         height: min-content;
-        background: var(--cim-color-input-background-disabled);
-      }
-      
-      :host([editable]) div span {
-        background: var(--cim-color-input-background-default);
       }
       
       @media screen and (min-width: 1040px) {
         label {
           min-width: 300px;
         }
-        
-        span {
+        select {
           max-width: calc(100% - 300px);
         }
       }
@@ -49,34 +40,43 @@ class FormItem extends LitElement {
         div {
           flex-direction: column;
         }
-        
-        span {
-          max-width: 100%;
-        }
       }
       `
   }
 
   static get properties() {
     return {
-      editable: {type: Boolean, attribute: "editable", reflect: true}
+      items: {type: Object, attribute: false, reflect: true},
     }
   }
 
   constructor() {
     super();
-    this.editable = true;
+    this.items = [];
   }
 
+  _handleChange = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    let event = new CustomEvent('change', { detail: e.path[0].value});
+    this.dispatchEvent(event);
+  }
 
   render() {
     return  html`
+      <style>${FormDropdownItem.styles}</style>
       <div> 
-        <label><slot></slot></label>
-         <span contenteditable="${this.editable}"></span>
+        <label for="${this.name}">${this.label}</label>
+        <select @change="${this._handleChange}">
+          ${Object.keys(this.items).map(key => {
+            return html`
+              <option value="${key}">${this.items[key]}</option>
+            `;
+            })}
+        </select>
       </div>
       `
   }
 }
 
-window.customElements.define('form-item', FormItem)
+window.customElements.define('form-dropdown-item', FormDropdownItem)

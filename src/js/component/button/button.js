@@ -32,8 +32,8 @@ class Button extends LitElement {
     _handleClick = (e) => {
         e.preventDefault()
         e.stopPropagation()
-        let event = new CustomEvent('click');
-        window.dispatchEvent(event);
+        let event = new CustomEvent('click', { bubbles: true, composed: true });
+        this.dispatchEvent(event);
     }
 
     render() {
