@@ -91,4 +91,4 @@ class CreateSessionPage extends LitElement {
   }
 }
 
-window.customElements.define('create-session-page', CreateSessionPage)
+window.customElements.define('create-session-page', CreateSessionPage);

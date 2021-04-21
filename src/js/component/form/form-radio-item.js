@@ -18,7 +18,6 @@ class FormRadioItem extends LitElement {
         margin: 0 10px 10px 0;
       }
      
-      
       @media screen and (min-width: 1040px) {
         label {
           min-width: 300px;
@@ -61,6 +60,6 @@ class FormRadioItem extends LitElement {
       `
     }
 
-
 }
-window.customElements.define('form-radio-item', FormRadioItem)
+
+window.customElements.define('form-radio-item', FormRadioItem);
