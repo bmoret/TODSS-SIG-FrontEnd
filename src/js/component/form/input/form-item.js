@@ -1,18 +1,21 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { html, css } from 'lit-element';
+import FormReadable from "../segment/form-readable";
 
-class FormTimeItem extends LitElement {
+class FormItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
         position: relative;
         display: flex;
         flex-direction: row;
+        align-items: stretch;
         padding: 10px;
         box-sizing: border-box;
       }
       
       label {
         display: inline-block;
+        width: 300px;
         max-width: 300px;
         margin: 0 10px 10px 0;
       }
@@ -20,12 +23,19 @@ class FormTimeItem extends LitElement {
       input {
         width: 100%;
         padding: 5px;
-        margin auto;
+        margin: auto;
         box-sizing: border-box;
+        overflow: wrap;
+        resize: none;
         border: 1px solid black;
         border-radius: 2px;
         min-height: 31px;
         height: min-content;
+        background: var(--cim-color-input-background-default);
+      }
+      
+      input:disabled {
+        background: var(--cim-color-input-background-disabled);
       }
       
       @media screen and (min-width: 1040px) {
@@ -33,7 +43,7 @@ class FormTimeItem extends LitElement {
           min-width: 300px;
         }
         
-        input {
+        span {
           max-width: calc(100% - 300px);
         }
       }
@@ -49,19 +59,27 @@ class FormTimeItem extends LitElement {
       }
       `
   }
-  constructor() {
-    super();
+  static get properties() {
+    return {
+      editable: {type: Boolean, attribute: "editable", reflect: true},
+    }
   }
 
+  constructor() {
+    super();
+    this.editable = true;
+    console.log(this)
+  }
 
   render() {
     return  html`
+      <style>${FormItem.styles}</style>
       <div> 
-        <label><slot></slot></label>
-        <input min="00:15" type="time" value="01:00">
+        <label for="${this.name}">${this.label}</label>
+        <input name="${this.name}" ?disabled="${!this.editable}">
       </div>
       `
   }
 }
 
-window.customElements.define('form-time-item', FormTimeItem)
+window.customElements.define('form-item', FormItem)

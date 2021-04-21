@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
 class FormSegmentHeader extends LitElement {
     static get styles() {
@@ -8,13 +8,13 @@ class FormSegmentHeader extends LitElement {
           display: block;
           padding: 10px;
           width: 100%;
-          background-image: linear-gradient(45deg, #BFF679, #9FE247);
+          background-image: var(--cim-color-gradient-light);
           box-sizing: border-box;
         }
        
         :host([open]) div, 
         div:hover {
-          background-image: linear-gradient(45deg, #9FE247, #8DC743);
+          background-image: var(--cim-color-gradient-dark);
         }
         
         h2 {
@@ -54,7 +54,7 @@ class FormSegmentHeader extends LitElement {
     _emitChange(e) {
       e.preventDefault();
       e.stopPropagation();
-      let event = new CustomEvent('toggle');
+      let event = new CustomEvent('toggle', {bubbles: true, composed: true});
       this.dispatchEvent(event);
     }
 
@@ -64,7 +64,7 @@ class FormSegmentHeader extends LitElement {
         <h2>
           <slot></slot>
         </h2>
-        <img src="../assets/image/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
+        <img src="/dist/assets/icon/down-arrow.svg" alt="" height="30px"/><!--Dropdown arrow icon-->
       </div>
       `
     }

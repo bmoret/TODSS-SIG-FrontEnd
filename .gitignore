@@ -5,3 +5,4 @@ workspace.code-workspace
 *.iws
 *.iml
 *.ipr
+**/build

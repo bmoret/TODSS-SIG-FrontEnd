@@ -2,10 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TEST</title>
     <script defer type="module" src="main.js"></script>
 </head>
 <body>
-    <modify-employee-screen></modify-employee-screen>
+    <sig-button></sig-button>
+
 </body>
+<script type="module">
+    import request from "../../../../TODSS-SIG-FrontEnd/src/connectionService.js"
+
+    const button = document.querySelector("sig-button")
+    button.text = "Opslaan"
+
+    var personEmail = 'email1@email.com'
+
+    var personData = {"email":personEmail,"firstname":"first","lastname":"last","expertise":"none","branch":"VIANEN","role":"MANAGER","employedSince":"01/01/2021"}
+
+    // request("GET", "/person/email/"+personEmail)
+    // .then(function(myJson) {
+    //     console.log(myJson.id)
+    //     request("DELETE", "/person/"+myJson.id)
+    // })
+    request("POST", "/person", personData)
+</script>
 </html>

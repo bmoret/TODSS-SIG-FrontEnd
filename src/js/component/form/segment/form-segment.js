@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
 class FormSegment extends LitElement {
   static get styles() {
@@ -10,7 +10,7 @@ class FormSegment extends LitElement {
       } 
 
       div {
-         position: relative;
+        position: relative;
         display: none;
         padding: 10px;
         overflow: hidden;

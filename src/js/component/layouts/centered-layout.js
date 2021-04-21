@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 
 class CenteredLayout extends LitElement {
   static get styles() {
@@ -11,7 +11,7 @@ class CenteredLayout extends LitElement {
         width: 100%;
         max-width: 1350px;
         min-width: 250px;
-        padding: 0 15px;
+        padding: 100px 15px 0 15px;
       }
     `;
   }

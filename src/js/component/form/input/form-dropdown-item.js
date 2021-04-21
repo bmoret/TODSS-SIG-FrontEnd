@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { html, css } from 'lit-element';
+import FormReadable from "../segment/form-readable";
 
-class FormDropdownItem extends LitElement {
+class FormDropdownItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
@@ -24,7 +25,6 @@ class FormDropdownItem extends LitElement {
         border: 1px solid black;
         border-radius: 2px;
         height: min-content;
-        font-size: 16px;
       }
       
       @media screen and (min-width: 1040px) {
@@ -64,17 +64,15 @@ class FormDropdownItem extends LitElement {
 
   render() {
     return  html`
+      <style>${FormDropdownItem.styles}</style>
       <div> 
-        <label><slot></slot></label>
-        <select
-            @change="${this._handleChange}"
-        >
+        <label for="${this.name}">${this.label}</label>
+        <select @change="${this._handleChange}">
           ${Object.keys(this.items).map(key => {
             return html`
               <option value="${key}">${this.items[key]}</option>
             `;
-            })  
-          }
+            })}
         </select>
       </div>
       `
