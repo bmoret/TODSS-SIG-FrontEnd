@@ -27,7 +27,7 @@ class ModifyEmployeeScreen extends LitElement {
 
     render() {
         return  html`
-        <cim-header></cim-header>
+        <cim-top-bar></cim-top-bar>
         <centered-layout>
           <h1>Medewerker Aanpassen</h1>
           <form-segment .title="${"Personalia"}" >
@@ -65,4 +65,4 @@ class ModifyEmployeeScreen extends LitElement {
     }
 }
 
-window.customElements.define('modify-employee-screen', ModifyEmployeeScreen)
+window.customElements.define('modify-employee-page', ModifyEmployeeScreen)
