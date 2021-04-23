@@ -1,5 +1,5 @@
 import { html, css } from 'lit-element';
-import FormReadable from "../segment/form-readable";
+import FormReadable from "../form-readable";
 
 class FormItem extends FormReadable {
   static get styles() {
@@ -68,7 +68,6 @@ class FormItem extends FormReadable {
   constructor() {
     super();
     this.editable = true;
-    console.log(this)
   }
 
   render() {
