@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 
-import { jsonParseForm } from "../../utils/form-data-parser";
+import { parseForm } from "../../utils/form-data-parser";
+import { dateToTimestamp } from "../../utils/date-time-parser"
+import request from "../../service/connection-service";
 
 import { actions} from "../../state/reducer/createSession.js";
 import { store } from "../../state/store/store.js";
@@ -45,7 +47,7 @@ class CreateSessionPage extends LitElement {
   }
 
   _loadSigs = () => {
-    return {"id1": "sig1", "id2": "sig2"}
+    return {"d4fb562d-e468-431b-ab0f-ba0ad16a2631": "sig1", "d4fb562d-e468-431b-ab0f-ba0ad16a2632": "sig2"}
   }
 
   _refresh = async () => {
@@ -58,11 +60,21 @@ class CreateSessionPage extends LitElement {
   }
 
   _handleSave = () => {
+    console.log(Date.now());
     //handle save request
     // .then()of .finaly() na saven, redirect, naar homepage of naar session overzicht
     let form = this.shadowRoot.querySelector("form");
-    jsonParseForm(form);
-    console.log(jsonParseForm(form));
+    let body = parseForm(form);
+
+    let duration = body.duration.split(':'); // split it at the colons
+    let durationInMilliSeconds = (duration[0]*60*60 + duration[1]*60)*1000;
+    body.startDate = dateToTimestamp(new Date());
+    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    delete body.duration
+
+    console.log(body)
+    request('POST', '/sessions', body )
+      .then(r => r);
   }
 
   _handleSessionType = (e) => {
@@ -93,13 +105,13 @@ class CreateSessionPage extends LitElement {
                  @toggle="${ _ => this._handleSegmentToggle("inhoud", segments.inhoud.open) }">
                 <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                 <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
-                <form-dropdown-item .items="${ this.sigs }" .name="sig" .label="${"Special Interest Group"}" ></form-dropdown-item>
+                <form-dropdown-item .items="${ this.sigs }" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
               </form-segment>
               <form-segment 
                 .title="${"Soort"}" 
                 .show="${segments.soort.open}" 
                 @toggle="${ _ => this._handleSegmentToggle("soort", segments.soort.open) }">
-                <form-dropdown-item .items="${ sessionTypes }" .name="sessionType" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
+                <form-dropdown-item .items="${ sessionTypes }" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                 ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
                   ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
                   : html`
