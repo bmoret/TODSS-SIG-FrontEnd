@@ -8,11 +8,12 @@ import request from "../../service/connection-service";
 import {actions} from "../../state/reducer/createSession.js";
 import {store} from "../../state/store/store.js";
 
-const sessionTypes = {
-  "PHYSICAL_SESSION_REQUEST": "Fysiek",
-  "ONLINE_SESSION_REQUEST": "Online",
-  "TEAMS_ONLINE_SESSION_REQUEST": "Teams"
-}
+const sessionTypes = [
+  { value: "PHYSICAL_SESSION_REQUEST", name: "Fysiek"},
+  { value: "ONLINE_SESSION_REQUEST", name: "Online"},
+  { value: "ONLINE_SESSION_REQUEST", name: "Teams"},
+]
+
 
 class CreateSessionPage extends LitElement {
   static get styles() {
@@ -58,10 +59,7 @@ class CreateSessionPage extends LitElement {
     document.title = "Sessie aanmaken"
     store.subscribe(this._refresh)
     this._load()
-      .then(_ => {
-        console.log("yee")
-        this.loading = false
-      })
+      .then(_ => this.loading = false)
       .catch(_ => {
         this.loading = true;
         this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
@@ -71,8 +69,13 @@ class CreateSessionPage extends LitElement {
   _load = async () => {
     return request('GET', '/sig')
       .then(r => {
-        let sigs = {};
-        r.forEach(sig => sigs[sig.id] = sig.subject)
+        let sigs = [];
+        r.forEach(sig => {
+          let obj = {}
+          obj["value"] = sig.id
+          obj["name"] = sig.subject
+          sigs.push(obj)
+        })
         this.sigs = sigs
       })
   }
@@ -149,7 +152,8 @@ class CreateSessionPage extends LitElement {
                     ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
                     : html`
                       <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
-                      <form-item .name="${"sessionType"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
+                      <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
+                      value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>
                     `}
                 </form-segment>
                 <form-segment 
