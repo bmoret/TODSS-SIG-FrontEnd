@@ -40,22 +40,28 @@ class FormRadioItem extends LitElement {
       `
     }
 
-    constructor() {
-        super();
+    static get properties() {
+        return {
+            items: {type: Object, attribute: false, reflect: true},
+        }
     }
 
-    render() {
+    constructor() {
+        super();
+        this.items = [];
+    }
+
+    render() { //todo Finish this so that for every person the name is shown 
         return  html`
       <div> 
-        <label><slot></slot></label>
-        <input type="radio" name="contactPersonRadio">
-        <label for = "contactPersonRadio">Richard Lakerveld</label>
-        
-        <input type="radio" name="contactPersonRadio">
-        <label for = "contactPersonRadio">Marc van Bommel</label>
-        
-                <input type="radio" name="contactPersonRadio" value="">
-        <label for = "contactPersonRadio">Geen</label>
+        ${Object.keys(this.items).map(key => {
+            return html`        
+        <input type="radio" name="radioInput" value="${key.name}">
+        <label for = "radioInput">${key.name}</label>
+        `;     
+        })}
+        <input type="radio" name="radioInput" value="">
+        <label for = "radioInput">Geen</label>
       </div>
       `
     }

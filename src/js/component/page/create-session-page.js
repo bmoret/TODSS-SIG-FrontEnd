@@ -4,12 +4,13 @@ import { jsonParseForm } from "../../utils/form-data-parser";
 
 import { actions} from "../../state/reducer/createSession.js";
 import { store } from "../../state/store/store.js";
+import request from "../../service/connection-service";
 
 const sessionTypes =  {
   "PHYSICAL_SESSION_REQUEST": "Fysiek",
   "ONLINE_SESSION_REQUEST": "Online",
   "TEAMS_ONLINE_SESSION_REQUEST": "Teams"
-}
+};
 
 class CreateSessionPage extends LitElement {
   static get styles() {
@@ -34,6 +35,7 @@ class CreateSessionPage extends LitElement {
     return {
       sigs: {type: Array, attribute: false, reflect: true},
       sessionType: {type: String, attribute: false, reflect: true},
+      sigPeople: {type: Array, attribute: false, reflect: true},
     }
   }
 
@@ -44,18 +46,23 @@ class CreateSessionPage extends LitElement {
     store.subscribe(this._refresh)
   }
 
-  _loadSigs = () => {
-    return {"id1": "sig1", "id2": "sig2"}
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener( 'change', (e) => this._handleLoadAssociatedPeople(e));
   }
 
+  _loadSigs = () => {
+    return {"id1": "sig1", "id2": "sig2"}
+  };
+
   _refresh = async () => {
-    history.replaceState(store.getState(), document.title, window.location)
+    history.replaceState(store.getState(), document.title, window.location);
     await this.requestUpdate();
-  }
+  };
 
   _handleCancel = () => {
     window.location.href = "/";
-  }
+  };
 
   _handleSave = () => {
     //handle save request
@@ -63,11 +70,17 @@ class CreateSessionPage extends LitElement {
     let form = this.shadowRoot.querySelector("form");
     jsonParseForm(form);
     console.log(jsonParseForm(form));
-  }
+  };
+
+  _handleLoadAssociatedPeople = (e) => {
+    console.log(e.detail);
+    let requestLink = "/sig/" + e.detail + "/people";
+    request('GET', requestLink).then(result => this.sigPeople = result);
+  };
 
   _handleSessionType = (e) => {
     this.sessionType = e.detail;
-  }
+  };
 
   async _handleSegmentToggle(title, isOpen) {
     if (isOpen) {
@@ -93,7 +106,8 @@ class CreateSessionPage extends LitElement {
                  @toggle="${ _ => this._handleSegmentToggle("inhoud", segments.inhoud.open) }">
                 <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                 <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
-                <form-dropdown-item .items="${ this.sigs }" .name="sig" .label="${"Special Interest Group"}" ></form-dropdown-item>
+                <form-dropdown-item .items="${ this.sigs }" .name="sig" .label="${"Special Interest Group"}"></form-dropdown-item>
+                <form-radio-item .items="${this.sigPeople}">Contact persoon</form-radio-item>
               </form-segment>
               <form-segment 
                 .title="${"Soort"}" 

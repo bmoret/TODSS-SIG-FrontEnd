@@ -2,7 +2,7 @@ import {Router} from '@vaadin/router';
 
 const  checkLogin = async () => {
   console.log("sd")
-}
+};
 
 const outlet = document.querySelector("#root");
 const router = new Router(outlet);
