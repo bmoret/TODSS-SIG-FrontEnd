@@ -1,14 +1,14 @@
-import { LitElement, html, css } from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
 import {Router} from '@vaadin/router';
 
-import { parseForm } from "../../utils/form-data-parser";
-import { dateToTimestamp } from "../../utils/date-time-parser"
+import {parseForm} from "../../utils/form-data-parser";
+import {dateToTimestamp} from "../../utils/date-time-parser"
 import request from "../../service/connection-service";
 
-import { actions} from "../../state/reducer/createSession.js";
-import { store } from "../../state/store/store.js";
+import {actions} from "../../state/reducer/createSession.js";
+import {store} from "../../state/store/store.js";
 
-const sessionTypes =  {
+const sessionTypes = {
   "PHYSICAL_SESSION_REQUEST": "Fysiek",
   "ONLINE_SESSION_REQUEST": "Online",
   "TEAMS_ONLINE_SESSION_REQUEST": "Teams"
@@ -34,6 +34,10 @@ class CreateSessionPage extends LitElement {
       
       main h1 {
         margin-top: 0;
+      }
+     
+      *[invalid]{
+          box-shadow: var(--cim-shadow-invalid-input);
       }
     `;
   }
@@ -64,7 +68,7 @@ class CreateSessionPage extends LitElement {
       })
   }
 
-  _load = async() => {
+  _load = async () => {
     return request('GET', '/sig')
       .then(r => {
         let sigs = {};
@@ -83,19 +87,26 @@ class CreateSessionPage extends LitElement {
   }
 
   _handleSave = () => {
-    console.log(Date.now());
     let form = this.shadowRoot.querySelector("form");
-    let body = parseForm(form);
-    let duration = body.duration.split(':'); // split it at the colons
-    let durationInMilliSeconds = (duration[0]*60*60 + duration[1]*60)*1000;
-    body.startDate = dateToTimestamp(new Date());
-    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
-    delete body.duration
-    console.log(body)
-    request('POST', '/sessions', body )
-      .then(r => r);
-    Router.go('/')
+    if (!form.checkValidity()) {
+      let list = form.querySelectorAll(':invalid');
+      for (let item of list) {
+        item.setAttribute("invalid", '')
+      }
+    } else {
+      let body = parseForm(form);
+      let duration = body.duration.split(':');
+      let durationInMilliSeconds = (duration[0] * 60 * 60 + duration[1] * 60) * 1000;
+      body.startDate = dateToTimestamp(new Date());
+      body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+      delete body.duration
+
+      request('POST', '/sessions', body)
+        .then(r => r)
+        .then(_ => Router.go('/'));
+    }
   }
+
 
   _handleSessionType = (e) => {
     this.sessionType = e.detail;
@@ -104,7 +115,7 @@ class CreateSessionPage extends LitElement {
   async _handleSegmentToggle(title, isOpen) {
     if (isOpen) {
       store.dispatch(actions.close({title: title}))
-    }else {
+    } else {
       store.dispatch(actions.open({title: title}))
     }
   }
@@ -113,27 +124,27 @@ class CreateSessionPage extends LitElement {
     const state = store.getState().createSession;
     const segments = state.segments;
 
-    return  html`
+    return html`
         <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
           <centered-layout slot="body">
-          ${this.loading? html`<h1 id="load-info">Loading...</h1>` : html`
+          ${this.loading ? html`<h1 id="load-info">Loading...</h1>` : html`
             <main>
               <h1>Sessie aanmaken</h1>
               <form>
                 <form-segment 
                   .title="${"Inhoud"}" 
                   .show="${segments.inhoud.open}" 
-                   @toggle="${ _ => this._handleSegmentToggle("inhoud", segments.inhoud.open) }">
+                   @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
                   <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                   <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
-                  <form-dropdown-item .items="${ this.sigs }" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
+                  <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
                 </form-segment>
                 <form-segment 
                   .title="${"Soort"}" 
                   .show="${segments.soort.open}" 
-                  @toggle="${ _ => this._handleSegmentToggle("soort", segments.soort.open) }">
-                  <form-dropdown-item .items="${ sessionTypes }" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
+                  @toggle="${_ => this._handleSegmentToggle("soort", segments.soort.open)}">
+                  <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                   ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
                     ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
                     : html`
@@ -144,7 +155,7 @@ class CreateSessionPage extends LitElement {
                 <form-segment 
                   .title="${"Tijdsindeling"}" 
                   .show="${segments.tijdsindeling.open}" 
-                  @toggle="${ _ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open) }">
+                  @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
                   <form-time-item .name="${"duration"}" .label="${"Duratie"}"></form-time-item>
                 </form-segment>
                 <div>

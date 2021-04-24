@@ -59,6 +59,7 @@ class FormItem extends FormReadable {
       }
       `
   }
+
   static get properties() {
     return {
       editable: {type: Boolean, attribute: "editable", reflect: true},
@@ -70,12 +71,17 @@ class FormItem extends FormReadable {
     this.editable = true;
   }
 
+  _checkValidity = () => {
+    let input = this.querySelector('input');
+    if(input.value.length > 0) input.removeAttribute("invalid")
+  }
+
   render() {
-    return  html`
+    return html`
       <style>${FormItem.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <input name="${this.name}" ?disabled="${!this.editable}">
+        <input name="${this.name}" type="text" ?disabled="${!this.editable}" @input="${this._checkValidity}" required>
       </div>
       `
   }
