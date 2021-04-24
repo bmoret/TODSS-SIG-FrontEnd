@@ -16,32 +16,5 @@
     <noscript>Deze applicatie heeft JavaScript nodig om te werken...</noscript>
     <div id="root" aria-live="polite"></div>
     <script type="module" src="/dist/js/main.js"></script>
-
-
-    <script>
-      // var form = document.querySelector("form");
-      // let data = {}
-      // new FormData(form).forEach((value, key) => data[key] = value);
-      // console.log(data)
-
-      function dothing() {
-        var form = document.querySelector("form");
-        let data = {}
-        new FormData(form).forEach((value, key) => data[key] = value);
-
-        console.log(new Date(Date.now()))
-        console.log(data.date)
-        console.log(data)
-      }
-    </script>
-    <form>
-        <input name="name">
-        <select name="test">
-            <option value="test"></option>
-        </select>
-        <input name="date" type="datetime-local">
-
-    </form>
-    <button onclick="dothing()"></button>
 </body>
 </html>
