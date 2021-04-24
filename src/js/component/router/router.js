@@ -9,9 +9,9 @@ const router = new Router(outlet);
 router.setRoutes([
   {
     path: "/",
-    animate: false,
+    animate: true,
     children: [
-      { path: "", component: "create-session-page" },
+      { path: "create-session", component: "create-session-page" },
     ],
     action: checkLogin()
   },
