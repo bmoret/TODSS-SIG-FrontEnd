@@ -11,6 +11,7 @@ router.setRoutes([
     path: "/",
     animate: true,
     children: [
+      { path: "", component: "app-root" },//todo, fill in homepage
       { path: "create-session", component: "create-session-page" },
     ],
     action: checkLogin()

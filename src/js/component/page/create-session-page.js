@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import {Router} from '@vaadin/router';
 
 import { parseForm } from "../../utils/form-data-parser";
 import { dateToTimestamp } from "../../utils/date-time-parser"
@@ -78,7 +79,7 @@ class CreateSessionPage extends LitElement {
   }
 
   _handleCancel = () => {
-    window.location.href = "/";
+    Router.go('/')
   }
 
   _handleSave = () => {
@@ -93,7 +94,7 @@ class CreateSessionPage extends LitElement {
     console.log(body)
     request('POST', '/sessions', body )
       .then(r => r);
-    window.location.href = "/";
+    Router.go('/')
   }
 
   _handleSessionType = (e) => {
