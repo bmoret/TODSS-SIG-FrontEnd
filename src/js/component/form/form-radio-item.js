@@ -51,13 +51,15 @@ class FormRadioItem extends LitElement {
         this.items = [];
     }
 
-    render() { //todo Finish this so that for every person the name is shown 
+    render() { //todo all buttons can be selected and name is not shown
         return  html`
+       <style>${FormRadioItem.styles}</style>
       <div> 
+        <label for="${this.name}">${this.label}</label>
         ${Object.keys(this.items).map(key => {
             return html`        
-        <input type="radio" name="radioInput" value="${key.name}">
-        <label for = "radioInput">${key.name}</label>
+        <input type="radio" name="${key}" value="${key}">
+        <label for ="${key}" >${this.items[key]}</label>
         `;     
         })}
         <input type="radio" name="radioInput" value="">

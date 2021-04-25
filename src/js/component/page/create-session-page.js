@@ -73,7 +73,6 @@ class CreateSessionPage extends LitElement {
   };
 
   _handleLoadAssociatedPeople = (e) => {
-    console.log(e.detail);
     let requestLink = "/sig/" + e.detail + "/people";
     request('GET', requestLink).then(result => this.sigPeople = result);
   };
@@ -107,7 +106,7 @@ class CreateSessionPage extends LitElement {
                 <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                 <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
                 <form-dropdown-item .items="${ this.sigs }" .name="sig" .label="${"Special Interest Group"}"></form-dropdown-item>
-                <form-radio-item .items="${this.sigPeople}">Contact persoon</form-radio-item>
+                <form-radio-item .items="${this.sigPeople}" .name="contactPersoon" .label="${"Contact persoon"}"></form-radio-item>
               </form-segment>
               <form-segment 
                 .title="${"Soort"}" 
