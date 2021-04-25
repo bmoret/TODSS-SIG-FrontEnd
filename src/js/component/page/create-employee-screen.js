@@ -27,7 +27,7 @@ class CreateEmployeeScreen extends LitElement {
 
     render() {
         return  html`
-        <cim-header></cim-header>
+        <cim-top-bar></cim-top-bar>
         <centered-layout>
           <h1>Medewerker Aanmaken</h1>
           <form-segment .title="${"Personalia"}" >
@@ -65,4 +65,4 @@ class CreateEmployeeScreen extends LitElement {
     }
 }
 
-window.customElements.define('create-employee-screen', CreateEmployeeScreen)
+window.customElements.define('create-employee-page', CreateEmployeeScreen)

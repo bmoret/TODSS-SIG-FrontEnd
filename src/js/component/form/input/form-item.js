@@ -1,36 +1,49 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import FormReadable from "../segment/form-readable";
 
-class FormDropdownItem extends LitElement {
+class FormItem extends FormReadable {
   static get styles() {
     return css`
       div{ 
         position: relative;
         display: flex;
         flex-direction: row;
+        align-items: stretch;
         padding: 10px;
         box-sizing: border-box;
       }
       
       label {
         display: inline-block;
+        width: 300px;
         max-width: 300px;
         margin: 0 10px 10px 0;
       }
       
-      select {
+      input {
         width: 100%;
         padding: 5px;
-        margin auto;
+        margin: auto;
+        box-sizing: border-box;
+        overflow: wrap;
+        resize: none;
         border: 1px solid black;
         border-radius: 2px;
+        min-height: 31px;
         height: min-content;
+        background: var(--cim-color-input-background-default);
+      }
+      
+      input:disabled {
+        background: var(--cim-color-input-background-disabled);
       }
       
       @media screen and (min-width: 1040px) {
         label {
           min-width: 300px;
         }
-        select {
+        
+        span {
           max-width: calc(100% - 300px);
         }
       }
@@ -39,42 +52,34 @@ class FormDropdownItem extends LitElement {
         div {
           flex-direction: column;
         }
+        
+        input {
+          max-width: 100%;
+        }
       }
       `
   }
-
   static get properties() {
     return {
-      items: {type: Object, attribute: false, reflect: true},
+      editable: {type: Boolean, attribute: "editable", reflect: true},
     }
   }
 
   constructor() {
     super();
-    this.items = [];
-  }
-
-  _handleChange = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    let event = new CustomEvent('change', { detail: e.path[0].value});
-    this.dispatchEvent(event);
+    this.editable = true;
+    console.log(this)
   }
 
   render() {
     return  html`
+      <style>${FormItem.styles}</style>
       <div> 
-        <label><slot></slot></label>
-        <select @change="${this._handleChange}">
-          ${Object.keys(this.items).map(key => {
-            return html`
-              <option value="${key}">${this.items[key]}</option>
-            `;
-            })}
-        </select>
+        <label for="${this.name}">${this.label}</label>
+        <input name="${this.name}" ?disabled="${!this.editable}">
       </div>
       `
   }
 }
 
-window.customElements.define('form-dropdown-item', FormDropdownItem)
+window.customElements.define('form-item', FormItem)

@@ -1,7 +1,7 @@
 import {Router} from '@vaadin/router';
 
 const  checkLogin = async () => {
-  console.log("sd")
+  console.log("Hello")
 }
 
 const outlet = document.querySelector("#root");
@@ -12,6 +12,8 @@ router.setRoutes([
     animate: false,
     children: [
       { path: "", component: "create-session-page" },
+      { path: "/create-employee", component: "create-employee-page" },
+      { path: "/modify-employee", component: "modify-employee-page" },
     ],
     action: checkLogin()
   },
