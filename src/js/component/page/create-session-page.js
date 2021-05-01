@@ -1,8 +1,8 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from '@vaadin/router';
 
-import {parseForm} from "../../utils/form-data-parser";
-import {dateToTimestamp} from "../../utils/date-time-parser"
+import {parseForm, isValidForm} from "../../utils/form-util";
+import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
 import request from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
@@ -13,7 +13,6 @@ const sessionTypes = [
   { value: "ONLINE_SESSION_REQUEST", name: "Online"},
   { value: "ONLINE_SESSION_REQUEST", name: "Teams"},
 ]
-
 
 class CreateSessionPage extends LitElement {
   static get styles() {
@@ -54,30 +53,11 @@ class CreateSessionPage extends LitElement {
   constructor() {
     super();
     this.loading = true;
-    this.sessionType = "PHYSICAL_SESSION_REQUEST";
+    this.sessionType = sessionTypes[0];
     this.sigs = [];
     document.title = "Sessie aanmaken"
     store.subscribe(this._refresh)
     this._load()
-      .then(_ => this.loading = false)
-      .catch(_ => {
-        this.loading = true;
-        this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
-      })
-  }
-
-  _load = async () => {
-    return request('GET', '/sig')
-      .then(r => {
-        let sigs = [];
-        r.forEach(sig => {
-          let obj = {}
-          obj["value"] = sig.id
-          obj["name"] = sig.subject
-          sigs.push(obj)
-        })
-        this.sigs = sigs
-      })
   }
 
   _refresh = async () => {
@@ -85,31 +65,38 @@ class CreateSessionPage extends LitElement {
     await this.requestUpdate();
   }
 
+  _load = () => {
+    request('GET', '/sig')
+      .then(r => {
+        let sigs = [];
+        r.forEach(sig => sigs.push({ value: sig.id, name: sig.subject }))
+        this.sigs = sigs
+      })
+      .then(_ => this.loading = false)
+      .catch(_ => {
+        this.loading = true;
+        this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
+      })
+  }
+
   _handleCancel = () => {
-    Router.go('/')
+    history.back();
   }
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
-    if (!form.checkValidity()) {
-      let list = form.querySelectorAll(':invalid');
-      for (let item of list) {
-        item.setAttribute("invalid", '')
-      }
-    } else {
-      let body = parseForm(form);
-      let duration = body.duration.split(':');
-      let durationInMilliSeconds = (duration[0] * 60 * 60 + duration[1] * 60) * 1000;
-      body.startDate = dateToTimestamp(new Date());
-      body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
-      delete body.duration
+    if (!isValidForm(form)) return;
+    let body = parseForm(form);
+    let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
+    body.startDate = dateToTimestamp(new Date());
+    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    delete body.duration
 
-      request('POST', '/sessions', body)
-        .then(r => r)
-        .then(_ => Router.go('/'));
-    }
+    request('POST', '/sessions', body)
+      .then(r => r)
+      .then(_ => Router.go('/'))
+      .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
   }
-
 
   _handleSessionType = (e) => {
     this.sessionType = e.detail;
@@ -149,8 +136,8 @@ class CreateSessionPage extends LitElement {
                   @toggle="${_ => this._handleSegmentToggle("soort", segments.soort.open)}">
                   <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                   ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
-                    ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
-                    : html`
+      ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
+      : html`
                       <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
                       <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
                       value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>
