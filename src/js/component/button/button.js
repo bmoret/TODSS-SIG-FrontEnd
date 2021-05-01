@@ -2,9 +2,6 @@ import { LitElement, html, css } from 'lit-element';
 
 class Button extends LitElement {
     static get styles() { return css`
-        :host {
-          display: block;
-        }
         button {
           background-color: var(--cim-color-button);
           padding: 5px;
@@ -17,7 +14,7 @@ class Button extends LitElement {
       
         button:hover,
         button:focus {
-            background-color: var(--cim-color-button-focused);
+          background-color: var(--cim-color-button-focused);
           -webkit-box-shadow: var(--cim-shadow-button-default);
              -moz-box-shadow: var(--cim-shadow-button-default);
                   box-shadow: var(--cim-shadow-button-default);

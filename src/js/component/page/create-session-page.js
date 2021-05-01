@@ -35,6 +35,13 @@ class CreateSessionPage extends LitElement {
       main h1 {
         margin-top: 0;
       }
+      
+      form div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+      
      
       *[invalid]{
           box-shadow: var(--cim-shadow-invalid-input);
