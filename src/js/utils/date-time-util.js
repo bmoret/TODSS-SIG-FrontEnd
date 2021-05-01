@@ -18,3 +18,10 @@ export function dateToTimestamp(i) {
 function formatSingleDigitPart(part) {
   return part < 10?  0 + part.toString() : part.toString();
 }
+
+export function timeSeparatedByColonToMilliseconds(time) {
+  let duration = time.split(':');
+  let hours = duration[0] * 60 * 60
+  let seconds = duration[1] * 60
+  return (hours + seconds) * 1000;
+}
