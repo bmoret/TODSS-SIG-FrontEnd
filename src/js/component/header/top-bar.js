@@ -31,7 +31,7 @@ class TopBar extends LitElement {
     render() {
         return html`
             <header>
-                <img src="dist/assets/image/app-logo.svg" alt="cimsolution logo">
+                <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo">
             </header>
         `;
     }
