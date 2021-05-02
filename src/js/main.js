@@ -1,6 +1,7 @@
 import './component/form/segment/form-segment-header.js'
 import './component/form/segment/form-segment.js'
 import './component/page/create-session-page.js'
+import './component/page/create-session-manager-page.js'
 import './component/layouts/centered-layout.js'
 import "./component/header/top-bar.js"
 import './component/button/button.js'
