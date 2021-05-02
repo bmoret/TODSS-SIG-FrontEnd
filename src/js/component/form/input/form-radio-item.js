@@ -12,31 +12,32 @@ class FormRadioItem extends LitElement {
         box-sizing: border-box;
       }
       
-      label {
+      .divTitle {
         display: inline-block;
         max-width: 300px;
         margin: 0 10px 10px 0;
       }
-     
+      
+      label {
+        display: inline-block;
+        max-width: 200px;
+        margin: 0 10px 10px 0;
+      }
+      
       @media screen and (min-width: 1040px) {
-        label {
+         .divTitle{
           min-width: 300px;
         }
-        
+      
+        label {
+          min-width: 200px;
+        }
         input {
           max-width: calc(100% - 300px);
         }
       }
       
-      @media screen and (max-width: 1040px) {
-        div {
-          flex-direction: column;
-        }
-        
-        input {
-          max-width: 100%;
-        }
-      }
+
       `
     }
 
@@ -51,19 +52,19 @@ class FormRadioItem extends LitElement {
         this.items = [];
     }
 
-    render() { //todo all buttons can be selected and name is not shown
+    render() {
         return  html`
        <style>${FormRadioItem.styles}</style>
       <div> 
-        <label for="${this.name}">${this.label}</label>
-        ${Object.keys(this.items).map(key => {
+        <label class="divTitle" for="${this.name}">${this.label}</label>
+        ${this.items.map(item => {
             return html`        
-        <input type="radio" name="${key}" value="${key}">
-        <label for ="${key}" >${this.items[key]}</label>
+        <input type="radio" name="radioInput" value="${item.id}">
+        <label class="radioLabel" for ="radioInput" >${item.firstname + " " + item.lastname}</label>
         `;     
         })}
         <input type="radio" name="radioInput" value="">
-        <label for = "radioInput">Geen</label>
+        <label class="radioLabel" for = "radioInput">Geen</label>
       </div>
       `
     }
