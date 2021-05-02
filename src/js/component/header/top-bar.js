@@ -1,8 +1,13 @@
 import { LitElement, html, css } from 'lit-element';
+import {Router} from "@vaadin/router";
 
 class TopBar extends LitElement {
     static get styles() {
         return css`
+            :host {
+                width: 100%;
+            }
+            
             header {
                 position: absolute;
                 padding: 0;
@@ -16,6 +21,7 @@ class TopBar extends LitElement {
             }
             
             img {
+                display: block;
                 position: absolute;
                 margin-left: 20px;
                 left: 0;
@@ -28,10 +34,14 @@ class TopBar extends LitElement {
         super();
     }
 
+    _goHome = () => {
+        Router.go("/")
+    }
+
     render() {
         return html`
             <header>
-                <img src="dist/assets/image/app-logo.svg" alt="cimsolution logo">
+                <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo" @click="${_ => this._goHome()}">
             </header>
         `;
     }
