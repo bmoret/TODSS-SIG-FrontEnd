@@ -27,6 +27,7 @@
 
     --cim-shadow-default: 0px 3px 6px var(--cim-color-shadow-subtle);
     --cim-shadow-button-default: 0px 2px 4px var(--cim-color-shadow-medium);
+    --cim-shadow-invalid-input: 0px 0px 4px var(--cim-color-warning-primary);
 
     --cim-font-size-button:     20px;
     --cim-font-size-form-label: 16px;

@@ -13,6 +13,11 @@ class CenteredLayout extends LitElement {
         min-width: 250px;
         padding: 100px 15px 0 15px;
       }
+      
+      ::slotted(*) {
+        width: 80%;
+        margin: auto;
+      }
     `;
   }
 
