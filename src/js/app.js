@@ -9,6 +9,12 @@ class App extends LitElement {
         padding: 0;
         top: 0;
       }
+      slot[name="header"]::slotted(*) {
+        z-index: 9;
+      }
+      slot[name="body"]::slotted(*) {
+        z-index: 0;
+      }
     `;
   }
 
