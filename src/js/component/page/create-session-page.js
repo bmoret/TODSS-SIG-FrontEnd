@@ -129,15 +129,15 @@ class CreateSessionPage extends LitElement {
             <main>
               <h1>Sessie aanmaken</h1>
               <form>
-                <form-segment 
+                <page-segment 
                   .title="${"Inhoud"}" 
                   .show="${segments.inhoud.open}" 
                    @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
                   <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                   <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
                   <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
-                </form-segment>
-                <form-segment 
+                </page-segment>
+                <page-segment 
                   .title="${"Soort"}" 
                   .show="${segments.soort.open}" 
                   @toggle="${_ => this._handleSegmentToggle("soort", segments.soort.open)}">
@@ -149,13 +149,13 @@ class CreateSessionPage extends LitElement {
                       <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
                       value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>
                     `}
-                </form-segment>
-                <form-segment 
+                </page-segment>
+                <page-segment 
                   .title="${"Tijdsindeling"}" 
                   .show="${segments.tijdsindeling.open}" 
                   @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
                   <form-time-item .name="${"duration"}" .label="${"Duratie"}"></form-time-item>
-                </form-segment>
+                </page-segment>
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
                   <sig-button @click="${() => this._handleSave()}">Opslaan</sig-button>
