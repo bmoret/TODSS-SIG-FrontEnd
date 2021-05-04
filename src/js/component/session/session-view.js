@@ -1,0 +1,78 @@
+import {LitElement, html, css} from 'lit-element';
+import {store} from "../../state/store/store";
+import {actions} from "../../state/reducer/createSession";
+
+class SessionView extends LitElement {
+  static get styles() {
+    return css`
+    `
+  }
+
+  static get properties() {
+    return {
+      session: {type: Object, attribute: false, reflect: true},
+    }
+  }
+
+  constructor() {
+    super();
+    this.session = {};
+    store.subscribe(this._refresh)
+  }
+
+  _refresh = async () => {
+    history.replaceState(store.getState(), document.title, window.location)
+    await this.requestUpdate();
+  }
+
+  _calculateDuration = () => {
+    const startDate = new Date(this.session.details.startDate).getTime();
+    const endDate = new Date(this.session.details.endDate).getTime();
+    const differenceInMinutes = (endDate - startDate) / 1000 / 60;
+    return differenceInMinutes > 0 ? differenceInMinutes : 0;
+  }
+
+  async _handleSegmentToggle(title, isOpen) {
+    if (isOpen) {
+      store.dispatch(actions.close({title: title}))
+    } else {
+      store.dispatch(actions.open({title: title}))
+    }
+  }
+
+  render() {
+    const state = store.getState().createSession;
+    const segments = state.segments; //todo move out of component
+
+    return html`
+        <page-segment 
+          .title="${"Inhoud"}" 
+          .show="${segments.inhoud.open}" 
+           @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
+          <view-segment-item .name="${"Onderwerp"}" .value="${this.session.details.subject}"></view-segment-item>
+          <view-segment-item .name="${"Omschrijving"}" .value="${this.session.details.description}"></view-segment-item>
+          <view-segment-item .name="${"Special interest group"}" .value="${this.session.specialInterestGroup.subject}" ></view-segment-item>
+        </page-segment>
+        <page-segment 
+          .title="${"Soort"}" 
+          .show="${segments.soort.open}" 
+          @toggle="${_ => this._handleSegmentToggle("soort", segments.soort.open)}">
+          <view-segment-item .name="${"Type"}" .value="${this.session.type}" ></view-segment-item>
+          ${this.session.type === "PHYSICAL"
+            ? html`<view-segment-item .name="${"Adres"}" .value="${this.session.address}"></view-segment-item>`
+            : html`
+              <view-segment-item .name="${"Platform"}" .value="${this.session.platform}">Platform</view-segment-item>
+              <view-segment-item .name="${"Join link"}" .value="${this.session.joinUrl}"></view-segment-item>
+            `}
+        </page-segment>
+        <page-segment 
+          .title="${"Tijdsindeling"}" 
+          .show="${segments.tijdsindeling.open}" 
+          @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
+          <view-segment-item .name="${"Duratie"}" .value="${this._calculateDuration() + " minuten"}"></view-segment-item>
+        </page-segment>
+    `
+  }
+}
+
+window.customElements.define('session-view', SessionView);
