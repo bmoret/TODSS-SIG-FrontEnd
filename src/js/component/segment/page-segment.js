@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-class FormSegment extends LitElement {
+class PageSegment extends LitElement {
   static get styles() {
     return css`
       :host {
@@ -43,9 +43,9 @@ class FormSegment extends LitElement {
 
   render() {
     return html`
-      <form-segment-header .show="${this.show}" @toggle="${this._handleToggle}">
+      <page-segment-header .show="${this.show}" @toggle="${this._handleToggle}">
         ${this.title}
-      </form-segment-header>
+      </page-segment-header>
       <div>
         <slot></slot>
       </div>
@@ -53,4 +53,4 @@ class FormSegment extends LitElement {
   }
 }
 
-window.customElements.define('form-segment', FormSegment)
+window.customElements.define('page-segment', PageSegment)

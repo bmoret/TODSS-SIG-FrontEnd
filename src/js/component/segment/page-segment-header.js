@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-class FormSegmentHeader extends LitElement {
+class PageSegmentHeader extends LitElement {
     static get styles() {
       return css`
         div {
@@ -59,7 +59,7 @@ class FormSegmentHeader extends LitElement {
     }
 
     render() {
-      return  html`
+      return html`
       <div @click="${this._handleToggle}"> 
         <h2>
           <slot></slot>
@@ -70,4 +70,4 @@ class FormSegmentHeader extends LitElement {
     }
 }
 
-window.customElements.define('form-segment-header', FormSegmentHeader)
+window.customElements.define('page-segment-header', PageSegmentHeader)
