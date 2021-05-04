@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 
-class ErrorPage extends LitElement {
+class PageNotFoundPage extends LitElement {
   static get styles() {
     return css`
       centered-layout  {
@@ -26,4 +26,4 @@ class ErrorPage extends LitElement {
   }
 }
 
-window.customElements.define('error-page', ErrorPage)
+window.customElements.define('page-not-found-page', PageNotFoundPage)
