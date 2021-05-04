@@ -49,6 +49,9 @@ class CreateSessionPage extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener( 'change', (e) => this._handleLoadAssociatedPeople(e));
+
+    let event = new CustomEvent('change', {bubbles: true, composed: true, detail: Object.keys(this.sigs)[0]});
+    this.dispatchEvent(event);
   }
 
   _loadSigs = () => {

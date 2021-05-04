@@ -36,7 +36,6 @@ class FormRadioItem extends LitElement {
           max-width: calc(100% - 300px);
         }
       }
-      
 
       `
     }
