@@ -1,5 +1,5 @@
 import { html, css } from 'lit-element';
-import FormReadable from "../segment/form-readable";
+import FormReadable from "../form-readable";
 
 class FormDropdownItem extends FormReadable {
   static get styles() {
@@ -46,7 +46,7 @@ class FormDropdownItem extends FormReadable {
 
   static get properties() {
     return {
-      items: {type: Object, attribute: false, reflect: true},
+      items: {type: Array, attribute: false, reflect: true},
     }
   }
 
@@ -68,11 +68,15 @@ class FormDropdownItem extends FormReadable {
       <div> 
         <label for="${this.name}">${this.label}</label>
         <select name="${this.name}" @change="${this._handleChange}">
-          ${Object.keys(this.items).map(key => {
+          ${this.items.map(item => {
             return html`
-              <option value="${key}">${this.items[key]}</option>
+              <option value="${item.value}">${item.name}</option>
             `;
-            })}
+            })
+          }
+      this.items.forEach(item => {
+            console.log(item)
+          return 
         </select>
       </div>
       `
