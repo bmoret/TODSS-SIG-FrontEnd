@@ -1,8 +1,16 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
-import {parseForm} from "../../utils/form-data-parser";
+import {parseForm} from "../../utils/form-util";
 import request from "../../service/connection-service";
+import {Router} from "@vaadin/router";
 
-class CreateEmployeeScreen extends LitElement {
+const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
+    {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},
+    {name : "Deventer", value : "DEVENTER"}, {name : "Maastricht", value : "MAASTRICHT"} ]
+
+const roleTypes =   [ {name: "Manager", value : "MANAGER"}, {name : "Employee", value : "EMPLOYEE"},
+    {name : "Secretary", value : "SECRETARY"} ]
+
+class CreateEmployeePage extends LitElement {
     static get styles() {
         return css`
       centered-layout div {
@@ -50,15 +58,10 @@ class CreateEmployeeScreen extends LitElement {
                     <form-item .name="${"expertise"}" .label="${"Expertise"}">Expertise</form-item>
                     <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-date-picker>
                     <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}"
-                        .items="${
-                                {"VIANEN": "Vianen", "BEST": "Best", "GRONINGEN": "Groningen", "ROTTERDAM": "Rotterdam",
-                                    "AMSTERDAM": "Amsterdam", "DEVENTER": "Deventer", "MAASTRICHT": "Maastricht"}
-                        }"
+                        .items="${branchTypes}"
                     >Branch</form-dropdown-item>
                     <form-dropdown-item .name="${"role"}" .label="${"Rol"}"
-                        .items="${
-                                {"MANAGER": "Manager", "EMPLOYEE": "Employee", "SECRETARY": "Secretary"}
-                        }"
+                        .items="${roleTypes}"
                     >Rol</form-dropdown-item>
                     <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"
                     >Supervisor</form-dropdown-item>
@@ -73,4 +76,4 @@ class CreateEmployeeScreen extends LitElement {
     }
 }
 
-window.customElements.define('create-employee-page', CreateEmployeeScreen)
+window.customElements.define('create-employee-page', CreateEmployeePage)

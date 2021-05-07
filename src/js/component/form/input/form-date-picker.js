@@ -1,5 +1,5 @@
 import { html, css } from 'lit-element';
-import FormReadable from "../segment/form-readable";
+import FormReadable from "../form-readable.js";
 
 class FormDatePicker extends FormReadable {
     static get styles() {

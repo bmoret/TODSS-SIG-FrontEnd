@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-import { parseForm } from "../../utils/form-data-parser";
+import { parseForm } from "../../utils/form-util";
 
 import { actions} from "../../state/reducer/createSession.js";
 import { store } from "../../state/store/store.js";

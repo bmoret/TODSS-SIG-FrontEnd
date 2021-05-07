@@ -1,6 +1,14 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
-import {parseForm} from "../../utils/form-data-parser";
+import {parseForm} from "../../utils/form-util";
 import request from "../../service/connection-service";
+import {Router} from "@vaadin/router";
+
+const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
+    {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},
+    {name : "Deventer", value : "DEVENTER"}, {name : "Maastricht", value : "MAASTRICHT"} ]
+
+const roleTypes =   [ {name: "Manager", value : "MANAGER"}, {name : "Employee", value : "EMPLOYEE"},
+    {name : "Secretary", value : "SECRETARY"} ]
 
 class ModifyEmployeeScreen extends LitElement {
     static get styles() {
@@ -27,10 +35,13 @@ class ModifyEmployeeScreen extends LitElement {
 
     _handleSave = () => {
         let form = this.shadowRoot.querySelector("form");
-        let formData = parseForm(form);
-        new request('PUT', "/person/9", formData).then(r => console.log("yee"))
-    }
+        let body = parseForm(form);
 
+        request('PUT', '/person/' + id, body)
+            .then(r => r)
+            .then(_ => Router.go('/'))
+            .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
+    }
     render() {
         return  html`
         <cim-top-bar></cim-top-bar>
@@ -45,15 +56,10 @@ class ModifyEmployeeScreen extends LitElement {
                 <form-segment .title="${"Werkgegevens"}" >
                     <form-item .name="${"expertise"}" .label="${"Expertise"}">Expertise</form-item>
                     <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-date-picker>
-                    <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}"
-                                        .items="${
-                                                {"VIANEN": "Vianen", "BEST": "Best", "GRONINGEN": "Groningen", "ROTTERDAM": "Rotterdam",
-                                                    "AMSTERDAM": "Amsterdam", "DEVENTER": "Deventer", "MAASTRICHT": "Maastricht"}
-                                        }"
+                    <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}" .items="${branchTypes}"
                     >Branch</form-dropdown-item>
                     <form-dropdown-item .name="${"role"}" .label="${"Rol"}"
-                                        .items="${
-                                                {"MANAGER": "Manager", "EMPLOYEE": "Employee", "SECRETARY": "Secretary"}
+                                        .items="${ roleTypes   
                                         }"
                     >Rol</form-dropdown-item>
                     <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"
