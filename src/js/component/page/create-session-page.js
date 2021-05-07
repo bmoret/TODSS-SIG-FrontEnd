@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-import { jsonParseForm } from "../../utils/form-data-parser";
+import { parseForm } from "../../utils/form-data-parser";
 
 import { actions} from "../../state/reducer/createSession.js";
 import { store } from "../../state/store/store.js";
@@ -61,8 +61,8 @@ class CreateSessionPage extends LitElement {
     //handle save request
     // .then()of .finaly() na saven, redirect, naar homepage of naar session overzicht
     let form = this.shadowRoot.querySelector("form");
-    jsonParseForm(form);
-    console.log(jsonParseForm(form));
+    parseForm(form);
+    console.log(parseForm(form));
   }
 
   _handleSessionType = (e) => {

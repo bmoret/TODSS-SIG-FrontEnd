@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
-import {jsonParseForm} from "../../utils/form-data-parser";
+import {parseForm} from "../../utils/form-data-parser";
 import request from "../../service/connection-service";
 
 class CreateEmployeeScreen extends LitElement {
@@ -27,8 +27,12 @@ class CreateEmployeeScreen extends LitElement {
 
     _handleSave = () => {
         let form = this.shadowRoot.querySelector("form");
-        let formData = jsonParseForm(form);
-        new request('POST', "/person", formData).then(r => console.log("yee"))
+        let body = parseForm(form);
+
+        request('POST', '/person', body)
+            .then(r => r)
+            .then(_ => Router.go('/'))
+            .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
     }
 
     render() {
@@ -44,7 +48,7 @@ class CreateEmployeeScreen extends LitElement {
                 </form-segment>
                 <form-segment .title="${"Werkgegevens"}" >
                     <form-item .name="${"expertise"}" .label="${"Expertise"}">Expertise</form-item>
-                    <form-item .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-item>
+                    <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-date-picker>
                     <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}"
                         .items="${
                                 {"VIANEN": "Vianen", "BEST": "Best", "GRONINGEN": "Groningen", "ROTTERDAM": "Rotterdam",
@@ -56,10 +60,7 @@ class CreateEmployeeScreen extends LitElement {
                                 {"MANAGER": "Manager", "EMPLOYEE": "Employee", "SECRETARY": "Secretary"}
                         }"
                     >Rol</form-dropdown-item>
-                    <form-dropdown-item .name="${"supervisor"}" .label="${"Supervisor"}"
-                      .items="${
-                              {"id1": "supervisor1", "id2": "supervisor2"}
-                      }"
+                    <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"
                     >Supervisor</form-dropdown-item>
           </form-segment>
             </form>

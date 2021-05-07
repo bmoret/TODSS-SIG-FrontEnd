@@ -67,7 +67,7 @@ class FormDropdownItem extends FormReadable {
       <style>${FormDropdownItem.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <select @change="${this._handleChange}">
+        <select name="${this.name}" @change="${this._handleChange}">
           ${Object.keys(this.items).map(key => {
             return html`
               <option value="${key}">${this.items[key]}</option>
