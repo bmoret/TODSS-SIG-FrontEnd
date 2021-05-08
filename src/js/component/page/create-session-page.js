@@ -68,7 +68,7 @@ class CreateSessionPage extends LitElement {
   constructor() {
     super();
     this.loading = true;
-    this.sessionType = sessionTypes[0];
+    this.sessionType = "PHYSICAL_SESSION_REQUEST";
     this.sigs = [];
     this.contactPerson = null;
     document.title = "Sessie aanmaken"
@@ -87,12 +87,26 @@ class CreateSessionPage extends LitElement {
         let sigs = [];
         r.forEach(sig => sigs.push({ value: sig.id, name: sig.subject }))
         this.sigs = sigs
-      })
+      }).then (_ => {
+        this._handleLoadAssociatedPeople({detail : this.sigs[0].value})
+    })
         .then(_ => this.loading = false)
         .catch(_ => {
           this.loading = true;
           this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
         })
+  }
+
+  _handleLoadAssociatedPeople = (e) => {
+    let requestLink = "/sig/" + e.detail + "/people";
+    request('GET', requestLink).then(result =>
+        this.sigPeople = result);
+    console.log(this.sigPeople)
+  };
+
+  _handleContactPerson = (e) => {
+    this.contactPerson = e.detail;
+    console.log(this.contactPerson)
   }
 
   _handleCancel = () => {
@@ -114,8 +128,6 @@ class CreateSessionPage extends LitElement {
           .then(_ => Router.go('/'))
           .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
     }
-
-
 
     _handleSessionType = (e) => {
       this.sessionType = e.detail;
