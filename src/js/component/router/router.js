@@ -13,6 +13,7 @@ router.setRoutes([
     children: [
       { path: "", component: "app-root" },//todo, fill in homepage
       { path: "create-session", component: "create-session-page" },
+      { path: "search-employee", component: "search-employee-page" },
       { path: "(.*)", component: "error-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()
