@@ -14,7 +14,8 @@ router.setRoutes([
       { path: "", component: "app-root" },//todo, fill in homepage
       { path: "create-session", component: "create-session-page" },
       { path: "session/:id", component: "view-session-page" },
-      { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
+      { path: "create-session/manager", component: "create-session-manager-page" },
+      { path: "(.*)", component: "error-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()
   },
