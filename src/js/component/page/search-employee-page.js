@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { store } from "../../state/store/store";
+import { actions } from "../../state/reducer/searchEmployee";
 
 class SeachEmployeePage extends LitElement {
   static get styles() {
@@ -21,15 +23,26 @@ class SeachEmployeePage extends LitElement {
   constructor() {
     super();
     document.title = "Medewerkers zoeken";
-    this.results = [];
+    this.results = store.getState().searchEmployee.segments.results;
+    // this.results = [];
+    // this._provideResults
   }
 
   connectedCallback() {
     super.connectedCallback()
-    document.addEventListener('provideResults', event => this.results = event.detail);
+    document.addEventListener('provideResults', this._provideResults);
+    // document.addEventListener('provideResults', (event) => this.results = event.detail);
+  }
+
+  _provideResults = async () => {
+    const state = store.getState().searchEmployee;
+    const results = state.segments.results;
+    console.log(results)
+    this.results = results;
   }
 
   render() {
+
     return html`
       <app-root>
         <cim-top-bar slot="header"></cim-top-bar>
@@ -37,7 +50,8 @@ class SeachEmployeePage extends LitElement {
           <main>
           <search-employee></search-employee>
           <selected-speaker></selected-speaker>
-            ${this.results.length > 0 ? html`
+          
+          ${this.results.length > 0 ? html`
             <form-segment .title="${"Zoek resultaten"}">
               <ul>
                 ${this.results.map(
@@ -49,10 +63,12 @@ class SeachEmployeePage extends LitElement {
               </ul>
             ` 
               : html ``}
+            
           </main>
         </centered-layout>
       </app-root>
     `
+    
   }
 }
 
