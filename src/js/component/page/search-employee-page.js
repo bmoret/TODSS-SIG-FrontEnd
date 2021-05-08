@@ -16,7 +16,7 @@ class SeachEmployeePage extends LitElement {
 
   static get properties() {
     return {
-      results: {type: Array, attribute: false}
+      results: {type: Array, attribute: false, reflect: true},
     }
   }
 
@@ -24,20 +24,16 @@ class SeachEmployeePage extends LitElement {
     super();
     document.title = "Medewerkers zoeken";
     this.results = store.getState().searchEmployee.segments.results;
-    // this.results = [];
-    // this._provideResults
   }
 
   connectedCallback() {
     super.connectedCallback()
     document.addEventListener('provideResults', this._provideResults);
-    // document.addEventListener('provideResults', (event) => this.results = event.detail);
   }
 
   _provideResults = async () => {
     const state = store.getState().searchEmployee;
     const results = state.segments.results;
-    console.log(results)
     this.results = results;
   }
 

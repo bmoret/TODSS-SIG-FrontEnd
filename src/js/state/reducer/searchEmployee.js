@@ -6,17 +6,18 @@ const initialState = {
     results: [],
   }
 };
+
 const fill = (state, action) => {
     state.segments.results = action.payload;
     return state;
-  }
+}
 
 const open = (state, action) => {
-    if(state.segments.hasOwnProperty(action.payload.title)) {
-      state.segments[action.payload.title].open = true;
-    }
-    return state;
+  if(state.segments.hasOwnProperty(action.payload.title)) {
+    state.segments[action.payload.title].open = true;
   }
+  return state;
+}
 
 const close = (state, action) => {
   if(state.segments.hasOwnProperty(action.payload.title)) {
@@ -31,6 +32,6 @@ export const { actions, reducer } = createSlice({
   reducers: {
     open: open,
     close: close,
-    fill: fill,
+    fill: fill
   }
 })
