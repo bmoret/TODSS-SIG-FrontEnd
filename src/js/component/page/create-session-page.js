@@ -49,6 +49,7 @@ class CreateSessionPage extends LitElement {
       sigs: {type: Array, attribute: false, reflect: true},
       sessionType: {type: String, attribute: false, reflect: true},
       sigPeople: {type: Array, attribute: false, reflect: true},
+      contactPerson: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -57,6 +58,7 @@ class CreateSessionPage extends LitElement {
     this.loading = true;
     this.sessionType = "PHYSICAL_SESSION_REQUEST";
     this.sigs = [];
+    this.contactPerson = null;
     document.title = "Sessie aanmaken"
     store.subscribe(this._refresh)
     this._load()
@@ -69,15 +71,9 @@ class CreateSessionPage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener( 'change', (e) => this._handleLoadAssociatedPeople(e));
 
-    let event = new CustomEvent('change', {bubbles: true, composed: true, detail: Object.keys(this.sigs)[0]});
-    this.dispatchEvent(event);
+    window.addEventListener( 'changeContactPerson', (e) => this._handleContactPerson(e));
   }
-
-  _loadSigs = () => {
-    return {"id1": "sig1", "id2": "sig2"}
-  };
 
   _load = async () => {
     return request('GET', '/sig')
@@ -91,12 +87,22 @@ class CreateSessionPage extends LitElement {
         })
         this.sigs = sigs
       })
+        .then (_ => {
+          this._handleLoadAssociatedPeople({detail : this.sigs[0].value})
+        })
   }
 
   _handleLoadAssociatedPeople = (e) => {
     let requestLink = "/sig/" + e.detail + "/people";
-    request('GET', requestLink).then(result => this.sigPeople = result);
+    request('GET', requestLink).then(result =>
+        this.sigPeople = result);
+    console.log(this.sigPeople)
   };
+
+  _handleContactPerson = (e) => {
+    this.contactPerson = e.detail;
+    console.log(this.contactPerson)
+  }
 
   _refresh = async () => {
     history.replaceState(store.getState(), document.title, window.location);
@@ -121,13 +127,14 @@ class CreateSessionPage extends LitElement {
       body.startDate = dateToTimestamp(new Date());
       body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
       delete body.duration
+      body.contactPerson = this.contactPerson;
+      console.log(body);
 
       request('POST', '/sessions', body)
         .then(r => r)
         .then(_ => Router.go('/'));
     }
   }
-
 
   _handleSessionType = (e) => {
     this.sessionType = e.detail;
@@ -159,8 +166,8 @@ class CreateSessionPage extends LitElement {
                    @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
                   <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                   <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
-                  <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
-                  <form-radio-item .items="${ this.sigPeople }" .name="${"Contact persoon"}" .label="${"Contact persoon"}"></form-radio-item>
+                  <form-dropdown-item @change="${e => this._handleLoadAssociatedPeople(e)}" .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
+                   <form-radio-buttons @change="${e => this._handleContactPerson(e)}" .items="${this.sigPeople}" .name="${"contactPerson"}" .label="${"Contact persoon"}"></form-radio-buttons>
                 </form-segment>
                 <form-segment 
                   .title="${"Soort"}" 
