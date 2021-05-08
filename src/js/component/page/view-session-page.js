@@ -67,6 +67,17 @@ class ViewSessionPage extends LitElement {
     Router.go(`/session/${this.location.params.id}/edit`)
   }
 
+  _handleRequestPlanning = () => {
+    if (confirm("Sessie laten inplannen.\nWeet je het zeker?")) {
+      request('PUT', `/sessions/${this.location.params.id}/request`)
+        .then(r => {
+          this.session = r;
+          alert("Plannen aangevraagd");
+        })
+        .catch(_ => alert("Kon plannen niet aanvragen"));
+    }
+  }
+
   render() {
     return html`
        <app-root>
@@ -78,6 +89,11 @@ class ViewSessionPage extends LitElement {
               <session-view .session="${this.session}"></session-view>
                <div>
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
+                  ${this.session.state === "DRAFT" /* todo: && check if manager */ ? 
+                  html`<sig-button @click="${() => this._handleRequestPlanning()}">Aanvragen</sig-button>` :
+                  ''
+                  }
+                  
                </div>
             </main>
             `}
