@@ -12,7 +12,10 @@ export default function request(type, link, body) {
     }
 
     return fetch(site + link, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) return response.json();
+            throw "Error, something went wrong";
+        })
         .then(function (myJson) {
             console.log(myJson);
             return myJson
