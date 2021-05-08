@@ -51,7 +51,7 @@ class SessionView extends LitElement {
            @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
           <view-segment-item .name="${"Onderwerp"}" .value="${this.session.details.subject}"></view-segment-item>
           <view-segment-item .name="${"Omschrijving"}" .value="${this.session.details.description}"></view-segment-item>
-          <view-segment-item .name="${"Special interest group"}" .value="${this.session.specialInterestGroup.subject}" ></view-segment-item>
+          <view-segment-item .name="${"Special interest group"}" .value="${this.session.specialInterestGroup.subject || '-'}" ></view-segment-item>
         </page-segment>
         <page-segment 
           .title="${"Soort"}" 
