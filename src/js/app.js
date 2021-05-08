@@ -28,5 +28,4 @@ class App extends LitElement {
   }
 }
 
-
 window.customElements.define('app-root', App);

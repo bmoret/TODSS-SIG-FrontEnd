@@ -1,4 +1,3 @@
-
 export function parseForm(form) {
   if (form instanceof HTMLFormElement) {
     let data = {}
@@ -6,9 +5,4 @@ export function parseForm(form) {
     return data;
   }
   return {};
-}
-export function isValidForm(form) {
-  if (form.checkValidity()) return true;
-  let list = form.querySelectorAll(':invalid');
-  return list.forEach(item => item.setAttribute("invalid", ''))
 }

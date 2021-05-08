@@ -54,6 +54,8 @@ class CreateSessionPage extends LitElement {
       loading: {type: Boolean, attribute: false, reflect: true},
       sigs: {type: Array, attribute: false, reflect: true},
       sessionType: {type: String, attribute: false, reflect: true},
+      sigPeople: {type: Array, attribute: false, reflect: true},
+      contactPerson: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -62,9 +64,16 @@ class CreateSessionPage extends LitElement {
     this.loading = true;
     this.sessionType = sessionTypes[0];
     this.sigs = [];
+    this.contactPerson = null;
     document.title = "Sessie aanmaken"
     store.subscribe(this._refresh)
     this._load()
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener( 'changeContactPerson', (e) => this._handleContactPerson(e));
   }
 
   _refresh = async () => {
@@ -79,11 +88,24 @@ class CreateSessionPage extends LitElement {
         r.forEach(sig => sigs.push({ value: sig.id, name: sig.subject }))
         this.sigs = sigs
       })
+      .then (_ => this._handleLoadAssociatedPeople({detail : this.sigs[0].value}))
       .then(_ => this.loading = false)
       .catch(_ => {
         this.loading = true;
         this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
       })
+  }
+
+  _handleLoadAssociatedPeople = (e) => {
+    let requestLink = "/sig/" + e.detail + "/people";
+    request('GET', requestLink).then(result =>
+        this.sigPeople = result);
+    console.log(this.sigPeople)
+  };
+
+  _handleContactPerson = (e) => {
+    this.contactPerson = e.detail;
+    console.log(this.contactPerson)
   }
 
   _handleCancel = () => {
@@ -97,6 +119,7 @@ class CreateSessionPage extends LitElement {
     let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
     body.startDate = dateToTimestamp(new Date());
     body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    body.contactPerson = this.contactPerson;
     delete body.duration
 
     request('POST', '/sessions', body)
@@ -136,6 +159,9 @@ class CreateSessionPage extends LitElement {
                   <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                   <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
                   <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
+                  <form-radio-buttons @change="${e => this._handleContactPerson(e)}" .items="${this.sigPeople}"
+                                        .name="${"contactPerson"}" .label="${"Contact persoon"}"></form-radio-buttons>
+                   
                 </page-segment>
                 <page-segment 
                   .title="${"Soort"}" 
