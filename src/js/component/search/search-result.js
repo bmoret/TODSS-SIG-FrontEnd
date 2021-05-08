@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
-import request from "../../service/connection-service";
+import {Router} from "@vaadin/router";
 
 class SeachResults extends LitElement {
   static get styles() {
@@ -46,31 +46,22 @@ class SeachResults extends LitElement {
 
   static get properties() {
     return {
-        id: {type: String, attribute: true},
-        firstname: {type: String, attribute: true},
-        lastname: {type: String, attribute: true},
-        expertise: {type: String, attribute: true},
-        role: {type: String, attribute: true},
-        branch: {type: String, attribute: true},        
+      employee: {type: Object, attribute: false, reflect: true}
     }
   }
 
   _handleRow = () => {
-    //pagina nog te maken
-      console.log(`go to: /person/${this.id}`)
-      request('GET', '/person/'+this.id)
-      .then(r => r)
-      .then(_ => Router.go(`/person/${this.id}`))
+    Router.go(`/person/${this.employee.id}`)
   }
 
   render() {
     return html`
             <li @click="${this._handleRow}">
-                <h3>${this.firstname+" "+this.lastname}</h3>
+                <h3>${this.employee.firstname+" "+this.employee.lastname}</h3>
                 <main>
-                  <p class="exp">Expertise: ${this.expertise}</p>
-                  <p class="role">Role: ${this.role}</p>
-                  <p class="branch">Branch: ${this.branch}</p>
+                  <p class="exp">Expertise: ${this.employee.expertise}</p>
+                  <p class="role">Role: ${this.employee.role}</p>
+                  <p class="branch">Branch: ${this.employee.branch}</p>
                 </main>
             </li>
     `

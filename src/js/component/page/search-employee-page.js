@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
-import {parseForm, isValidForm} from "../../utils/form-util";
-import request from "../../service/connection-service";
+
 class SeachEmployeePage extends LitElement {
   static get styles() {
     return css`
@@ -44,12 +43,7 @@ class SeachEmployeePage extends LitElement {
                 ${this.results.map(
                   result => html`
                     <search-result
-                    .id="${result.id}"
-                    .firstname="${result.firstname}"
-                    .lastname="${result.lastname}"
-                    .expertise="${result.expertise}"
-                    .role="${result.role}"
-                    .branch="${result.branch}"
+                      .employee="${result}"
                     ></search-result>
                 `)}
               </ul>
