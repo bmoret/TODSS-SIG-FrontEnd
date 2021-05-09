@@ -1,5 +1,4 @@
 import {LitElement, html, css} from 'lit-element';
-
 import request from "../../service/connection-service";
 import {Router} from "@vaadin/router";
 
