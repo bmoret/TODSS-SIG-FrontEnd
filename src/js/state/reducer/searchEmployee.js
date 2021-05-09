@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   segments: {
-    zoek: { open: true },
+    zoekMedewerker: { open: true },
+    zoekSpreker: { open: true },
     results: [],
   }
 };

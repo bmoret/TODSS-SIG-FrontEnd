@@ -12,8 +12,6 @@ class SeachEmployee extends LitElement {
   _handleEmployeeSearch =  () => {
     const firstname = this.shadowRoot.querySelector('input[name=firstname]').value;
     const lastname = this.shadowRoot.querySelector('input[name=lastname]').value;
-    const state = store.getState().searchEmployee;
-    const segments = state.segments;
     if (firstname !== undefined && firstname !== null && firstname !== '' || 
         lastname !== undefined && lastname !== null && lastname !== '' ) {
         let form = this.shadowRoot.querySelector("form");
@@ -24,7 +22,8 @@ class SeachEmployee extends LitElement {
             let results = r;
             store.dispatch(actions.fill(results)) 
             document.dispatchEvent(new CustomEvent('provideResults', { detail: results }))
-          }).catch(_ => alert(`error: ${_}`));
+          })
+          .catch(_ => alert(`error: ${_}`));
     } else {
       alert("Vul voornaam en/of achternaam")
     }
@@ -51,8 +50,8 @@ class SeachEmployee extends LitElement {
             <form>
               <form-segment 
               .title="${"Medewerkers zoeken"}"
-              .show="${segments.zoek.open}" 
-              @toggle="${_ => this._handleSegmentToggle("zoek", segments.zoek.open)}">
+              .show="${segments.zoekMedewerker.open}" 
+              @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
                 <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>
                 <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
                 <div>

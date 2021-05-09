@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
 import { store } from "../../state/store/store";
-import { actions } from "../../state/reducer/searchEmployee";
 
 class SeachEmployeePage extends LitElement {
   static get styles() {
@@ -23,12 +22,14 @@ class SeachEmployeePage extends LitElement {
   constructor() {
     super();
     document.title = "Medewerkers zoeken";
-    this.results = store.getState().searchEmployee.segments.results;
+    this.results = [];
+    this._provideResults();
   }
 
   connectedCallback() {
     super.connectedCallback()
     document.addEventListener('provideResults', this._provideResults);
+    document.addEventListener('provideSessie', this._provideResults);
   }
 
   _provideResults = async () => {

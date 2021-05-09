@@ -47,16 +47,7 @@ class ViewEmployeePage extends LitElement {
     document.title = "Sessie";
     this.message = "Loading...";
     //employee filler weg te halen na fix
-    this.employee = {
-        "firstname" : "Maastricht",
-        "lastname" : "MAASTRICHT",
-        "email": "maem",
-        "expertise" : "huilon",
-        "employedSince" : "11/10/2020",
-        "branch" : "MAASTRICHT",
-        "role": "manager",
-        "supervisor": "RICHARD"
-      };
+    this.employee = {};
   }
 
   connectedCallback() {
@@ -67,11 +58,6 @@ class ViewEmployeePage extends LitElement {
   _load = async () => {
     request('GET', `/person/${this.location.params.id}`)
       .then(r => this.employee = r)
-    //   .then(_ => this.loading = false)
-    //   .catch(_ => {
-    //     this.loading = true;
-    //     this.message = "Error, Kan de sessie niet laden"
-    //   })
   }
 
   _handleEdit = () => {

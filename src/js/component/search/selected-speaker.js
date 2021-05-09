@@ -1,75 +1,86 @@
 import { LitElement, html } from 'https://cdn.skypack.dev/lit-element@2.3.1';
-import {parseForm, isValidForm} from "../../utils/form-util";
+import { store } from "../../state/store/store";
+import { actions } from "../../state/reducer/searchEmployee";
 import request from "../../service/connection-service";
+
 class SelectedSpeaker extends LitElement {
-  constructor() {
-    super();
-    this.sessions = [];
-    this._load();
-    this.selectedSession= this.sessions[0];
+  static get properties() {
+    return {
+      sessions: {type: Array, attribute: false, reflect: true}
+    }
   }
 
-  _load = async () => { 
-    let sessions = [];
-    let obj1 = {}
-    obj1["value"] = "1"
-    obj1["name"] = "titol - omschrevonong"
-    sessions.push(obj1)
-    let obj2 = {}
-    obj2["value"] = "2"
-    obj2["name"] = "ham - Ham"
-    sessions.push(obj2)
-    let obj3 = {}
-    obj3["value"] = "3"
-    obj3["name"] = "ham - Kaas"
-    sessions.push(obj3)
-    this.sessions = sessions;
-    let obj4 = {}
-    obj4["value"] = "4"
-    obj4["name"] = "hackermon - eating broodje kaas met pinda"
-    sessions.push(obj4)
-    this.sessions = sessions;
+  constructor() {
+    super();
+    store.subscribe(this._refresh)
+    this.sessions = {};
+    this._load();
+    this.selectedSession = "";
+    document.addEventListener('provideSessie', (e) => console.log("ewaewa "+e.detail))
+  }
 
-    return request('GET', `/sessions`)
+  _load = () => {
+    request('GET', '/sessions')
       .then(r => {
         let sessions = [];
-        r.forEach(session => {
-          if(session.date === "na vandaag") {
-            let obj = {}
-            obj["id"] = session.id
-            obj["onderwerp"] = `${session.subject} - ${session.description}`;
-            session.push(obj)
-          }
-        })
-        this.session = sessions
-      })
+        //todo: filter op tijd na nu zodat geen oude zichtbaar zijn
+        r.forEach(session => sessions.push({ value: session.id, name: session.details.subject +" - "+session.details.description }))
+        this.sessions = sessions;
+        this.selectedSession = sessions[0].value;
+      }).catch(_ => alert(`error: ${_}`));
   }
 
   _handleSessionSearch =  () => {
-    const selectedSession = this.session;
+    const selectedSession = this.selectedSession;
     const searchSession = this.shadowRoot.querySelector('input[name=searchSession]').value;
-    let result = [];
     if (searchSession !== undefined && searchSession !== null && searchSession !== '') {
       console.log(`Zoek sessie met id: ${searchSession}`)
-      request('GET', `/attendance/${searchSession}`)
-        .then(r => result = r, + console.log("hoi")) //r. sprekers
-      document.dispatchEvent(new CustomEvent('provideSessie', { detail: result }))
+      request('GET', `/attendances/${searchSession}/speaker`)
+        .then(r => {
+          let result = r;
+          store.dispatch(actions.fill(result)) 
+          document.dispatchEvent(new CustomEvent('provideSessie', { detail: result }))
+        })
     } else {
       console.log(`Sessies: ${selectedSession}`)
-      request('GET', `/attendance/${selectedSession}`)
-        .then(r => result = r, + console.log("hoi")) //r. sprekers
-      document.dispatchEvent(new CustomEvent('provideSessie', { detail: result}))
+      request('GET', `/attendances/${selectedSession}/speaker`)
+        .then(r => {
+          let result = r;  
+          store.dispatch(actions.fill(result)) 
+          document.dispatchEvent(new CustomEvent('provideSessie', { detail: result }))
+      })
+      .catch(_ => alert(`error: ${_}`));
     }
   }
 
   _handleSessionSelection =  (e) => {
-    this.session = e.detail;
+    this.selectedSession = e.detail;
+  }
+
+  _refresh = async () => {
+    history.replaceState(store.getState(), document.title, window.location)
+    await this.requestUpdate();
+  }
+
+  async _handleSegmentToggle(title, isOpen) {
+    if (isOpen) {
+      store.dispatch(actions.close({title: title}))
+    } else {
+      store.dispatch(actions.open({title: title}))
+    }
   }
 
   render() {
+    const state = store.getState().searchEmployee;
+    const segments = state.segments; //todo move out of component
+
     return html`
             <form>
-              <form-segment .title="${"Zoek sprekers van sessie"}">
+              <form-segment 
+              .title="${"Zoek sprekers van sessie"}"
+              .show="${segments.zoekSpreker.open}" 
+              @toggle="${_ => this._handleSegmentToggle("zoekSpreker", segments.zoekSpreker.open)}">
+              
                 <form-dropdown-item .items="${this.sessions}" .name="${"sessions"}" .label="${"Sessies"}" @change="${this._handleSessionSelection}"></form-dropdown-item>
                 <form-item .name="${"searchSession"}" .label="${"Zoek sessie met id"}"></form-item>
                 <div>
