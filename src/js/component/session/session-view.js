@@ -42,7 +42,7 @@ class SessionView extends LitElement {
 
   render() {
     const state = store.getState().createSession;
-    const segments = state.segments; //todo move out of component
+    const segments = state.segments;
 
     return html`
         <page-segment 
@@ -51,7 +51,8 @@ class SessionView extends LitElement {
            @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
           <view-segment-item .name="${"Onderwerp"}" .value="${this.session.details.subject}"></view-segment-item>
           <view-segment-item .name="${"Omschrijving"}" .value="${this.session.details.description}"></view-segment-item>
-          <view-segment-item .name="${"Special interest group"}" .value="${this.session.specialInterestGroup.subject || '-'}" ></view-segment-item>
+          <view-segment-item .name="${"Special interest group"}" 
+          .value="${this.session.specialInterestGroup? this.session.specialInterestGroup.subject : '-'}" ></view-segment-item>
         </page-segment>
         <page-segment 
           .title="${"Soort"}" 
