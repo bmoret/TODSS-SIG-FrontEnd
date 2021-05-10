@@ -50,12 +50,12 @@ class CreateEmployeePage extends LitElement {
         <centered-layout>
           <h1>Medewerker Aanmaken</h1>
             <form>
-                <form-segment .title="${"Persoonsgegevens"}" >
+                <page-segment .title="${"Persoonsgegevens"}" >
                     <form-item .name="${"firstname"}" .label="${"Voornaam"}">Voornaam</form-item>
                     <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
                     <form-item .name="${"email"}" .label="${"Email"}">E-mail</form-item>
-                </form-segment>
-                <form-segment .title="${"Werkgegevens"}" >
+                </page-segment>
+                <page-segment .title="${"Werkgegevens"}" >
                     <form-item .name="${"expertise"}" .label="${"Expertise"}">Expertise</form-item>
                     <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-date-picker>
                     <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}"
@@ -66,7 +66,7 @@ class CreateEmployeePage extends LitElement {
                     >Rol</form-dropdown-item>
                     <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"
                     >Supervisor</form-dropdown-item>
-          </form-segment>
+                </page-segment>
             </form>
           <div>
             <sig-button @click="${this._handleCancel}">Annuleren</sig-button>
