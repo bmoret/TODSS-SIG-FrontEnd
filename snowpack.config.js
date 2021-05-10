@@ -1,8 +1,8 @@
 module.exports = {
   mount: {
     // Routes every request to the src/ directory (on dev environment)
-    "public": "/",
-    "src": "/dist",
+    "public": {url: "/", static: true, resolve: false},
+    "src": {url: "/dist"},
   },
   plugins: [["@snowpack/plugin-webpack"], ["@snowpack/plugin-optimize"]],
 };

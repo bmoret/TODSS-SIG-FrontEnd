@@ -50,10 +50,11 @@
     "url": "https://github.com/bmoret/TODSS-SIG-FrontEnd/issues"
   },
   "engines": {
-    "node": "15.2.*"
+    "node": "15.2"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
+    "@snowpack/plugin-babel": "^2.1.7",
     "@snowpack/plugin-optimize": "^0.2.10",
     "@snowpack/plugin-webpack": "^2.2.0",
     "@vaadin/router": "^1.7.4",
@@ -63,5 +64,8 @@
     "npm-run-all": "4.1.5",
     "path": "^0.12.7",
     "snowpack": "^2.17.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0"
   }
 }
