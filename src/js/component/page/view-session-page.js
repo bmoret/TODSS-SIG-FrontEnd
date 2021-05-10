@@ -87,13 +87,21 @@ class ViewSessionPage extends LitElement {
             <main>
               <h1>Sessie</h1>
               <session-view .session="${this.session}"></session-view>
+              ${this.session.state === "TO_BE_PLANNED" /* todo: && check if secretary */ ?
+                html`
+                  <page-segment 
+                  .title="${"Inplannen"}" 
+                  .show="${true}" >
+                      <secretary-session-planner></secretary-session-planner>
+                  </page-segment>
+                  ` : ''
+                }
                <div>
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
                   ${this.session.state === "DRAFT" /* todo: && check if manager */ ? 
                   html`<sig-button @click="${() => this._handleRequestPlanning()}">Aanvragen</sig-button>` :
                   ''
                   }
-                  
                </div>
             </main>
             `}
