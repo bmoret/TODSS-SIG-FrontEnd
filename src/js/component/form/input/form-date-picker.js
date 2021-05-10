@@ -68,7 +68,6 @@ class FormDatePicker extends FormReadable {
     constructor() {
         super();
         this.editable = true;
-        console.log(this)
     }
 
     render() {
