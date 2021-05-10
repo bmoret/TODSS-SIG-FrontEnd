@@ -2,7 +2,6 @@ import {html, css, LitElement} from 'lit-element';
 import {Router} from "@vaadin/router";
 import {router} from "../router/router";
 import {isValidForm, parseForm} from "../../utils/form-util";
-import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util";
 import request from "../../service/connection-service";
 
 class SecretarySessionPlanner extends LitElement {
@@ -36,8 +35,7 @@ class SecretarySessionPlanner extends LitElement {
     const sessionId = router.location.params.id;
     const URL = `/sessions/${sessionId}/plan?startDate=${body.startDate}&endDate=${body.endDate}`;
     request('PUT', URL)
-      .then(r => r)
-      .then(_ => alert("Succes"))
+      .then(_ => Router.go(router.location.pathname))
       .catch(_ => alert("Er was een error tijdens het plannen van de sessie!"));
   }
 
@@ -49,7 +47,6 @@ class SecretarySessionPlanner extends LitElement {
 
   render() {
     return html`
-      <p></p>
       <form>
         <form-datetime-picker 
         .name="${"startDate"}" 
