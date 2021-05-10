@@ -14,9 +14,8 @@ router.setRoutes([
       { path: "", component: "app-root" },//todo, fill in homepage
       { path: "create-session", component: "create-session-page" },
       { path: "session/:id", component: "view-session-page" },
-      { path: "create-session/manager", component: "create-session-manager-page" },
-      { path: "create-employee", component: "person/create" },
-      { path: "modify-employee", component: "person/:id/edit" },
+      { path: "create-employee", component: "create-employee-page" },
+      { path: "modify-employee/:id", component: "modify-employee-page" },
       { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()
