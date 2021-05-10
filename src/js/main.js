@@ -17,6 +17,5 @@ import './app.js'
 import './component/form/form-readable.js'
 import './component/router/router.js'
 import './component/form/input/form-radio-buttons.js'
-
 import './component/page/create-employee-page.js'
 import './component/page/modify-employee-screen.js'

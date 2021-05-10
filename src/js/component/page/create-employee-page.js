@@ -1,7 +1,8 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
+import {Router} from "@vaadin/router";
+
 import {parseForm} from "../../utils/form-util";
 import request from "../../service/connection-service";
-import {Router} from "@vaadin/router";
 
 const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
     {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},
