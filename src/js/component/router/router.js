@@ -5,7 +5,7 @@ const  checkLogin = async () => {
 };
 
 const outlet = document.querySelector("#root");
-const router = new Router(outlet);
+export const router = new Router(outlet);
 router.setRoutes([
   {
     path: "/",
@@ -21,6 +21,7 @@ router.setRoutes([
     action: checkLogin()
   },
 ]);
+
 
 /** Vaadin Router
  * Set routes neemt een lijs in met route segments.
