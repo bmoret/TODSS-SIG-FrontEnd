@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import {Router} from "@vaadin/router";
-
 import {parseForm} from "../../utils/form-util";
 import request from "../../service/connection-service";
+import { store } from "../../state/store/store";
 
 const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
     {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},
@@ -23,11 +23,24 @@ class ModifyEmployeeScreen extends LitElement {
       sig-button {
         margin: 15px 10px;
       }
+
     `;
+    }
+
+    static get properties() {
+      return {
+        results: {type: Array, attribute: false, reflect: true},
+      }
     }
 
     constructor() {
         super();
+        this.results = [];
+    }
+
+    connectedCallback() {
+      super.connectedCallback()
+      document.addEventListener('provideResults', this._provideResults);
     }
 
     _handleCancel = () => {
@@ -44,6 +57,17 @@ class ModifyEmployeeScreen extends LitElement {
             .then(_ => Router.go('/'))
             .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
     }
+
+    _provideResults = () => {
+      const state = store.getState().searchEmployee;
+      let results = state.segments.results;
+      this.results = [];
+      results.forEach(
+        element => {        
+        this.results.push({ value: element.id, name: element.firstname+" "+element.lastname })
+      });
+    }
+
     render() {
         return  html`
         <cim-top-bar></cim-top-bar>
@@ -64,8 +88,12 @@ class ModifyEmployeeScreen extends LitElement {
                                         .items="${ roleTypes   
                                         }"
                     >Rol</form-dropdown-item>
-                    <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"
-                    >Supervisor</form-dropdown-item>
+                    ${this.results.length > 0 ? html`
+                      <form-dropdown-item .items="${this.results}" .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>
+                    ` : html `
+                      <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>           
+                    `} 
+                    <search-employee .title="${"Supervisor zoeken"}"></search-employee>
                 </page-segment>
             </form>
           <div>

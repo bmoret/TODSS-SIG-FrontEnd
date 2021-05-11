@@ -86,9 +86,9 @@ class CreateSessionPage extends LitElement {
       .then(r => {
         let sigs = [];
         r.forEach(sig => sigs.push({ value: sig.id, name: sig.subject }))
-        this.sigs = sigs
+        this.sigs = sigs;
       })
-      .then (_ => this._handleLoadAssociatedPeople({detail : this.sigs[0].value}))
+      .then (_ => this.sigs[0]? this._handleLoadAssociatedPeople({detail : this.sigs[0].value}) :'')
       .then(_ => this.loading = false)
       .catch(_ => {
         this.loading = true;
@@ -100,12 +100,10 @@ class CreateSessionPage extends LitElement {
     let requestLink = "/sig/" + e.detail + "/people";
     request('GET', requestLink).then(result =>
         this.sigPeople = result);
-    console.log(this.sigPeople)
   };
 
   _handleContactPerson = (e) => {
     this.contactPerson = e.detail;
-    console.log(this.contactPerson)
   }
 
   _handleCancel = () => {
@@ -170,7 +168,7 @@ class CreateSessionPage extends LitElement {
                   <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                   ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
       ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
-      : html`
+                  : html`
                       <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
                       <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
                       value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>

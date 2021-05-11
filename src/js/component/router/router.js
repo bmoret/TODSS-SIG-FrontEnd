@@ -13,6 +13,8 @@ router.setRoutes([
     children: [
       { path: "", component: "app-root" },//todo, fill in homepage
       { path: "create-session", component: "create-session-page" },
+      { path: "search-employee", component: "search-employee-page" },
+      { path: "person/:id", component: "view-employee-page" },
       { path: "session/:id", component: "view-session-page" },
       { path: "create-employee", component: "create-employee-page" },
       { path: "modify-employee/:id", component: "modify-employee-page" },
