@@ -99,7 +99,7 @@ class ViewSessionPage extends LitElement {
                <div>
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
                   ${this.session.state === "DRAFT" /* todo: && check if manager */ ? 
-                  html`<sig-button @click="${() => this._handleRequestPlanning()}">Aanvragen</sig-button>` :
+                  html`<sig-button @click="${() => this._handleRequestPlanning()}">Inplannen aanvragen</sig-button>` :
                   ''
                   }
                </div>
