@@ -12,10 +12,9 @@ class FormRadioButtons extends LitElement {
         box-sizing: border-box;
       }
       
-      #divRadioButtons 
-      {
-        overflow-x: scroll;
-
+      #divRadioButtons {
+        overflow-x: auto;
+        width: 100%;
       }
       
       .divTitle {
@@ -24,11 +23,7 @@ class FormRadioButtons extends LitElement {
         margin: 0 10px 10px 0;
       }
       
-      label {
-        display: inline-block;
-        max-width: 100;
-        margin: 0 10px 10px 0;
-      }
+      
       
       @media screen and (min-width: 1040px) {
          .divTitle{
@@ -46,7 +41,8 @@ class FormRadioButtons extends LitElement {
           flex-direction: row;
         }
       }
-        @media screen and (max-width: 1040px) {
+      
+      @media screen and (max-width: 1040px) {
         #divContainer {
           flex-direction: column;
         }
@@ -68,8 +64,6 @@ class FormRadioButtons extends LitElement {
 
     _handleChange(e) {
         let event = new CustomEvent('changeContactPerson', {bubbles: true, composed: true, detail: e});
-        console.log("in form-radio-uttonbs")
-        console.log(e);
         this.dispatchEvent(event);
     }
 
@@ -80,14 +74,14 @@ class FormRadioButtons extends LitElement {
       <div id="divContainer"> 
         <label class="divTitle" for="${this.name}">${this.label}</label>
           <div id="divRadioButtons">
-              ${this.items.map(item => {
+              ${this.items.map(item => {//todo: ul met li's toevoegen en fix css
                   return html`        
             <input @change="${e => this._handleChange(item.id)}" type="radio" name="radioInput" value="${item.id}" >
-            <label class="radioLabel" for ="radioInput" >${item.firstname + " " + item.lastname}</label>
+            <label id="radioLabel" for ="radioInput" >${item.firstname + " " + item.lastname}</label>
             `;
               })}
               <input @change="${e => this._handleChange(null)}" type="radio" name="radioInput" value="">
-              <label class="radioLabel" for = "radioInput">Geen</label>
+              <label id="radioLabel" for = "radioInput">Geen</label>
           </div>
       </div>
       `
