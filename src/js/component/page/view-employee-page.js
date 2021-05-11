@@ -60,7 +60,7 @@ class ViewEmployeePage extends LitElement {
   }
 
   _handleEdit = () => {
-    Router.go(`/person/${this.location.params.id}/edit`)
+    Router.go(`modify-employee/${this.location.params.id}`)
   }
 
   render() {

@@ -54,7 +54,7 @@ class SeachEmployee extends LitElement {
 
     return html`
             <form>
-              <form-segment 
+              <page-segment 
               .title="${this.title}"
               .show="${segments.zoekMedewerker.open}" 
               @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
@@ -63,7 +63,7 @@ class SeachEmployee extends LitElement {
                 <div>
                   <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
                 </div>
-              </form-segment>
+              </page-segment>
             </form>
     `
   }

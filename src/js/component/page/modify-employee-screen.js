@@ -1,7 +1,7 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
+import {Router} from "@vaadin/router";
 import {parseForm} from "../../utils/form-util";
 import request from "../../service/connection-service";
-import {Router} from "@vaadin/router";
 import { store } from "../../state/store/store";
 
 const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
@@ -50,8 +50,9 @@ class ModifyEmployeeScreen extends LitElement {
     _handleSave = () => {
         let form = this.shadowRoot.querySelector("form");
         let body = parseForm(form);
+        console.log(this.location.params.id)
 
-        request('PUT', '/person/' + id, body)
+        request('PUT', '/person/' + this.location.params.id, body)
             .then(r => r)
             .then(_ => Router.go('/'))
             .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
@@ -73,12 +74,12 @@ class ModifyEmployeeScreen extends LitElement {
         <centered-layout>
           <h1>Medewerker Aanpassen : [naam medewerker]</h1>
             <form>
-                <form-segment .title="${"Persoonsgegevens"}" >
+                <page-segment .title="${"Persoonsgegevens"}" >
                     <form-item .name="${"firstname"}" .label="${"Voornaam"}">Voornaam</form-item>
                     <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
                     <form-item .name="${"email"}" .label="${"Email"}">E-mail</form-item>
-                </form-segment>
-                <form-segment .title="${"Werkgegevens"}" >
+                </page-segment>
+                <page-segment .title="${"Werkgegevens"}" >
                     <form-item .name="${"expertise"}" .label="${"Expertise"}">Expertise</form-item>
                     <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-date-picker>
                     <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}" .items="${branchTypes}"
@@ -93,7 +94,7 @@ class ModifyEmployeeScreen extends LitElement {
                       <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>           
                     `} 
                     <search-employee .title="${"Supervisor zoeken"}"></search-employee>
-                </form-segment>
+                </page-segment>
             </form>
           <div>
             <sig-button @click="${this._handleCancel}">Annuleren</sig-button>

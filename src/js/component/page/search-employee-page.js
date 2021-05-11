@@ -49,7 +49,7 @@ class SeachEmployeePage extends LitElement {
           <selected-speaker></selected-speaker>
           
           ${this.results.length > 0 ? html`
-            <form-segment .title="${"Zoek resultaten"}">
+            <page-segment .title="${"Zoek resultaten"}">
               <ul>
                 ${this.results.map(
                   result => html`

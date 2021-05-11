@@ -2,7 +2,7 @@ import {Router} from '@vaadin/router';
 
 const  checkLogin = async () => {
   console.log("sd")
-}
+};
 
 const outlet = document.querySelector("#root");
 const router = new Router(outlet);
@@ -15,9 +15,10 @@ router.setRoutes([
       { path: "create-session", component: "create-session-page" },
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
-      { path: "person/create", component: "create-employee-page" },
-      { path: "person/:id/edit", component: "modify-employee-page" },
-      { path: "(.*)", component: "error-page" }, //Keep as last path to keep normal page priority above error page
+      { path: "session/:id", component: "view-session-page" },
+      { path: "create-employee", component: "create-employee-page" },
+      { path: "modify-employee/:id", component: "modify-employee-page" },
+      { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()
   },

@@ -76,7 +76,7 @@ class SelectedSpeaker extends LitElement {
 
     return html`
             <form>
-              <form-segment 
+              <page-segment 
               .title="${"Zoek sprekers van sessie"}"
               .show="${segments.zoekSpreker.open}" 
               @toggle="${_ => this._handleSegmentToggle("zoekSpreker", segments.zoekSpreker.open)}">
@@ -86,7 +86,7 @@ class SelectedSpeaker extends LitElement {
                 <div>
                   <sig-button @keydown="${e => e.key === 'Enter' && this._handleSessionSearch()}" @click="${this._handleSessionSearch}">Zoek</sig-button>
                 </div>
-              </form-segment>
+              </page-segment>
             </form>
     `
   }

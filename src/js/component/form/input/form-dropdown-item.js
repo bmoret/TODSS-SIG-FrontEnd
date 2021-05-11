@@ -58,7 +58,7 @@ class FormDropdownItem extends FormReadable {
   _handleChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    let event = new CustomEvent('change', { detail: e.path[0].value});
+    let event = new CustomEvent('change', {bubbles: true, composed: true, detail: e.path[0].value});
     this.dispatchEvent(event);
   }
 
