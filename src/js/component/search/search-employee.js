@@ -4,9 +4,15 @@ import request from "../../service/connection-service";
 import { store } from "../../state/store/store";
 import { actions } from "../../state/reducer/searchEmployee";
 class SeachEmployee extends LitElement {
+  static get properties() {
+  return {
+    title: {type: String, attribute: false, reflect: true}
+  }
+}
   constructor() {
     super();
     store.subscribe(this._refresh)
+    
   }
 
   _handleEmployeeSearch =  () => {
@@ -49,7 +55,7 @@ class SeachEmployee extends LitElement {
     return html`
             <form>
               <form-segment 
-              .title="${"Medewerkers zoeken"}"
+              .title="${this.title}"
               .show="${segments.zoekMedewerker.open}" 
               @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
                 <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>

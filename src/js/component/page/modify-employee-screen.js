@@ -23,6 +23,7 @@ class ModifyEmployeeScreen extends LitElement {
       sig-button {
         margin: 15px 10px;
       }
+
     `;
     }
 
@@ -61,14 +62,9 @@ class ModifyEmployeeScreen extends LitElement {
       let results = state.segments.results;
       this.results = [];
       results.forEach(
-        element => {
-        console.log("in for loop"+ element.id);
-        
+        element => {        
         this.results.push({ value: element.id, name: element.firstname+" "+element.lastname })
-      
       });
-      console.log(this.results);
-      console.log(this.results[0]);
     }
 
     render() {
@@ -96,7 +92,7 @@ class ModifyEmployeeScreen extends LitElement {
                     ` : html `
                       <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>           
                     `} 
-                    <search-employee></search-employee>
+                    <search-employee .title="${"Supervisor zoeken"}"></search-employee>
                 </form-segment>
             </form>
           <div>

@@ -45,7 +45,7 @@ class SeachEmployeePage extends LitElement {
         <cim-top-bar slot="header"></cim-top-bar>
         <centered-layout slot="body">
           <main>
-          <search-employee></search-employee>
+          <search-employee .title="${"Medewerkers zoeken"}"></search-employee>
           <selected-speaker></selected-speaker>
           
           ${this.results.length > 0 ? html`
