@@ -1,4 +1,4 @@
-import { LitElement, html } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html } from 'lit-element';
 import { store } from "../../state/store/store";
 import { actions } from "../../state/reducer/searchEmployee";
 import request from "../../service/connection-service";

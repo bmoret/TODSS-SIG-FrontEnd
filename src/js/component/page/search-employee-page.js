@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element@2.3.1';
+import { LitElement, html, css } from 'lit-element';
 import { store } from "../../state/store/store";
 
 class SeachEmployeePage extends LitElement {
