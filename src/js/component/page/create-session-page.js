@@ -159,20 +159,19 @@ class CreateSessionPage extends LitElement {
                   <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
                   <form-radio-buttons @change="${e => this._handleContactPerson(e)}" .items="${this.sigPeople}"
                                         .name="${"contactPerson"}" .label="${"Contact persoon"}"></form-radio-buttons>
-                   
                 </page-segment>
                 <page-segment 
                   .title="${"Soort"}" 
                   .show="${segments.soort.open}" 
                   @toggle="${_ => this._handleSegmentToggle("soort", segments.soort.open)}">
                   <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
-                  ${this.sessionType === "PHYSICAL_SESSION_REQUEST"
-      ? html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
-                  : html`
-                      <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
-                      <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
-                      value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>
-                    `}
+                ${this.sessionType === "ONLINE_SESSION_REQUEST" || this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"
+                  ? html`
+                    <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
+                    <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
+                    value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>
+                  `: html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
+                } 
                 </page-segment>
                 <page-segment 
                   .title="${"Tijdsindeling"}" 
