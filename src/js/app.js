@@ -4,6 +4,8 @@ class App extends LitElement {
   static get styles() {
     return css`
       :host {
+        width: 100%;
+        height: 100%;
         display: block;
         margin: 0;
         padding: 0;

@@ -7,7 +7,7 @@ class TopBar extends LitElement {
             header {
                 padding: 0;
                 margin: auto;
-                Height: 80px;
+                height: var(--cim-top-bar-height);
                 width: 100%;
                 background-image: var(--cim-color-gradient-header-grey);
                 -webkit-box-shadow: var(--cim-shadow-default);

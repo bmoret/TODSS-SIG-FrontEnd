@@ -35,10 +35,13 @@
     --cim-font-size-form-label: 16px;
     --cim-font-size-form-input: 16px;
     --cim-font-size-headings:   30px;
+
+    --cim-top-bar-height: 80px;
 }
 
 html,
 body {
+    height: 100%;
     padding: 0;
     margin: 0;
     background-color: var(--cim-color-background-primary);
@@ -59,4 +62,9 @@ span {
 * {
     font-family: Verdana, serif;
     font-weight: 400;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
 }
