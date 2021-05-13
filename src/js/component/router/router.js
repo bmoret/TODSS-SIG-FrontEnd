@@ -11,7 +11,7 @@ router.setRoutes([
     path: "/",
     animate: true,
     children: [
-      { path: "", component: "app-root" },//todo, fill in homepage
+      { path: "", component: "home-page" },//todo, fill in homepage
       { path: "create-session", component: "create-session-page" },
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
