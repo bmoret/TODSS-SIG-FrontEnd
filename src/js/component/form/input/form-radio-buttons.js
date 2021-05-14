@@ -76,7 +76,8 @@ class FormRadioButtons extends LitElement {
           <div id="divRadioButtons">
               ${this.items.map(item => {//todo: ul met li's toevoegen en fix css
                   return html`        
-            <input @change="${e => this._handleChange(item.id)}" type="radio" name="radioInput" value="${item.id}" >
+            ${item.id === this.selected? html`<input @change="${e => this._handleChange(item.id)}" type="radio" name="radioInput" value="${item.id}" checked>`
+                  : html`<input @change="${e => this._handleChange(item.id)}" type="radio" name="radioInput" value="${item.id}">`}
             <label id="radioLabel" for ="radioInput" >${item.firstname + " " + item.lastname}</label>
             `;
               })}

@@ -81,7 +81,7 @@ class FormItem extends FormReadable {
       <style>${FormItem.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <input name="${this.name}" type="text" ?disabled="${!this.editable}" @input="${this._checkValidity}" required>
+        <input name="${this.name}" type="text" ?disabled="${!this.editable}" @input="${this._checkValidity}" value="${this.value || ""}"required>
       </div>
       `
   }
