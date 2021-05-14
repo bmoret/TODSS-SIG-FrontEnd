@@ -19,19 +19,20 @@ class FullSizeButton extends LitElement {
         button:hover,
         button:focus {
           background-color: var(--cim-color-button-focused);
-          -webkit-box-shadow: var(--cim-shadow-button-default);
-             -moz-box-shadow: var(--cim-shadow-button-default);
-                  box-shadow: var(--cim-shadow-button-default);
+          -webkit-box-shadow: var(--cim-shadow-top-down-inset);
+             -moz-box-shadow: var(--cim-shadow-top-down-inset);
+                  box-shadow: var(--cim-shadow-top-down-inset);
         }
       
         ::slotted(*) {
             text-align: center;
             margin: auto;
             width: 50%;
+            font-size: var(--cim-fond-size-button);
+            font-weight: bold;
         }
         
         slot {
-          font-size: var(--cim-fond-size-button);
         }
         
         @media screen and (max-width: 1040px) {
