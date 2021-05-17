@@ -1,7 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
-import { store } from "../../state/store/store";
+import {css, html, LitElement} from 'lit-element';
+import {store} from "../../state/store/store";
 
-class SeachEmployeePage extends LitElement {
+class SearchEmployeePage extends LitElement {
   static get styles() {
     return css`
       ul {
@@ -11,7 +11,6 @@ class SeachEmployeePage extends LitElement {
       }
     `
   }
-  
 
   static get properties() {
     return {
@@ -34,25 +33,21 @@ class SeachEmployeePage extends LitElement {
 
   _provideResults = async () => {
     const state = store.getState().searchEmployee;
-    const results = state.segments.results;
-    this.results = results;
+    this.results = state.segments.results;
   }
 
   render() {
-
     return html`
       <app-root>
         <cim-top-bar slot="header"></cim-top-bar>
         <centered-layout slot="body">
           <main>
           <search-employee .title="${"Medewerkers zoeken"}"></search-employee>
-          <search-person-results></search-person-results>
           </main>
         </centered-layout>
       </app-root>
     `
-    
   }
 }
 
-window.customElements.define('search-employee-page', SeachEmployeePage)
+window.customElements.define('search-employee-page', SearchEmployeePage)

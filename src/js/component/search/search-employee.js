@@ -3,7 +3,7 @@ import { parseForm } from "../../utils/form-util";
 import request from "../../service/connection-service";
 import { store } from "../../state/store/store";
 import { actions } from "../../state/reducer/searchEmployee";
-class SeachEmployee extends LitElement {
+class SearchEmployee extends LitElement {
   static get properties() {
   return {
     title: {type: String, attribute: false, reflect: true},
@@ -15,7 +15,6 @@ class SeachEmployee extends LitElement {
     this.title = "";
     this.results = [];
     store.subscribe(this._refresh)
-    
   }
 
   _handleEmployeeSearch =  () => {
@@ -54,9 +53,8 @@ class SeachEmployee extends LitElement {
   _search = (e) => {
     request('POST', '/person/search', {name: e.detail})
       .then(r => {
-        let results = r;
-        store.dispatch(actions.fill(results))
-        document.dispatchEvent(new CustomEvent('provideResults', { detail: results }))
+        this.results = r;
+        store.dispatch(actions.fill(r))
       })
       .catch(_ => alert(`Er ging iets mis tijdens medewerkers zoeken`));
   }
@@ -71,18 +69,19 @@ class SeachEmployee extends LitElement {
               .title="${this.title}"
               .show="${segments.zoekMedewerker.open}" 
               @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
-                <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>
-                <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
-                <div>
-                  <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
-                </div>
-              </page-segment>
+                      <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>
+                      <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
+                      <div>
+                        <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
+                      </div>
+                    </page-segment>
+              
               
               <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
-              <search-results></search-results>
+              <search-person-results .results"${state.results}"></search-person-results>
             </form>
     `
   }
 }
 
-window.customElements.define('search-employee', SeachEmployee)
+window.customElements.define('search-employee', SearchEmployee)

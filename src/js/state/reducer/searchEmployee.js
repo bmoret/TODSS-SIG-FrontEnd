@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   segments: {
     zoekMedewerker: { open: true },
-    results: [],
-  }
+  },
+  results: [],
 };
 
 const fill = (state, action) => {
