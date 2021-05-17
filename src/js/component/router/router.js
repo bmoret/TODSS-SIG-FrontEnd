@@ -1,7 +1,10 @@
 import {Router} from '@vaadin/router';
+import {retrieveAccessToken} from "../../service/authorization-service";
 
 const  checkLogin = async () => {
-  console.log("sd")
+  if (retrieveAccessToken() === undefined || retrieveAccessToken() === ''){
+    setTimeout(() => Router.go("/login?redirected=true"), 10)
+  }
 };
 
 const outlet = document.querySelector("#root");
@@ -9,9 +12,9 @@ export const router = new Router(outlet);
 router.setRoutes([
   {
     path: "/",
-    animate: true,
     children: [
-      { path: "", component: "home-page" },//todo, fill in homepage
+      { path: "", component: "home-page" },
+      { path: "login", component: "login-page" },
       { path: "create-session", component: "create-session-page" },
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
