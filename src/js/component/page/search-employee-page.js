@@ -58,9 +58,7 @@ class SeachEmployeePage extends LitElement {
                     ></search-result>
                 `)}
               </ul>
-            ` 
-              : html ``}
-            
+            ` : html ``}
           </main>
         </centered-layout>
       </app-root>
