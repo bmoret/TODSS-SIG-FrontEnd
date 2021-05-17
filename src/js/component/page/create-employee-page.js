@@ -26,12 +26,8 @@ class CreateEmployeePage extends LitElement {
     `;
     }
 
-    constructor() {
-        super();
-    }
-
     _handleCancel = () => {
-        window.location.href = "/";
+       history.back();
     }
 
     _handleSave = () => {
