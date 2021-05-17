@@ -64,22 +64,21 @@ class SearchEmployee extends LitElement {
     const segments = state.segments;
 
     return html`
-            <form>
-              <page-segment 
-              .title="${this.title}"
-              .show="${segments.zoekMedewerker.open}" 
-              @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
-                      <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>
-                      <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
-                      <div>
-                        <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
-                      </div>
-                    </page-segment>
-              
-              
-              <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
-              <search-person-results .results"${state.results}"></search-person-results>
-            </form>
+      <form>
+        <page-segment 
+        .title="${this.title}"
+        .show="${segments.zoekMedewerker.open}" 
+        @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
+          <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>
+          <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
+          <div>
+            <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
+          </div>
+        </page-segment>
+      </form>
+      
+      <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
+      <search-person-results .results="${state.results}"></search-person-results>  
     `
   }
 }
