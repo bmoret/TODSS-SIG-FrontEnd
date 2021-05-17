@@ -9,9 +9,14 @@ class CenteredLayout extends LitElement {
         margin: auto;
         box-sizing: border-box;
         width: 100%;
+        height: 100%;
         max-width: 1350px;
         min-width: 250px;
         padding: 20px 15px 0 15px;
+        
+        -webkit-box-shadow: var(--cim-shadow-background);
+           -moz-box-shadow: var(--cim-shadow-background); 
+                box-shadow: var(--cim-shadow-background);
       }
       
       ::slotted(*) {
