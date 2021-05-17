@@ -1,11 +1,13 @@
 import { LitElement, html, css } from 'lit-element';
 import {Router} from "@vaadin/router";
 import {store} from "../../state/store/store";
+import {MANAGER, SECRETARY, ORGANISER, USER} from "../../utils/user-roles";
 
 class PageLinkButtons extends LitElement {
   static get styles() {
     return css`
-        :host {
+        
+        nav {
           height: 100%;
           width: 100%;
           display: flex;
@@ -30,7 +32,7 @@ class PageLinkButtons extends LitElement {
         }
         
        @media screen and (min-width: 1040px) {
-          :host {
+          nav {
             flex-wrap: wrap;
             flex-direction: row;
           }
@@ -66,7 +68,7 @@ class PageLinkButtons extends LitElement {
         }
         
        @media screen and (max-width: 1040px) {
-          :host {
+          nav {
             flex-direction: column;
           }
           
@@ -96,39 +98,38 @@ class PageLinkButtons extends LitElement {
   render() {
     const state = store.getState().user;
     const role = state.role;
-    const SECRETARY = "SECRETARY",
-      ORGANISER = "ORGANISER",
-      MANAGER = "MANAGER",
-      USER = "USER"
+
     return html`
-            ${[ORGANISER, SECRETARY, MANAGER].includes(role)? 
-              html`<sig-full-size-button @click="${_ =>this._handleLink("/create-session")}">
-                    <img src="/dist/assets/icon/diploma-cap.svg" alt="" height="30px"/>
-                    <p>Sessie aanmaken</p>
-                </sig-full-size-button>` : ''}
-            ${[MANAGER].includes(role)?
-              html`<sig-full-size-button @click="${_ =>this._handleLink("/create-employee")}">
-                  <img src="/dist/assets/icon/person.svg" alt="" height="30px"/>
-                  <p>Medewerker aanmaken</p>
+      <nav>
+        ${[ORGANISER, SECRETARY, MANAGER].includes(role)? 
+          html`<sig-full-size-button @click="${_ =>this._handleLink("/create-session")}">
+                <img src="/dist/assets/icon/diploma-cap.svg" alt="" height="30px"/>
+                <p>Sessie aanmaken</p>
+            </sig-full-size-button>` : ''}
+        ${[MANAGER].includes(role)?
+          html`<sig-full-size-button @click="${_ =>this._handleLink("/create-employee")}">
+              <img src="/dist/assets/icon/person.svg" alt="" height="30px"/>
+              <p>Medewerker aanmaken</p>
+          </sig-full-size-button>` : ''}
+         ${[MANAGER].includes(role)?
+          html`<sig-full-size-button @click="${_ =>this._handleLink("/search-employee")}">
+              <img src="/dist/assets/icon/people.svg" alt="" height="30px"/>
+              <p>Medewerkers zoeken</p>
+          </sig-full-size-button>` : ''}
+            
+        ${[USER, ORGANISER, SECRETARY, MANAGER].includes(role)?
+          html`<sig-full-size-button @click="${_ =>this._handleLink("/search-sessions")}">
+                <img src="/dist/assets/icon/search-diploma-cap.svg" alt="" height="30px"/>
+                <p>Sessies, meervoud/zoeken (WIP)</p>
+            </sig-full-size-button>` : ''}
+           
+        ${[MANAGER].includes(role)?
+          html`<sig-full-size-button @click="${_ =>{/*this._handleLink("/create-session")*/}}">
+                  <img src="/dist/assets/icon/statistics.svg" alt="" height="30px"/>
+                  <p>Statistics (WIP)</p>
               </sig-full-size-button>` : ''}
-             ${[MANAGER].includes(role)?
-              html`<sig-full-size-button @click="${_ =>this._handleLink("/search-employee")}">
-                  <img src="/dist/assets/icon/people.svg" alt="" height="30px"/>
-                  <p>Medewerkers zoeken</p>
-              </sig-full-size-button>` : ''}
-                
-            ${[USER, ORGANISER, SECRETARY, MANAGER].includes(role)?
-              html`<sig-full-size-button @click="${_ =>this._handleLink("/search-sessions")}">
-                    <img src="/dist/assets/icon/search-diploma-cap.svg" alt="" height="30px"/>
-                    <p>Sessies, meervoud/zoeken (WIP)</p>
-                </sig-full-size-button>` : ''}
-               
-            ${[MANAGER].includes(role)?
-              html`<sig-full-size-button @click="${_ =>{/*this._handleLink("/create-session")*/}}">
-                      <img src="/dist/assets/icon/statistics.svg" alt="" height="30px"/>
-                      <p>Statistics (WIP)</p>
-                  </sig-full-size-button>` : ''}
-      `
+      </nav>
+    `
   }
 }
 
