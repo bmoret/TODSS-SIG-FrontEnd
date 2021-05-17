@@ -1,0 +1,4 @@
+export const SECRETARY = "SECRETARY",
+  ORGANISER = "ORGANISER",
+  MANAGER = "MANAGER",
+  USER = "USER"
