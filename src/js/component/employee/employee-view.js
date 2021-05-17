@@ -9,6 +9,7 @@ class EmployeeView extends LitElement {
 
   constructor() {
     super();
+    this.employee = {};
   }
 
   render() {
