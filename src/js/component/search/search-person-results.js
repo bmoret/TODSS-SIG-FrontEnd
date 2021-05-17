@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element';
-import {Router} from "@vaadin/router";
 
 class SearchResults extends LitElement {
   static get styles() {

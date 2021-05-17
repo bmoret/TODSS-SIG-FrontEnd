@@ -78,7 +78,7 @@ class SearchEmployee extends LitElement {
               
               
               <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
-              <search-person-results .results"${state.results}"></search-person-results>
+              <search-person-results .results="${state.results}"></search-person-results>
             </form>
     `
   }
