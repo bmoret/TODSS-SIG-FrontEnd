@@ -6,11 +6,14 @@ import { actions } from "../../state/reducer/searchEmployee";
 class SeachEmployee extends LitElement {
   static get properties() {
   return {
-    title: {type: String, attribute: false, reflect: true}
+    title: {type: String, attribute: false, reflect: true},
+    results: {type: Array, attribute: false, reflect: true},
   }
 }
   constructor() {
     super();
+    this.title = "";
+    this.results = [];
     store.subscribe(this._refresh)
     
   }
@@ -48,9 +51,19 @@ class SeachEmployee extends LitElement {
     }
   }
 
+  _search = (e) => {
+    request('POST', '/person/search', {name: e.detail})
+      .then(r => {
+        let results = r;
+        store.dispatch(actions.fill(results))
+        document.dispatchEvent(new CustomEvent('provideResults', { detail: results }))
+      })
+      .catch(_ => alert(`Er ging iets mis tijdens medewerkers zoeken`));
+  }
+
   render() {
     const state = store.getState().searchEmployee;
-    const segments = state.segments; //todo move out of component
+    const segments = state.segments;
 
     return html`
             <form>
@@ -64,7 +77,9 @@ class SeachEmployee extends LitElement {
                   <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
                 </div>
               </page-segment>
-              <search-bar></search-bar>
+              
+              <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
+              <search-results></search-results>
             </form>
     `
   }

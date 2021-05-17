@@ -46,21 +46,7 @@ class SeachEmployeePage extends LitElement {
         <centered-layout slot="body">
           <main>
           <search-employee .title="${"Medewerkers zoeken"}"></search-employee>
-          <selected-speaker></selected-speaker>
-          
-          ${this.results.length > 0 ? html`
-            <page-segment .title="${"Zoek resultaten"}">
-              <ul>
-                ${this.results.map(
-                  result => html`
-                    <search-result
-                      .employee="${result}"
-                    ></search-result>
-                `)}
-              </ul>
-            ` 
-              : html ``}
-            
+          <search-person-results></search-person-results>
           </main>
         </centered-layout>
       </app-root>
