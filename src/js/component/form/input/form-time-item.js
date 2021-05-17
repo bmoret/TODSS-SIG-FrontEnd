@@ -29,6 +29,12 @@ class FormTimeItem extends FormReadable {
         height: min-content;
       }
       
+      input:hover,
+      input:focus {
+        border: var(--cim-outline);
+        outline:none !important;
+      }
+      
       @media screen and (min-width: 1040px) {
         label {
           min-width: 300px;

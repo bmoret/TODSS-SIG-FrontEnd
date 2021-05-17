@@ -40,6 +40,8 @@
     --cim-font-size-headings:   30px;
 
     --cim-top-bar-height: 80px;
+
+    --cim-outline: 2px solid var(--cim-color-primary-dark) ;
 }
 
 html,
@@ -61,6 +63,7 @@ textarea,
 span {
     font-size: var(--cim-font-size-form-input)
 }
+
 
 * {
     font-family: Verdana, serif;

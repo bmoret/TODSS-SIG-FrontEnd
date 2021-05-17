@@ -24,7 +24,14 @@ class FormDropdownItem extends FormReadable {
         margin auto;
         border: 1px solid black;
         border-radius: 2px;
-        height: min-content;
+        height: min-content; 
+        min-height: 31px;
+      }
+      
+      select:hover,
+      select:focus {
+        border: var(--cim-outline);
+        outline:none !important;
       }
       
       @media screen and (min-width: 1040px) {

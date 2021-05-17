@@ -64,6 +64,7 @@ class SeachEmployee extends LitElement {
                   <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
                 </div>
               </page-segment>
+              <search-bar></search-bar>
             </form>
     `
   }
