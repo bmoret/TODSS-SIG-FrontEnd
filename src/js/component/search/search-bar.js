@@ -3,9 +3,6 @@ import { LitElement, html, css } from 'lit-element';
 class SearchBar extends LitElement {
   static get styles() {
     return css`
-      :host {
-      }
-    
       input {
         width: 100%;
         padding: 5px;
@@ -40,7 +37,6 @@ class SearchBar extends LitElement {
         background: transparent;
       }
       
-      
       button:hover,
       button:focus {
         background-image: var(--cim-color-gradient-dark)
@@ -73,7 +69,8 @@ class SearchBar extends LitElement {
   _search = (e) => {
     e.preventDefault(e)
     e.stopPropagation(e)
-    let event = new CustomEvent('search', { bubbles: true, composed: true });
+    const searchValue = this.shadowRoot.querySelector("input").value
+    let event = new CustomEvent('search', { bubbles: true, composed: true, detail: searchValue});
     this.dispatchEvent(event);
   }
 
