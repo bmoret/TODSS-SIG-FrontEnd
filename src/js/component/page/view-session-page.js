@@ -1,7 +1,8 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
-
+import {MANAGER, SECRETARY} from "../../utils/user-roles";
 import request from "../../service/connection-service";
+import {store} from "../../state/store/store";
 
 class ViewSessionPage extends LitElement {
   static get styles() {
@@ -79,6 +80,9 @@ class ViewSessionPage extends LitElement {
   }
 
   render() {
+    const state = store.getState().user;
+    const role = state.role;
+
     return html`
        <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
@@ -87,18 +91,16 @@ class ViewSessionPage extends LitElement {
             <main>
               <h1>Sessie</h1>
               <session-view .session="${this.session}"></session-view>
-              ${this.session.state === "TO_BE_PLANNED" /* todo: && check if secretary */ ?
+              ${this.session.state === "TO_BE_PLANNED" && role === SECRETARY?
                 html`
-                  <page-segment 
-                  .title="${"Inplannen"}" 
-                  .show="${true}" >
+                  <page-segment .title="${"Inplannen"}" .show="${true}" >
                       <secretary-session-planner></secretary-session-planner>
                   </page-segment>
                   ` : ''
                 }
                <div>
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
-                  ${this.session.state === "DRAFT" /* todo: && check if manager */ ? 
+                  ${this.session.state === "DRAFT" && role === MANAGER? 
                   html`<sig-button @click="${() => this._handleRequestPlanning()}">Inplannen aanvragen</sig-button>` :
                   ''
                   }
