@@ -15,6 +15,7 @@ class PageLinkButtons extends LitElement {
         }
         
         p {
+          width: 90%;
           text-align: center;
           padding :0;
           margin: auto;
@@ -38,8 +39,7 @@ class PageLinkButtons extends LitElement {
           }
           
           p {
-            font-size: 3.5em;
-            width: 90%;
+            font-size: 3em;
           }
           
           img {
@@ -73,7 +73,6 @@ class PageLinkButtons extends LitElement {
           }
           
           p {
-            width: 80%;
             font-size: 3em;
           }
           
