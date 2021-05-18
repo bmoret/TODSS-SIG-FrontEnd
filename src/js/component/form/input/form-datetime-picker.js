@@ -16,9 +16,13 @@ class FormDateTimePicker extends FormReadable {
         display: inline-block;
         width: 150px;
         max-width: 150px;
-        margin: 0 10px 10px 0;
+        margin: 10px 10px 10px 0;
         font-weight: bold;
         font-size: 18.72px;
+      }
+      
+      label:first-child {
+        text-align: left;
       }
       
       input {
