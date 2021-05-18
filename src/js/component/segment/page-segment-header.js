@@ -4,6 +4,7 @@ class PageSegmentHeader extends LitElement {
     static get styles() {
       return css`
         div {
+          cursor: pointer;
           position: relative;
           display: block;
           padding: 10px;
