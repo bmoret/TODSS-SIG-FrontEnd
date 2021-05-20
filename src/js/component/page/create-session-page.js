@@ -11,7 +11,7 @@ import {store} from "../../state/store/store.js";
 const sessionTypes = [
   { value: "PHYSICAL_SESSION_REQUEST", name: "Fysiek"},
   { value: "ONLINE_SESSION_REQUEST", name: "Online"},
-  { value: "ONLINE_SESSION_REQUEST", name: "Teams"},
+  { value: "TEAMS_ONLINE_SESSION_REQUEST", name: "Teams"},
 ]
 
 class CreateSessionPage extends LitElement {
@@ -167,9 +167,8 @@ class CreateSessionPage extends LitElement {
                   <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                 ${this.sessionType === "ONLINE_SESSION_REQUEST" || this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"
                   ? html`
-                    <form-item .name="${"platform"}" .label="${"Platform"}">Platform</form-item>
-                    <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
-                    value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}"></form-item>
+                    <form-item .name="${"platform"}" .label="${"Platform"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
+                    <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
                   `: html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
                 } 
                 </page-segment>
@@ -177,7 +176,7 @@ class CreateSessionPage extends LitElement {
                   .title="${"Tijdsindeling"}" 
                   .show="${segments.tijdsindeling.open}" 
                   @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                  <form-time-item .name="${"duration"}" .label="${"Duratie"}"></form-time-item>
+                  <form-time-item .name="${"duration"}" .label="${"Verwachtte duur"}"></form-time-item>
                 </page-segment>
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
