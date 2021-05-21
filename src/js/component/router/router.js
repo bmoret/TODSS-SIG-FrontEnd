@@ -15,6 +15,7 @@ router.setRoutes([
     children: [
       { path: "", component: "home-page" },
       { path: "login", component: "login-page" },
+      { path: "register", component: "register-page" },
       { path: "create-session", component: "create-session-page" },
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
