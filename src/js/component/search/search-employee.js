@@ -28,9 +28,8 @@ class SearchEmployee extends LitElement {
         request('POST', '/person/search', body)
           .then(r => {
             let results = r;
-            store.dispatch(actions.fill(results)) 
-            document.dispatchEvent(new CustomEvent('provideResults', { detail: results }))
-          })
+            store.dispatch(actions.fill(results))
+            })
           .catch(_ => alert(`error: ${_}`));
     } else {
       alert("Vul voornaam en/of achternaam")

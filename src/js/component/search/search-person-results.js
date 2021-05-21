@@ -25,6 +25,12 @@ class SearchResults extends LitElement {
         p {
           margin: 0;
         }
+        
+        ul {
+           list-style-type: none;
+           padding: 0;
+           margin: 0;
+        }
 
         div.result__info p {
           width: 33%;
@@ -47,6 +53,7 @@ class SearchResults extends LitElement {
   }
 
   render() {
+  console.log(this.result)
     return html`
       <ul>
         ${this.results.map( result => html`

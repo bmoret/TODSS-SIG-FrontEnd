@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const fill = (state, action) => {
-    state.segments.results = action.payload;
+    state.results = action.payload;
     return state;
 }
 
