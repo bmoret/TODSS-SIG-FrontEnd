@@ -10,6 +10,7 @@ class CenteredLayout extends LitElement {
         box-sizing: border-box;
         width: 100%;
         height: 100%;
+        min-height: 100vh;
         max-width: 1350px;
         min-width: 250px;
         padding: 20px 15px 0 15px;
