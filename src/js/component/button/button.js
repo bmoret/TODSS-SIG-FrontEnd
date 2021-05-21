@@ -5,7 +5,7 @@ class Button extends LitElement {
         button {
           background-color: var(--cim-color-button);
           padding: 5px;
-          width: 100px;
+          min-width: 100px;
           outline: none;
           border: none;
           border-radius: 4px;
