@@ -1,14 +1,14 @@
 import { LitElement, html } from 'lit-element';
 import request from "../../../service/connection-service";
 import { storeAccessToken } from "../../../service/authorization-service";
-import { isValidForm } from "../../../utils/form-util";
+import {isValidForm, parseForm} from "../../../utils/form-util";
 import {actions} from "../../../state/reducer/user";
 
 class LoginForm extends LitElement {
   _handleLogin = () => {
     let form = this.shadowRoot.querySelector("form");
     if (!isValidForm(form)) return;
-    request('POST', '/login', body)
+    request('POST', '/login', parseForm(form))
       .then(r => storeAccessToken(r.getHeader("Authorization")) && r)
       .then(r => this._updateUserState(r.body /* todo: user info uit request halen*/))
       .then(_ => this._emitLoginEvent())
@@ -34,7 +34,7 @@ class LoginForm extends LitElement {
         <form-item .name="${"username"}" .label="${"Gebruikersnaam"}"></form-item>
         <form-item .name="${"password"}" .label="${"password"}"></form-item>
         <div>
-            <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleLogin}">Zoek</sig-button>
+            <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleLogin}">Inloggen</sig-button>
         </div>
       </form>
     `

@@ -9,13 +9,10 @@ class LoginPage extends LitElement {
         margin: auto;
       }
       
-      img {
-        position: absolute;
-        top: 0;
-        right: 0;
-        opacity: 0.3;
-        height: 60%;
-        width: 100%;
+      @media screen and (max-width: 1040px) {
+        cim-logo-backdrop {
+          display: none;
+        }
       }
     `;
   }
@@ -44,7 +41,7 @@ class LoginPage extends LitElement {
            <centered-layout>
               <div>
                 <h1>Inloggen</h1>
-                <img src="/dist/assets/image/app-logo.svg"">
+                <cim-logo-backdrop></cim-logo-backdrop>
                 <login-form  @loggedIn="${this._handleLoggedIn}"></login-form>
               </div>
            </centered-layout>
