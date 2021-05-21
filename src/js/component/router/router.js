@@ -16,6 +16,7 @@ router.setRoutes([
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
       { path: "session/:id", component: "view-session-page" },
+      { path: "modify-session/:id", component: "modify-session-page" },
       { path: "create-employee", component: "create-employee-page" },
       { path: "modify-employee/:id", component: "modify-employee-page" },
       { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
