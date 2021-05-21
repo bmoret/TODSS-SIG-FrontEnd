@@ -48,28 +48,21 @@ class ModifyEmployeeScreen extends LitElement {
     }
 
     _load = () => {
-        request('GET', `/person/managers`)
+        request('GET', `/person/${this.location.params.id}`)
             .then(r => {
-                this.managers = r
-                this.managers.forEach(manager => {
-                    this.results.push({ value: manager.id, name: manager.firstname+" "+manager.lastname })
-                })
-            })
-            .then(_ => {
-                this.loading = false
-                request('GET', `/person/${this.location.params.id}`)
-                    .then(r => {
-                        this.person = r
+                this.person = r
+                if (r.supervisor) {
+                    this.results.push({
+                        value: r.supervisor.personId,
+                        name: r.supervisor.personName.split(", ")[1] + " " + r.supervisor.personName.split(", ")[0]
                     })
-                    .then(_ => this.loading = false)
-                    .catch(_ => {
-                        this.loading = true;
-                    })
+                }
+
             })
+            .then(_ => this.loading = false)
             .catch(_ => {
                 this.loading = true;
             })
-
 
     }
 
@@ -102,7 +95,7 @@ class ModifyEmployeeScreen extends LitElement {
         return  html`
         <cim-top-bar></cim-top-bar>
         <centered-layout>
-          <h1>Medewerker Aanpassen : ${this.person.firstname+" "+this.person.lastname}</h1>
+          <h1>Medewerker Aanpassen: ${this.person.firstname+" "+this.person.lastname}</h1>
             <form>
                 <page-segment .title="${"Persoonsgegevens"}" >
                     <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${this.person.firstname}">Voornaam</form-item>
@@ -118,7 +111,7 @@ class ModifyEmployeeScreen extends LitElement {
                                         .items="${ roleTypes}"
                                         .selected="${this.person.role}"
                     >Rol</form-dropdown-item>
-                      <form-dropdown-item .items="${this.results}" .selected="${this.person.supervisor.personId || ""}" .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>
+                      <form-dropdown-item .items="${this.results}" .selected="${this.person.supervisor? this.person.supervisor.personId : ""}" .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>
                     <search-employee .title="${"Supervisor zoeken"}"></search-employee>
                 </page-segment>
             </form>
