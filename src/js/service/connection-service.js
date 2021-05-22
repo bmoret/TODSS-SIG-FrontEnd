@@ -1,7 +1,7 @@
 const site = process.env.server || 'http://localhost:8080';
 
 export default function request(type, link, body) {
-
+    console.log(site)
     var fetchOptions = {
         method: type
         , headers : {
