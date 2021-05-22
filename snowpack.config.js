@@ -5,4 +5,7 @@ module.exports = {
     "src": {url: "/dist"},
   },
   plugins: [["@snowpack/plugin-webpack"], ["@snowpack/plugin-babel"]],
+  devOptions: {
+    "port": parseInt(process.env.PORT) || 3000
+  }
 };

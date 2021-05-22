@@ -1,4 +1,4 @@
-const site = 'http://localhost:8080';
+const site = process.env.server || 'http://localhost:8080';
 
 export default function request(type, link, body) {
 

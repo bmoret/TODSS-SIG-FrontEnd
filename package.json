@@ -36,10 +36,11 @@
   },
   "license": "ISC",
   "scripts": {
+    "web": "snowpack dev",
     "server": "node server/index.js",
     "build": "snowpack build",
     "dev": "snowpack dev",
-    "start": "npm-run-all --parallel dev server",
+    "start": "snowpack dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -66,6 +67,7 @@
     "snowpack": "^2.17.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.13.0"
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "aws-sdk": "^2.912.0"
   }
 }
