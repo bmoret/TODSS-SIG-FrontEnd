@@ -1,4 +1,4 @@
-const site = process.env.server || 'http://localhost:8080';
+const site = import.meta.env.SNOWPACK_PUBLIC_API_URL;
 
 export default function request(type, link, body) {
     console.log(site)
