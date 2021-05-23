@@ -38,7 +38,7 @@ class RegisterForm extends LitElement {
       <form>
           <page-segment .title="${"Account"}">
             <form-item .name="${"username"}" .label="${"Gebruikersnaam"}"></form-item>
-            <form-item .name="${"password"}" .label="${"password"}"></form-item>
+            <form-item .name="${"password"}" .label="${"password"}" .type="${"password"}"></form-item>
           </page-segment>
           <page-segment .title="${"Persoonsgegevens"}" >
               <form-item .name="${"firstname"}" .label="${"Voornaam"}">Voornaam</form-item>

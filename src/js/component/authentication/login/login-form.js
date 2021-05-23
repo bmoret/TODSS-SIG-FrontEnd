@@ -10,7 +10,7 @@ class LoginForm extends LitElement {
     if (!isValidForm(form)) return;
     request('POST', '/login', parseForm(form))
       .then(r => storeAccessToken(r.getHeader("Authorization")) && r)
-      .then(r => this._updateUserState(r.body /* todo: user info uit request halen*/))
+      .then(r => this._updateUserState(r /* todo: user info uit request halen*/))
       .then(_ => this._emitLoginEvent())
       .catch(_ => alert("Er ging iets fout tijdens het inloggen"));
   }
@@ -18,8 +18,9 @@ class LoginForm extends LitElement {
   _updateUserState = (user) => {
     actions.setState({
       isLoggedIn: true,
-      role: user.role,
-      username:user.username
+      role: user.getHeader("User-Role"),
+      username: user.getHeader("User-Username"),
+      id: user.getHeader("User-Id")
     })
   }
 
@@ -32,7 +33,7 @@ class LoginForm extends LitElement {
     return html`
       <form>
         <form-item .name="${"username"}" .label="${"Gebruikersnaam"}"></form-item>
-        <form-item .name="${"password"}" .label="${"password"}"></form-item>
+        <form-item .name="${"password"}" .label="${"password"}" .type="${"password"}"></form-item> <!--todo: hidden password item-->
         <div>
             <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleLogin}">Inloggen</sig-button>
         </div>
