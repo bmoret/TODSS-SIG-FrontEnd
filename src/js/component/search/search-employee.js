@@ -1,8 +1,8 @@
 import { LitElement, html } from 'lit-element';
-import { parseForm } from "../../utils/form-util";
 import request from "../../service/connection-service";
 import { store } from "../../state/store/store";
 import { actions } from "../../state/reducer/searchEmployee";
+
 class SearchEmployee extends LitElement {
   static get properties() {
   return {
@@ -15,25 +15,6 @@ class SearchEmployee extends LitElement {
     this.title = "";
     this.results = [];
     store.subscribe(this._refresh)
-  }
-
-  _handleEmployeeSearch =  () => {
-    const firstname = this.shadowRoot.querySelector('input[name=firstname]').value;
-    const lastname = this.shadowRoot.querySelector('input[name=lastname]').value;
-    if (firstname !== undefined && firstname !== null && firstname !== '' || 
-        lastname !== undefined && lastname !== null && lastname !== '' ) {
-        let form = this.shadowRoot.querySelector("form");
-        let body = parseForm(form);  
-         
-        request('POST', '/person/search', body)
-          .then(r => {
-            let results = r;
-            store.dispatch(actions.fill(results))
-            })
-          .catch(_ => alert(`error: ${_}`));
-    } else {
-      alert("Vul voornaam en/of achternaam")
-    }
   }
 
   _refresh = async () => {
@@ -50,7 +31,7 @@ class SearchEmployee extends LitElement {
   }
 
   _search = (e) => {
-    request('POST', '/person/search', {name: e.detail})
+    request('POST', '/person/search', {searchTerm: e.detail})
       .then(r => {
         this.results = r;
         store.dispatch(actions.fill(r))
@@ -63,21 +44,13 @@ class SearchEmployee extends LitElement {
     const segments = state.segments;
 
     return html`
-      <form>
-        <page-segment 
-        .title="${this.title}"
-        .show="${segments.zoekMedewerker.open}" 
-        @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
-          <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${segments.firstname}"></form-item>
-          <form-item .name="${"lastname"}" .label="${"Achternaam"}">Achternaam</form-item>
-          <div>
-            <sig-button @keydown="${e => e.key === 'Enter' && this._handleEmployeeSearch()}" @click="${this._handleEmployeeSearch}">Zoek</sig-button>
-          </div>
-        </page-segment>
-      </form>
-      
-      <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
-      <search-person-results .results="${state.results}"></search-person-results>  
+      <page-segment 
+      .title="${this.title}"
+      .show="${segments.zoekMedewerker.open}" 
+      @toggle="${_ => this._handleSegmentToggle("zoekMedewerker", segments.zoekMedewerker.open)}">
+        <search-bar .placeholder="${"Medewerker naam..."}" @search="${this._search}"></search-bar>
+        <search-person-results .results="${state.results}"></search-person-results>  
+      </page-segment>
     `
   }
 }
