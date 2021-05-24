@@ -115,8 +115,8 @@ class CreateSessionPage extends LitElement {
     if (!isValidForm(form)) return;
     let body = parseForm(form);
     let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
-    body.startDate = dateToTimestamp(new Date());
-    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    body.startDate = dateToTimestamp(new Date().getTime());
+    body.endDate = dateToTimestamp((new Date().getTime() + durationInMilliSeconds))
     body.contactPerson = this.contactPerson;
     delete body.duration
 
