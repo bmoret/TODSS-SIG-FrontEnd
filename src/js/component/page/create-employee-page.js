@@ -35,9 +35,8 @@ class CreateEmployeePage extends LitElement {
         let body = parseForm(form);
 
         request('POST', '/person', body)
-            .then(r => r)
             .then(_ => Router.go('/'))
-            .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
+            .catch(_ => alert("Er was een error tijdens het aanmaken van de medewerker!"));
     }
 
     render() {
