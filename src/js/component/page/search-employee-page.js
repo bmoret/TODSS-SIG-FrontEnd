@@ -44,8 +44,8 @@ class SearchEmployeePage extends LitElement {
     await this.requestUpdate();
   }
 
-  _viewPerson = (person) => {
-      Router.go(`/person/${person.id}`)
+  _viewPerson = (e) => {
+      Router.go(`/person/${e.detail.id}`)
   }
 
   render() {
