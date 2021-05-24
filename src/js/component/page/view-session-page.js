@@ -65,7 +65,7 @@ class ViewSessionPage extends LitElement {
   }
 
   _handleEdit = () => {
-    Router.go(`/session/${this.location.params.id}/edit`)
+    Router.go(`/modify-session/${this.location.params.id}`)
   }
 
   _handleRequestPlanning = () => {
