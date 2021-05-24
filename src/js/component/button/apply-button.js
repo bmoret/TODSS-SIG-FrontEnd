@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 class applyButton extends LitElement {
     static get styles() {
