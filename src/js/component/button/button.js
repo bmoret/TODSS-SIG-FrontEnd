@@ -33,9 +33,13 @@ class Button extends LitElement {
         this.dispatchEvent(event);
     }
 
+    _handleEnter = (e) => {
+        return e.key === 'Enter' && this._handleClick(e)
+    }
+
     render() {
         return html`
-          <button  @click="${this._handleClick}">
+          <button  @click="${this._handleClick}" @keydown="${e => this._handleEnter(e)}">
             <slot></slot>
           </button>
         `
