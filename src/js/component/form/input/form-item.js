@@ -92,6 +92,7 @@ class FormItem extends FormReadable {
         <input 
           name="${this.name}"
           type="${this.type}" 
+          value="${this.value || ""}"
           ?disabled="${!this.editable}" 
           @input="${this._checkValidity}" 
           required>

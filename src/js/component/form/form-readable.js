@@ -5,6 +5,7 @@ export default class FormReadable extends LightDomRootBased {
     return {
       label: {type: String, attribute: false, reflect: true},
       name: {type: String, attribute: false, reflect: true},
+      value: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -12,5 +13,6 @@ export default class FormReadable extends LightDomRootBased {
     super();
     this.name = '';
     this.label = '';
+    this.value = '';
   }
 }

@@ -100,6 +100,7 @@ class ModifyEmployeeScreen extends LitElement {
   }
 
   render() {
+    console.log(this.person)
     return html`
         <cim-top-bar></cim-top-bar>
         <centered-layout>
