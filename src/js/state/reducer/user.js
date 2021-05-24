@@ -25,7 +25,7 @@ const setUsername = (state, action) => {
 }
 
 const setState = (state, action) => {
-  state = action;
+  state = action.payload;
   localStorage.setItem("user_state", JSON.stringify(action.payload))
   return state;
 }
