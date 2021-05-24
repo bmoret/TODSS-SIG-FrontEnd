@@ -1,8 +1,9 @@
 import {Router} from '@vaadin/router';
 import {retrieveAccessToken} from "../../service/authorization-service";
+import {store} from "../../state/store/store";
 
 const  checkLogin = async () => {
-  if (retrieveAccessToken() === undefined || retrieveAccessToken() === ''){
+  if (retrieveAccessToken() === undefined || retrieveAccessToken() === '' || store.getState().user.isLoggedIn === false){
     setTimeout(() => Router.go("/login?redirected=true"), 10)
   }
 };
