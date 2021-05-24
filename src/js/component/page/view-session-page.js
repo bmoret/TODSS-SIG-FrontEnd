@@ -14,7 +14,7 @@ class ViewSessionPage extends LitElement {
         align-items: center;
       }
         
-      sig-button {
+      sig-button apply-button {
         margin: 15px 10px;
       }
       
@@ -99,6 +99,7 @@ class ViewSessionPage extends LitElement {
                   ` : ''
                 }
                <div>
+                 <apply-button .sessionId="${this.location.params.id}"></apply-button>
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
                   ${this.session.state === "DRAFT" && role === MANAGER? 
                   html`<sig-button @click="${() => this._handleRequestPlanning()}">Inplannen aanvragen</sig-button>` :
