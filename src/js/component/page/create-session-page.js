@@ -121,8 +121,7 @@ class CreateSessionPage extends LitElement {
     delete body.duration
 
     request('POST', '/sessions', body)
-      .then(r => r)
-      .then(_ => Router.go('/'))
+      .then(r => Router.go('/session/' + r.id))
       .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
   }
 
