@@ -5,6 +5,8 @@ class TopBar extends LitElement {
     static get styles() {
         return css`
             header {
+                display: flex;
+                align-items: center;
                 padding: 0;
                 margin: auto;
                 height: var(--cim-top-bar-height);
@@ -28,6 +30,12 @@ class TopBar extends LitElement {
             img {
                 height: 100%;
             }
+            
+            login-logout {
+                position: absolute;
+                right: 0;
+                margin-right: 20px;
+            }
         `;
     }
 
@@ -45,6 +53,7 @@ class TopBar extends LitElement {
                 <button aria-label="Terug naar startpagina"  >
                     <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo">
                 </button>
+                <login-logout></login-logout>
             </header>
         `;
     }

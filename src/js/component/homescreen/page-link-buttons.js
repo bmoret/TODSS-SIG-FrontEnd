@@ -97,7 +97,6 @@ class PageLinkButtons extends LitElement {
   render() {
     const state = store.getState().user;
     const role = state.role;
-    console.log(state)
 
     return html`
       <nav>
