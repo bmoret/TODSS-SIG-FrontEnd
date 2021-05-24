@@ -1,9 +1,11 @@
+import {Router} from "@vaadin/router";
+
 const site = 'http://localhost:8080';
 
 export const request = (type, link, body) => {
   return fetchFullRequest(type, link, body)
     .then(response => {
-      if (response.headers.get("Content-Length") === 0) return {};
+      if (response.headers.get("Content-Length") === "0") return {};
       return response.json();
     })
 }
@@ -25,6 +27,7 @@ export const fetchFullRequest = (type, link, body) => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
+      if (response.status === 403) Router.go("/login")
       throw "Error, something went wrong";
     });
 }
