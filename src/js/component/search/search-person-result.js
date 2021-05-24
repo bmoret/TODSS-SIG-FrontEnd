@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element';
-import {Router} from "@vaadin/router";
 
 class SearchResult extends LitElement {
   static get styles() {
@@ -42,13 +41,18 @@ class SearchResult extends LitElement {
     }
   }
 
-  _handleRow = () => {
-    Router.go(`/person/${this.employee.id}`)
+  _handleClick = (e) => {
+    let event = new CustomEvent('employeeResult', {
+      bubbles: true,
+      composed: true,
+      detail: this.employee
+    });
+    this.dispatchEvent(event);
   }
 
   render() {
     return html`
-      <div class="container" @click="${this._handleRow}">
+      <div class="container" @click="${this._handleClick}">
           <p class="result__name">${this.employee.firstname+" "+this.employee.lastname}</p>
           <div class="result__info">
             <p>Expertise: ${this.employee.expertise}</p>

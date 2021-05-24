@@ -1,6 +1,6 @@
 import {css, html, LitElement} from 'lit-element';
 import {store} from "../../state/store/store";
-import {actions} from "../../state/reducer/searchEmployee";
+import {Router} from "@vaadin/router";
 
 class SearchEmployeePage extends LitElement {
   static get styles() {
@@ -44,6 +44,10 @@ class SearchEmployeePage extends LitElement {
     await this.requestUpdate();
   }
 
+  _viewPerson = (person) => {
+      Router.go(`/person/${person.id}`)
+  }
+
   render() {
     return html`
       <app-root>
@@ -51,7 +55,7 @@ class SearchEmployeePage extends LitElement {
         <centered-layout slot="body">
           <main>
             <h1>Medewerker zoeken</h1>
-            <search-employee .title="${"Medewerkers zoeken"}"></search-employee>
+            <search-employee @employeeResult="${this._viewPerson}"></search-employee>
           </main>
         </centered-layout>
       </app-root>

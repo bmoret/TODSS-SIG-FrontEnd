@@ -53,7 +53,6 @@ class SearchResults extends LitElement {
   }
 
   render() {
-  console.log(this.result)
     return html`
       <ul>
         ${this.results.map( result => html`
