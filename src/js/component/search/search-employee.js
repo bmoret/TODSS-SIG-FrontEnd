@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import { parseForm } from "../../utils/form-util";
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 import { store } from "../../state/store/store";
 import { actions } from "../../state/reducer/searchEmployee";
 class SeachEmployee extends LitElement {

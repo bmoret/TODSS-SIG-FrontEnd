@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 import {Router} from "@vaadin/router";
 
 import {parseForm} from "../../utils/form-util";
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
     {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},

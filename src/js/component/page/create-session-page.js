@@ -3,7 +3,7 @@ import {Router} from '@vaadin/router';
 
 import {parseForm, isValidForm} from "../../utils/form-util";
 import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
 import {store} from "../../state/store/store.js";

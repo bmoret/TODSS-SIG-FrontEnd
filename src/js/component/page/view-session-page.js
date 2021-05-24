@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 import {MANAGER, SECRETARY} from "../../utils/user-roles";
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 import {store} from "../../state/store/store";
 
 class ViewSessionPage extends LitElement {

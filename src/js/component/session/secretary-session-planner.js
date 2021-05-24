@@ -2,7 +2,7 @@ import {html, css, LitElement} from 'lit-element';
 import {Router} from "@vaadin/router";
 import {router} from "../router/router";
 import {isValidForm, parseForm} from "../../utils/form-util";
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 class SecretarySessionPlanner extends LitElement {
   static get styles() {
