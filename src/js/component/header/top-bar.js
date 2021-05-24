@@ -44,13 +44,14 @@ class TopBar extends LitElement {
     }
 
     _goHome = () => {
+        console.log("sss")
         Router.go("/")
     }
 
     render() {
         return html`
             <header>
-                <button aria-label="Terug naar startpagina"  >
+                <button aria-label="Terug naar startpagina" @click="${this._goHome}" >
                     <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo">
                 </button>
                 <login-logout></login-logout>
