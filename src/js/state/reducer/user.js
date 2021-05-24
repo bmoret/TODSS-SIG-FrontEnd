@@ -3,16 +3,14 @@ import {createSlice} from "@reduxjs/toolkit";
 const userState = () => {
   try {
     return JSON.parse(localStorage.getItem("user_state"))
-  } catch (e) {
-    return {
-      isLoggedIn: false,
-      role: undefined,
-      username: undefined,
-    }
-  }
+  } catch (e) {}
 }
 
-const initialState = userState();
+const initialState = userState() || {
+  isLoggedIn: false,
+  role: undefined,
+  username: undefined,
+};
 
 const setRole = (state, action) => {
   state.role = action;
@@ -30,6 +28,11 @@ const setState = (state, action) => {
   return state;
 }
 
+const logout = () => {
+  localStorage.removeItem("user_state")
+  return initialState
+}
+
 export const {actions, reducer} = createSlice({
   name: "user",
   initialState,
@@ -37,5 +40,6 @@ export const {actions, reducer} = createSlice({
     setRole: setRole,
     setUsername: setUsername,
     setState: setState,
+    logout: logout,
   }
 })
