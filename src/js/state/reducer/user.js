@@ -1,12 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
-const userState = JSON.parse(localStorage.getItem("user_state")) || {isLoggedIn: false};
+const userState = () => {
+  try {
+    return JSON.parse(localStorage.getItem("user_state"))
+  } catch (e) {
+    return {
+      isLoggedIn: false,
+      role: undefined,
+      username: undefined,
+    }
+  }
+}
 
-const initialState = {
-  isLoggedIn: userState.isLoggedIn,
-  role: userState.role,
-  username: userState.role,
-};
+const initialState = userState();
 
 const setRole = (state, action) => {
   state.role = action;
@@ -20,10 +26,11 @@ const setUsername = (state, action) => {
 
 const setState = (state, action) => {
   state = action;
+  localStorage.setItem("user_state", JSON.stringify(action.payload))
   return state;
 }
 
-export const { actions, reducer } = createSlice({
+export const {actions, reducer} = createSlice({
   name: "user",
   initialState,
   reducers: {

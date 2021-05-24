@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit-element';
-import request from "../../../service/connection-service";
+import {request} from "../../../service/connection-service";
 import {isValidForm, parseForm} from "../../../utils/form-util";
-
+import {Router} from "@vaadin/router";
 
 const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
   {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},
@@ -17,6 +17,10 @@ class RegisterForm extends LitElement {
         display: flex;
         flex-direction: row-reverse;
       }
+      
+      sig-button {
+        margin:5px
+      }
     `;
   }
 
@@ -31,6 +35,10 @@ class RegisterForm extends LitElement {
   _emitRegisterEvent = () => {
     let event = new CustomEvent('registered', { bubbles: true, composed: true });
     this.dispatchEvent(event);
+  }
+
+  _goToLogin = () => {
+    Router.go("/login")
   }
 
   render() {
@@ -59,6 +67,7 @@ class RegisterForm extends LitElement {
           </page-segment>
           <div class="button__container">
              <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleRegister}">Registreren</sig-button>
+             <sig-button @click="${this._goToLogin}">Al een account?</sig-button>
           </div>
       </form>
     `

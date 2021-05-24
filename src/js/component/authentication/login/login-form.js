@@ -1,27 +1,44 @@
-import { LitElement, html } from 'lit-element';
-import request from "../../../service/connection-service";
+import {LitElement, html, css} from 'lit-element';
+import {fetchFullRequest} from "../../../service/connection-service";
 import { storeAccessToken } from "../../../service/authorization-service";
 import {isValidForm, parseForm} from "../../../utils/form-util";
 import {actions} from "../../../state/reducer/user";
+import {store} from "../../../state/store/store";
+import {Router} from "@vaadin/router";
 
 class LoginForm extends LitElement {
+  static get styles() { return css`
+    .button__container {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    
+    sig-button {
+      margin:5px
+    }
+    `
+  }
+
   _handleLogin = () => {
     let form = this.shadowRoot.querySelector("form");
     if (!isValidForm(form)) return;
-    request('POST', '/login', parseForm(form))
-      .then(r => storeAccessToken(r.getHeader("Authorization")) && r)
-      .then(r => this._updateUserState(r /* todo: user info uit request halen*/))
+    fetchFullRequest('POST', '/login', parseForm(form))
+      .then(r => {
+        storeAccessToken(r.headers.get("Authorization"));
+        this._updateUserState(r)
+      })
       .then(_ => this._emitLoginEvent())
       .catch(_ => alert("Er ging iets fout tijdens het inloggen"));
   }
 
-  _updateUserState = (user) => {
-    actions.setState({
+  _updateUserState = (request) => {
+    const headers = request.headers
+    store.dispatch(actions.setState({
       isLoggedIn: true,
-      role: user.getHeader("User-Role"),
-      username: user.getHeader("User-Username"),
-      id: user.getHeader("User-Id")
-    })
+      role: headers.get("User-Role"),
+      username: headers.get("User-Username"),
+      id: headers.get("User-Id")
+    }));
   }
 
   _emitLoginEvent = () => {
@@ -29,13 +46,22 @@ class LoginForm extends LitElement {
     this.dispatchEvent(event);
   }
 
+  _handleEnter = (e) => {
+    return e.key === 'Enter' && this._handleLogin()
+  }
+
+  _goToRegister = () => {
+    Router.go("/register")
+  }
+
   render() {
     return html`
       <form>
-        <form-item .name="${"username"}" .label="${"Gebruikersnaam"}"></form-item>
-        <form-item .name="${"password"}" .label="${"password"}" .type="${"password"}"></form-item> <!--todo: hidden password item-->
-        <div>
-            <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleLogin}">Inloggen</sig-button>
+        <form-item .name="${"username"}" .label="${"Gebruikersnaam"}" @keydown="${e => this._handleEnter(e)}"></form-item>
+        <form-item .name="${"password"}" .label="${"password"}" .type="${"password"}" @keydown="${e => this._handleEnter(e)}"></form-item>
+        <div class="button__container">
+            <sig-button @click="${this._handleLogin}">Inloggen</sig-button>
+            <sig-button @click="${this._goToRegister}">Maak een account</sig-button>
         </div>
       </form>
     `
