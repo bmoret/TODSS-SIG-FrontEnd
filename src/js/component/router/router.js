@@ -3,6 +3,7 @@ import {retrieveAccessToken} from "../../service/authorization-service";
 import {store} from "../../state/store/store";
 
 const  checkLogin = async () => {
+  if (location.pathname === "/register") return;
   if (retrieveAccessToken() === undefined || retrieveAccessToken() === '' || store.getState().user.isLoggedIn === false){
     setTimeout(() => Router.go("/login?redirected=true"), 10)
   }
@@ -26,7 +27,7 @@ router.setRoutes([
       { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()
-  },
+  }
 ]);
 
 
