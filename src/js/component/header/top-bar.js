@@ -5,6 +5,8 @@ class TopBar extends LitElement {
     static get styles() {
         return css`
             header {
+                display: flex;
+                align-items: center;
                 padding: 0;
                 margin: auto;
                 height: var(--cim-top-bar-height);
@@ -15,11 +17,24 @@ class TopBar extends LitElement {
                         box-shadow: var(--cim-shadow-default);
             }
             
-            img {
-                display: block;
+            button {
                 position: absolute;
-                margin-left: 20px;
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                margin: 0 0 0 20px;
+                padding: 0;
                 height: 80px;
+            }
+            
+            img {
+                height: 100%;
+            }
+            
+            login-logout {
+                position: absolute;
+                right: 0;
+                margin-right: 20px;
             }
         `;
     }
@@ -35,7 +50,10 @@ class TopBar extends LitElement {
     render() {
         return html`
             <header>
-                <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo" @click="${_ => this._goHome()}">
+                <button aria-label="Terug naar startpagina"  >
+                    <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo">
+                </button>
+                <login-logout></login-logout>
             </header>
         `;
     }

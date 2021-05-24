@@ -29,6 +29,7 @@
     --cim-color-shadow-medium: rgba(0, 0, 0, 0.2);
 
     --cim-shadow-default: 0px 3px 6px var(--cim-color-shadow-subtle);
+    --cim-shadow-background: 0px 0px 15px 0px var(--cim-color-shadow-subtle);
     --cim-shadow-button-default: 0px 2px 4px var(--cim-color-shadow-medium);
     --cim-shadow-invalid-input: 0px 0px 4px var(--cim-color-warning-primary);
     --cim-shadow-top-down-inset: inset 0px 11px 8px -10px rgba(0, 0, 0, 0.2),
@@ -46,11 +47,17 @@
 
 html,
 body {
-    height: 100%;
     padding: 0;
     margin: 0;
     background-color: var(--cim-color-background-primary);
     color: var(--cim-color-text-primary-dark);
+}
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
 }
 
 label {

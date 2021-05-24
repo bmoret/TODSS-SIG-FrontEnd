@@ -2,7 +2,7 @@ import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 
 import {parseForm} from "../../utils/form-util";
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 const branchTypes = [{name: "Vianen", value: "VIANEN"}, {name: "Best", value: "BEST"}, {
   name: "Groningen",
@@ -32,20 +32,18 @@ class CreateEmployeePage extends LitElement {
   constructor() {
     super();
   }
-
   _handleCancel = () => {
-    window.location.href = "/";
+     history.back();
   }
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
     let body = parseForm(form);
 
-    request('POST', '/person', body)
-      .then(r => r)
-      .then(_ => Router.go('/'))
-      .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
-  }
+        request('POST', '/person', body)
+            .then(_ => Router.go('/'))
+            .catch(_ => alert("Er was een error tijdens het aanmaken van de medewerker!"));
+    }
 
   _selectPerson = (e) => {
     const person = e.detail;

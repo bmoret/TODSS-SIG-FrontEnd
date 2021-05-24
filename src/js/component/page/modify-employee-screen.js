@@ -1,8 +1,8 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 import {parseForm} from "../../utils/form-util";
-import request from "../../service/connection-service";
-import {store} from "../../state/store/store";
+import {request} from "../../service/connection-service";
+import { store } from "../../state/store/store";
 
 const branchTypes = [{name: "Vianen", value: "VIANEN"}, {name: "Best", value: "BEST"}, {
   name: "Groningen",
@@ -30,20 +30,54 @@ class ModifyEmployeeScreen extends LitElement {
     `;
   }
 
-  static get properties() {
-    return {
-      results: {type: Array, attribute: false, reflect: true},
+    static get properties() {
+      return {
+        results: {type: Array, attribute: false, reflect: true},
+        person: {type: Object, attribute: false, reflect: true},
+        supervisor: {type: String, attribute: false, reflect: true},
+        managers: {type: Object, attribute: false, refelct: true}
+      }
     }
-  }
 
   constructor() {
     super();
     this.results = [];
+    this.person = {};
+    this.supervisor = {};
+    this.managers = {};
   }
 
   _handleCancel = () => {
     window.location.href = "/";
   }
+    connectedCallback() {
+      super.connectedCallback()
+      document.addEventListener('provideResults', this._provideResults);
+      this._load()
+    }
+
+    _load = () => {
+        request('GET', `/person/${this.location.params.id}`)
+            .then(r => {
+                this.person = r
+                if (r.supervisor) {
+                    this.results.push({
+                        value: r.supervisor.personId,
+                        name: r.supervisor.personName.split(", ")[1] + " " + r.supervisor.personName.split(", ")[0]
+                    })
+                }
+
+            })
+            .then(_ => this.loading = false)
+            .catch(_ => {
+                this.loading = true;
+            })
+
+    }
+
+    _handleCancel = () => {
+        window.location.href = "/";
+    }
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
@@ -69,20 +103,24 @@ class ModifyEmployeeScreen extends LitElement {
     return html`
         <cim-top-bar></cim-top-bar>
         <centered-layout>
-          <h1>Medewerker Aanpassen : [naam medewerker]</h1>
+          <h1>Medewerker Aanpassen: ${this.person.firstname+" "+this.person.lastname}</h1>
             <form>
                 <page-segment .title="${"Persoonsgegevens"}" >
-                    <form-item .name="${"firstname"}" .label="${"Voornaam"}"></form-item>
-                    <form-item .name="${"lastname"}" .label="${"Achternaam"}"></form-item>
-                    <form-item .name="${"email"}" .label="${"Email"}"></form-item>
+                    <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${this.person.firstname}">Voornaam</form-item>
+                    <form-item .name="${"lastname"}" .label="${"Achternaam"}" .value="${this.person.lastname}">Achternaam</form-item>
+                    <form-item .name="${"email"}" .label="${"Email"}" .value="${this.person.email}">E-mail</form-item>
                 </page-segment>
                 <page-segment .title="${"Werkgegevens"}" >
-                    <form-item .name="${"expertise"}" .label="${"Expertise"}"></form-item>
-                    <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}"></form-date-picker>
-                    <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}" .items="${branchTypes}" ></form-dropdown-item>
-                    <form-dropdown-item .name="${"role"}" .label="${"Rol"}" .items="${roleTypes}"></form-dropdown-item>
-                    <form-dropdown-item id="supervisor" .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>    
-                    <search-employee @employeeResult="${this._selectPerson}"></search-employee>
+                    <form-item .name="${"expertise"}" .label="${"Expertise"}" .value="${this.person.expertise}">Expertise</form-item>
+                    <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}" .value="${this.person.employedSince}">Werkzaam sinds</form-date-picker>
+                    <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}" .items="${branchTypes}"
+                        .selected="${this.person.branch}">Branch</form-dropdown-item>
+                    <form-dropdown-item .name="${"role"}" .label="${"Rol"}"
+                                        .items="${ roleTypes}"
+                                        .selected="${this.person.role}"
+                    >Rol</form-dropdown-item>
+                      <form-dropdown-item .items="${this.results}" .selected="${this.person.supervisor? this.person.supervisor.personId : ""}" .name="${"supervisorId"}" .label="${"Supervisor"}"></form-dropdown-item>
+                    <search-employee .title="${"Supervisor zoeken"}"></search-employee>
                 </page-segment>
             </form>
           <div>

@@ -14,7 +14,7 @@ const sessionTypes = [
   { value: "TEAMS_ONLINE_SESSION_REQUEST", name: "Teams"},
 ]
 
-class CreateSessionPage extends LitElement {
+class ModifySessionPage extends LitElement {
   static get styles() {
     return css`
       centered-layout  {
@@ -56,23 +56,24 @@ class CreateSessionPage extends LitElement {
       sessionType: {type: String, attribute: false, reflect: true},
       sigPeople: {type: Array, attribute: false, reflect: true},
       contactPerson: {type: String, attribute: false, reflect: true},
+      message: {type: String, attribute: false, reflect: true},
+      session: {type: Object, attribute: false, reflect: true},
     }
   }
 
   constructor() {
     super();
     this.loading = true;
-    this.sessionType = sessionTypes[0];
+    this.sessionType = sessionTypes[0].value;
     this.sigs = [];
     this.contactPerson = null;
     document.title = "Sessie aanmaken"
     store.subscribe(this._refresh)
-    this._load()
   }
 
   connectedCallback() {
     super.connectedCallback();
-
+    this._load()
     window.addEventListener( 'changeContactPerson', (e) => this._handleContactPerson(e));
   }
 
@@ -94,6 +95,19 @@ class CreateSessionPage extends LitElement {
         this.loading = true;
         this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
       })
+    request('GET', `/sessions/${this.location.params.id}`)
+        .then(r => {
+          this.session = r
+          this.contactPerson = this.session.contactPerson.personId
+          if (this.session.type === "ONLINE") {
+            this.sessionType = sessionTypes[1].value
+          }
+        })
+        .then(_ => this.loading = false)
+        .catch(_ => {
+          this.loading = true;
+          this.message = "Error, Kan de sessie niet laden"
+        })
   }
 
   _handleLoadAssociatedPeople = (e) => {
@@ -120,8 +134,9 @@ class CreateSessionPage extends LitElement {
     body.contactPerson = this.contactPerson;
     delete body.duration
 
-    request('POST', '/sessions', body)
-      .then(r => Router.go('/session/' + r.id))
+    request('PUT', '/sessions/'+this.session.id, body)
+      .then(r => r)
+      .then(_ => Router.go('/'))
       .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
   }
 
@@ -147,35 +162,36 @@ class CreateSessionPage extends LitElement {
           <centered-layout slot="body">
           ${this.loading ? html`<h1 id="load-info">Loading...</h1>` : html`
             <main>
-              <h1>Sessie aanmaken</h1>
+              <h1>Sessie ${this.session.details.subject} aanpassen</h1>
               <form>
                 <page-segment 
                   .title="${"Inhoud"}" 
-                  .show="${segments.inhoud.open}" 
+                  .show="${segments.inhoud.open}"
                    @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
-                  <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
-                  <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
-                  <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
+                  <form-item .name="${"subject"}" .label="${"Onderwerp"}" .value="${this.session.details.subject}"></form-item>
+                  <form-item .name="${"description"}" .label="${"Omschrijving"}" .value="${this.session.details.description}"></form-item>
+                  <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" .selected="${this.session.specialInterestGroup.id}"></form-dropdown-item>
                   <form-radio-buttons @change="${e => this._handleContactPerson(e)}" .items="${this.sigPeople}"
-                                        .name="${"contactPerson"}" .label="${"Contact persoon"}"></form-radio-buttons>
+                                        .name="${"contactPerson"}" .label="${"Contact persoon"}" .selected="${this.session.contactPerson !== undefined? this.session.contactPerson.personId : ""}"></form-radio-buttons>
                 </page-segment>
                 <page-segment 
                   .title="${"Soort"}" 
                   .show="${segments.soort.open}" 
                   @toggle="${_ => this._handleSegmentToggle("soort", segments.soort.open)}">
-                  <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
+                  <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}" .selected="${this.sessionType}"></form-dropdown-item>
                 ${this.sessionType === "ONLINE_SESSION_REQUEST" || this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"
                   ? html`
-                    <form-item .name="${"platform"}" .label="${"Platform"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
-                    <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
-                  `: html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
+                    <form-item .name="${"platform"}" .label="${"Platform"}" .value="${this.session.platform}">Platform</form-item>
+                    <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"
+                    value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "TEAMS" : ''}" .value="${this.session.joinUrl}"></form-item>
+                  `: html`<form-item .name="${"address"}" .label="${"Adres"}" .value="${this.session.address}"></form-item>`
                 } 
                 </page-segment>
                 <page-segment 
                   .title="${"Tijdsindeling"}" 
                   .show="${segments.tijdsindeling.open}" 
                   @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                  <form-time-item .name="${"duration"}" .label="${"Verwachtte duur"}"></form-time-item>
+                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${"02:00"}"></form-time-item>
                 </page-segment>
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
@@ -190,4 +206,4 @@ class CreateSessionPage extends LitElement {
   }
 }
 
-window.customElements.define('create-session-page', CreateSessionPage)
+window.customElements.define('modify-session-page', ModifySessionPage)

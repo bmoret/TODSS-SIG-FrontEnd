@@ -76,9 +76,11 @@ class FormDropdownItem extends FormReadable {
         <label for="${this.name}">${this.label}</label>
         <select name="${this.name}" @change="${this._handleChange}">
           ${this.items.map(item => {
-            return html`
+            return item.value === this.selected? html`
+              <option value="${item.value}" selected>${item.name}</option>
+            ` : html`
               <option value="${item.value}">${item.name}</option>
-            `;
+            `
             })
           }
       this.items.forEach(item => {

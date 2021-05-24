@@ -81,7 +81,7 @@ class FormDatePicker extends FormReadable {
       <style>${FormDatePicker.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <input type="date" name="${this.name}" ?disabled="${!this.editable}">
+        <input type="date" name="${this.name}" ?disabled="${!this.editable}" value="${this.value}">
       </div>
       `
     }

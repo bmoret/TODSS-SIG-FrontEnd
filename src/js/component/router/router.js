@@ -1,7 +1,12 @@
 import {Router} from '@vaadin/router';
+import {retrieveAccessToken} from "../../service/authorization-service";
+import {store} from "../../state/store/store";
 
 const  checkLogin = async () => {
-  console.log("sd")
+  if (location.pathname === "/register") return;
+  if (retrieveAccessToken() === undefined || retrieveAccessToken() === '' || store.getState().user.isLoggedIn === false){
+    setTimeout(() => Router.go("/login?redirected=true"), 10)
+  }
 };
 
 const outlet = document.querySelector("#root");
@@ -9,19 +14,21 @@ export const router = new Router(outlet);
 router.setRoutes([
   {
     path: "/",
-    animate: true,
     children: [
-      { path: "", component: "home-page" },//todo, fill in homepage
+      { path: "", component: "home-page" },
+      { path: "login", component: "login-page" },
+      { path: "register", component: "register-page" },
       { path: "create-session", component: "create-session-page" },
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
       { path: "session/:id", component: "view-session-page" },
+      { path: "modify-session/:id", component: "modify-session-page" },
       { path: "create-employee", component: "create-employee-page" },
       { path: "modify-employee/:id", component: "modify-employee-page" },
       { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()
-  },
+  }
 ]);
 
 

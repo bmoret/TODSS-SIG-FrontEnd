@@ -16,6 +16,7 @@ class App extends LitElement {
       }
       slot[name="body"]::slotted(*) {
         z-index: 0;
+        height: calc(100% - var(--cim-top-bar-height));
       }
     `;
   }

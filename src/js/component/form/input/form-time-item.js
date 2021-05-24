@@ -59,13 +59,14 @@ class FormTimeItem extends FormReadable {
 
   constructor() {
     super();
+    this.value = "01:00"
   }
 
   render() {
     return  html`
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <input name="${this.name}" min="00:15" type="time" value="01:00">
+        <input name="${this.name}" min="00:15" type="time" value="${this.value}">
       </div>
       `
   }
