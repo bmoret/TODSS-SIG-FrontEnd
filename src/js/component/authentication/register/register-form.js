@@ -27,7 +27,7 @@ class RegisterForm extends LitElement {
   _handleRegister = () => {
     let form = this.shadowRoot.querySelector("form");
     if (!isValidForm(form)) return;
-    request('POST', '/register', parseForm(form))
+    request('POST', '/registration', parseForm(form))
       .then(_ => this._emitRegisterEvent())
       .catch(_ => alert("Er ging iets fout tijdens het registreren"));
   }
