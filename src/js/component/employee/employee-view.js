@@ -1,6 +1,15 @@
-import {LitElement, html} from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
+import {Router} from "@vaadin/router";
 
 class EmployeeView extends LitElement {
+  static get styles() {
+    return css`
+        #supervisor {
+          cursor: pointer;
+        }
+      `
+  }
+
   static get properties() {
     return {
       employee: {type: Object, attribute: false, reflect: true},
@@ -12,7 +21,13 @@ class EmployeeView extends LitElement {
     this.employee = {};
   }
 
+  _goToSupervisor = () => {
+    Router.go("/person/" + this.employee.supervisor.personId)
+  }
+
   render() {
+    const supervisorName = (this.employee && this.employee.supervisor && this.employee.supervisor.personName)? this.employee.supervisor.personName : "Geen";
+
     return html`
     <page-segment 
     .title="${"Persoonsgegevens"}" >
@@ -25,7 +40,7 @@ class EmployeeView extends LitElement {
       <view-segment-item .name="${"Werkzaam sinds"}" .value="${this.employee.employedSince}"></view-segment-item>
       <view-segment-item .name="${"Filiaal"}" .value="${this.employee.branch}"></view-segment-item>
       <view-segment-item .name="${"Rol"}" .value="${this.employee.role}"></view-segment-item>
-      <view-segment-item .name="${"Supervisor"}" .value="${this.employee.supervisor}"></view-segment-item>
+      <view-segment-item id="supervisor" .name="${"Supervisor"}" .value="${supervisorName}" @click="${this._goToSupervisor}"></view-segment-item>
     </page-segment>
     `
   }
