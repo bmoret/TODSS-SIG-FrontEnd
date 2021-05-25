@@ -52,13 +52,12 @@ body {
     background-color: var(--cim-color-background-primary);
     color: var(--cim-color-text-primary-dark);
 }
-html {
+html,
+body {
+    min-height: 100%;
     height: 100%;
 }
 
-body {
-    min-height: 100%;
-}
 
 label {
     font-size: var(--cim-font-size-form-label);
