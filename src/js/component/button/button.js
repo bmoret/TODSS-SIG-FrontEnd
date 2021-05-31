@@ -6,10 +6,12 @@ class Button extends LitElement {
           background-color: var(--cim-color-button);
           padding: 5px;
           min-width: 100px;
+          width: min-content;
           outline: none;
           border: none;
           border-radius: 4px;
           cursor: pointer;
+          white-space: nowrap;
         }
       
         button:hover,
