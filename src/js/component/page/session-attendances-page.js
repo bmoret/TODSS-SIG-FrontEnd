@@ -15,9 +15,22 @@ class SessionAttendancesPage extends LitElement {
         align-items: center;
       }
       
-      centered-layout > h1 {
+      h1 {
+      display: inline-block;
         text-align:center;
+        width: min-content;
+        margin-right: 0;
       }
+      
+      div { 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      div > *:nth-child(2) {
+         margin-left: auto;
+      }
+      
     `;
   }
 
@@ -65,7 +78,10 @@ class SessionAttendancesPage extends LitElement {
           <centered-layout slot="body">
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
-              <h1>Sessie</h1>
+              <div>
+                <h1>Aanmeldingen</h1>
+                <sig-button @click="${_ => history.back()}">Terug</sig-button>
+              </div>
               <session-attendances 
                 .attendances="${this.attendances}"
                 .cancellations="${this.cancellations}"

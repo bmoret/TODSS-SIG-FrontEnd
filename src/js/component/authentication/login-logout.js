@@ -4,10 +4,21 @@ import { actions } from "../../state/reducer/user";
 import {Router} from "@vaadin/router";
 
 class LoginLogout extends LitElement {
-  static get styles() { return css`
-        `
+  static get properties() {
+    return {
+      isLoggedIn: {type: Boolean, attribute: false, reflect: false},
+    }
   }
 
+  constructor() {
+    super();
+    this.isLoggedIn = false;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.isLoggedIn = store.getState().user.isLoggedIn;
+  }
 
   _goToLogin = () => {
     Router.go("/login");
@@ -19,10 +30,8 @@ class LoginLogout extends LitElement {
   }
 
   render() {
-    const state = store.getState().user;
-
     return html`
-      ${state.isLoggedIn? html`<sig-button @click="${this._logout}">Uitloggen</sig-button>` 
+      ${this.isLoggedIn? html`<sig-button @click="${this._logout}">Uitloggen</sig-button>` 
       : html`<sig-button @click="${this._goToLogin}">Inloggen</sig-button>`}
     `
   }
