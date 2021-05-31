@@ -29,6 +29,13 @@ class LoginPage extends LitElement {
     document.title = "Login"
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    const params = new URLSearchParams(window.location.search)
+    this.redirected = params.get('redirected') || false;
+  }
+
+
   _handleLoggedIn = () => {
     this.redirected? history.back() : Router.go("/")
   }
