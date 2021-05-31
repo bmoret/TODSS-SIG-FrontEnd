@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
+import {Router} from "@vaadin/router";
 
 class SessionAttendancesPage extends LitElement {
   static get styles() {
@@ -72,6 +73,7 @@ class SessionAttendancesPage extends LitElement {
   }
 
   render() {
+    console.log(this.location.params.id)
     return html`
        <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
@@ -80,7 +82,7 @@ class SessionAttendancesPage extends LitElement {
             <main>
               <div>
                 <h1>Aanmeldingen</h1>
-                <sig-button @click="${_ => history.back()}">Terug</sig-button>
+                <sig-button @click="${_ => Router.go(`/session/${this.location.params.id}`)}">Terug</sig-button>
               </div>
               <session-attendances 
                 .attendances="${this.attendances}"
