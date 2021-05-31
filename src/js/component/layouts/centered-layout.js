@@ -15,7 +15,7 @@ class CenteredLayout extends LitElement {
         max-width: 1350px;
         width: 100%;
         box-sizing: border-box;
-        overflow: auto;
+        overflow: visible;
         -webkit-box-shadow: var(--cim-shadow-background);
            -moz-box-shadow: var(--cim-shadow-background); 
                 box-shadow: var(--cim-shadow-background);
