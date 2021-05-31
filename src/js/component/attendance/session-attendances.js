@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import {roundToPercent} from "../../utils/number-utils";
 
 class SessionAttendances extends LitElement {
   static get styles() {
@@ -68,6 +69,8 @@ class SessionAttendances extends LitElement {
     return {
       attendances: {type: Array, attribute: false, reflect: true},
       cancellations: {type: Array, attribute: false, reflect: true},
+      attendancePercent: {type: Number, attribute: false, reflect: true},
+      cancellationPercent: {type: Number, attribute: false, reflect: true},
     }
   }
 
@@ -77,12 +80,19 @@ class SessionAttendances extends LitElement {
     this.cancellations = [];
   }
 
+  updated(_changedProperties) {
+    super.updated(_changedProperties);
+    const totalAmount = this.attendances.length + this.cancellations.length;
+    this.attendancePercent = roundToPercent( this.attendances.length / totalAmount * 100);
+    this.cancellationPercent = roundToPercent( this.cancellations.length / totalAmount * 100);
+  }
+
   render() {
     return html`
       <div class="type__container">
         <img src="/dist/assets/icon/checked-person.svg" alt=""/>
         <div class="attendances__container">
-          <p>Aangemeld</p>
+          <p>Aangemeld ${!isNaN(this.attendancePercent)? html`(${this.attendancePercent}%)`: ''}</p>
           <ul>
             ${this.attendances.map(attendance => html`
               <li>
@@ -92,11 +102,10 @@ class SessionAttendances extends LitElement {
           </ul>
         </div>
       </div>
-      
       <div class="type__container">
         <img src="/dist/assets/icon/crossed-person.svg" alt=""/>
         <div class="attendances__container">
-          <p>Afgemeld</p>
+          <p>Afgemeld ${!isNaN(this.cancellationPercent)? html`(${this.cancellationPercent}%)`: ''}</p>
           <ul>
             ${this.cancellations.map(cancellation => html`
               <li>
