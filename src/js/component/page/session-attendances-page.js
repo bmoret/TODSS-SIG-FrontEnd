@@ -3,6 +3,11 @@ import {LitElement, html, css} from 'lit-element';
 class SessionAttendancesPage extends LitElement {
   static get styles() {
     return css`
+      :host {
+        display: block;
+        height: 100%;
+      }
+      
       centered-layout  {
         display: flex;
         flex-direction: column;
@@ -21,6 +26,7 @@ class SessionAttendancesPage extends LitElement {
       loading: {type: Boolean, attribute: false, reflect: true},
       message: {type: String, attribute: false, reflect: true},
       attendances: {type: Array, attribute: false, reflect: true},
+      cancellations: {type: Array, attribute: false, reflect: true},
     }
   }
 
@@ -30,6 +36,9 @@ class SessionAttendancesPage extends LitElement {
     this.attendances = [];
     document.title = "Aanmeldingen"
     this.message = "Loading..."
+
+    this.attendances = [{personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"}, {personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"}, {personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"}, {personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"},]
+    this.cancellations = [{personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, ]
   }
 
   connectedCallback() {
@@ -55,7 +64,10 @@ class SessionAttendancesPage extends LitElement {
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
               <h1>Sessie</h1>
-              <sessie-attendances .attendees="${this.attendances}"></sessie-attendances>
+              <session-attendances 
+                .attendances="${this.attendances}"
+                .cancellations="${this.cancellations}"
+              ></session-attendances>
             </main>
           `}
           </centered-layout>

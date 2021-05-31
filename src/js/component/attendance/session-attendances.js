@@ -1,0 +1,114 @@
+import { LitElement, html, css } from 'lit-element';
+
+class SessionAttendances extends LitElement {
+  static get styles() {
+    return css`
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 0;
+        justify-content: space-between;
+      }
+      
+      li {
+        padding: 5px 0;
+        box-sizing: border-box;
+        list-style: none;
+      }
+      
+      img {
+        width: 70px;
+        max-height: 80px;
+        margin: 70px 20px 0 0;
+      }
+      
+      p {
+        font-weight: bold;
+        font-size: 20px
+      }
+      
+      .type__container {
+        display: flex;
+        flex-direction: row;
+      }
+    
+      .attendances__container {
+        width: 100%;
+      }
+     
+      @media screen and (max-width: 1040px) {
+       ul {
+        flex-direction: column;
+       }
+       
+       li {
+        width: 100%;
+       }
+      }
+      
+      @media screen and (min-width: 1040px) {
+       ul {
+        flex-direction: row;
+       }
+       
+       li {
+        flex: 1 0 40%;
+        max-width: 50%;
+       }
+       
+       li:nth-child(odd) {
+        padding-right: 10px;
+       }
+       }
+    `;
+  }
+
+  static get properties() {
+    return {
+      attendances: {type: Array, attribute: false, reflect: true},
+      cancellations: {type: Array, attribute: false, reflect: true},
+    }
+  }
+
+  constructor() {
+    super();
+    this.attendances = [];
+    this.cancellations = [];
+  }
+
+  render() {
+    return html`
+      <div class="type__container">
+        <img src="/dist/assets/icon/checked-person.svg" alt=""/>
+        <div class="attendances__container">
+          <p>Aangemeld</p>
+          <ul>
+            ${this.attendances.map(attendance => html`
+              <li>
+                <attendance-item .name="${attendance.personName}"></attendance-item>
+              </li>
+            `)}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="type__container">
+        <img src="/dist/assets/icon/crossed-person.svg" alt=""/>
+        <div class="attendances__container">
+          <p>Afgemeld</p>
+          <ul>
+            ${this.cancellations.map(cancellation => html`
+              <li>
+                <attendance-item .name="${cancellation.personName}"></attendance-item>
+              </li>
+            `)}
+          </ul>
+        </div>
+      </div>
+      </div>
+    `
+  }
+}
+
+window.customElements.define('session-attendances', SessionAttendances);

@@ -7,6 +7,10 @@ import {store} from "../../state/store/store";
 class ViewSessionPage extends LitElement {
   static get styles() {
     return css`
+      :host {
+        display: block;
+      }
+      
       centered-layout  {
         display: flex;
         flex-direction: column;
