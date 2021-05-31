@@ -39,6 +39,8 @@ class SessionAttendancesPage extends LitElement {
 
     this.attendances = [{personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"}, {personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"}, {personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"}, {personName: "Jan Jansen"}, {personName: "Kelvin karens"}, {personName: "Willem Walters"},]
     this.cancellations = [{personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, {personName: "Berend B"}, {personName: "Jenny Jovel"}, {personName: "Xander Xeros"}, ]
+    // this.attendances = []
+    // this.cancellations =[]
   }
 
   connectedCallback() {

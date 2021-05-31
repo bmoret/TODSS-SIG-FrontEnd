@@ -86,7 +86,8 @@ class SessionAttendances extends LitElement {
           <ul>
             ${this.attendances.map(attendance => html`
               <li>
-                <attendance-item .name="${attendance.personName}"></attendance-item>
+                <attendance-item .name="${attendance.personName}"
+                                 present></attendance-item>
               </li>
             `)}
           </ul>
@@ -100,7 +101,8 @@ class SessionAttendances extends LitElement {
           <ul>
             ${this.cancellations.map(cancellation => html`
               <li>
-                <attendance-item .name="${cancellation.personName}"></attendance-item>
+                <attendance-item .name="${cancellation.personName}" 
+                                 ></attendance-item>
               </li>
             `)}
           </ul>
