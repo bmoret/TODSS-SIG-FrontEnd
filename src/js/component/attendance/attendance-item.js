@@ -24,6 +24,8 @@ class AttendanceItem extends LitElement {
       }
       
       button {
+        display: block;
+        position: relative;
         height: 2.5em;
         width: 2.5em;
         text-align: center;
@@ -31,6 +33,10 @@ class AttendanceItem extends LitElement {
         border: solid 1px #999999;
         border-radius: 2px;
         padding: 0;
+      }
+      
+      button:hover {
+        border: 1px;
       }
       
       button[present=true], .present:hover {
@@ -41,14 +47,17 @@ class AttendanceItem extends LitElement {
         background-color: #ffbbbb;
       }
      
+      img {
+        max-height: 100%;
+        box-sizing: border-box;
+      }
+     
       .cross {
         padding: 6px;
-        height: 1.5em;
       }
       
       .checkmark {
-        padding: 3.5px;
-        height: 1.8em;
+        padding: 3.5px; 
       }
       
       p {
@@ -61,6 +70,7 @@ class AttendanceItem extends LitElement {
   static get properties() {
     return {
       name: {type: String, attribute: false, reflect: true},
+      id: {type: String, attribute: false, reflect: true},
       present: {type: Boolean, attribute: true, reflect: true}
     }
   }
@@ -68,19 +78,33 @@ class AttendanceItem extends LitElement {
   constructor() {
     super();
     this.name = "";
+    this.id = "";
     this.present = false;
   }
 
+  _handleUpdateAttendance = (newVal) => {
+    this.present = newVal;
+    this.dispatchEvent(new CustomEvent('updateAttendance', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        name: this.name,
+        id: this.id,
+        present: this.present
+      }
+    }))
+  }
+
+  //todo disable button if present/not present
+
   render() {
-    console.log(this.present)
-    console.log(this.name)
     return html`
       <div>
         <p>${this.name}</p>
-        <button class="present" present="${this.present}">
+        <button class="present" present="${this.present}" @click="${_ => this._handleUpdateAttendance(true)}">
           <img class="checkmark" src="/dist/assets/icon/checkmark.svg">
         </button>
-        <button class="absent" absent="${!this.present}">
+        <button class="absent" absent="${!this.present}" @click="${_ => this._handleUpdateAttendance(false)}">
           <img class="cross" src="/dist/assets/icon/cross.svg">
         </button>
       </div>

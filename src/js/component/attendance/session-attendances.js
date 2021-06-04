@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
 import {roundToPercent} from "../../utils/number-utils";
 
 class SessionAttendances extends LitElement {
@@ -83,21 +83,26 @@ class SessionAttendances extends LitElement {
   updated(_changedProperties) {
     super.updated(_changedProperties);
     const totalAmount = this.attendances.length + this.cancellations.length;
-    this.attendancePercent = roundToPercent( this.attendances.length / totalAmount * 100);
-    this.cancellationPercent = roundToPercent( this.cancellations.length / totalAmount * 100);
+    this.attendancePercent = roundToPercent(this.attendances.length / totalAmount * 100);
+    this.cancellationPercent = roundToPercent(this.cancellations.length / totalAmount * 100);
   }
 
+
   render() {
+    console.log(this.attendances)
     return html`
       <div class="type__container">
         <img src="/dist/assets/icon/checked-person.svg" alt=""/>
         <div class="attendances__container">
-          <p>Aangemeld ${!isNaN(this.attendancePercent)? html`(${this.attendancePercent}%)`: ''}</p>
+          <p>Aangemeld ${!isNaN(this.attendancePercent) ? html`(${this.attendancePercent}%)` : ''}</p>
           <ul>
             ${this.attendances.map(attendance => html`
               <li>
-                <attendance-item .name="${attendance.personName}"
-                                 present></attendance-item>
+                <attendance-item 
+                  .name="${attendance.person.personName}"
+                  .id="${attendance.person.personId}"
+                  present
+                ></attendance-item>
               </li>
             `)}
           </ul>
@@ -106,12 +111,14 @@ class SessionAttendances extends LitElement {
       <div class="type__container">
         <img src="/dist/assets/icon/crossed-person.svg" alt=""/>
         <div class="attendances__container">
-          <p>Afgemeld ${!isNaN(this.cancellationPercent)? html`(${this.cancellationPercent}%)`: ''}</p>
+          <p>Afgemeld ${!isNaN(this.cancellationPercent) ? html`(${this.cancellationPercent}%)` : ''}</p>
           <ul>
             ${this.cancellations.map(cancellation => html`
               <li>
-                <attendance-item .name="${cancellation.personName}" 
-                                 ></attendance-item>
+                <attendance-item 
+                  .name="${cancellation.person.personName}" 
+                  .id="${cancellation.person.personId}"
+                ></attendance-item>
               </li>
             `)}
           </ul>
