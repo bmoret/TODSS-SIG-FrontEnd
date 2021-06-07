@@ -118,6 +118,7 @@ class SessionAttendances extends LitElement {
                 <attendance-item 
                   .name="${cancellation.person.personName}" 
                   .id="${cancellation.person.personId}"
+                  .attendanceId="${cancellation.id}"
                 ></attendance-item>
               </li>
             `)}
