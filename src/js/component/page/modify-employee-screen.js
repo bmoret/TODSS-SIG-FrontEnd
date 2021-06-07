@@ -1,19 +1,22 @@
-import { LitElement, html, css } from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 import {parseForm} from "../../utils/form-util";
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 import { store } from "../../state/store/store";
 
-const branchTypes = [ {name: "Vianen", value: "VIANEN"}, {name : "Best", value : "BEST"}, {name : "Groningen", value : "GRONINGEN"},
-    {name : "Rotterdam", value : "ROTTERDAM"}, {name : "Amsterdam", value : "AMSTERDAM"},
-    {name : "Deventer", value : "DEVENTER"}, {name : "Maastricht", value : "MAASTRICHT"} ]
+const branchTypes = [{name: "Vianen", value: "VIANEN"}, {name: "Best", value: "BEST"}, {
+  name: "Groningen",
+  value: "GRONINGEN"
+},
+  {name: "Rotterdam", value: "ROTTERDAM"}, {name: "Amsterdam", value: "AMSTERDAM"},
+  {name: "Deventer", value: "DEVENTER"}, {name: "Maastricht", value: "MAASTRICHT"}]
 
-const roleTypes =   [ {name: "Manager", value : "MANAGER"}, {name : "Employee", value : "EMPLOYEE"},
-    {name : "Secretary", value : "SECRETARY"} ]
+const roleTypes = [{name: "Manager", value: "MANAGER"}, {name: "Employee", value: "EMPLOYEE"},
+  {name: "Secretary", value: "SECRETARY"}]
 
 class ModifyEmployeeScreen extends LitElement {
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
       centered-layout div {
         display: flex;
         flex-direction: row;
@@ -25,7 +28,7 @@ class ModifyEmployeeScreen extends LitElement {
       }
 
     `;
-    }
+  }
 
     static get properties() {
       return {
@@ -36,11 +39,17 @@ class ModifyEmployeeScreen extends LitElement {
       }
     }
 
-    constructor() {
-        super();
-        this.results = [];
-    }
+  constructor() {
+    super();
+    this.results = [];
+    this.person = {};
+    this.supervisor = {};
+    this.managers = {};
+  }
 
+  _handleCancel = () => {
+    window.location.href = "/";
+  }
     connectedCallback() {
       super.connectedCallback()
       document.addEventListener('provideResults', this._provideResults);
@@ -70,29 +79,29 @@ class ModifyEmployeeScreen extends LitElement {
         window.location.href = "/";
     }
 
-    _handleSave = () => {
-        let form = this.shadowRoot.querySelector("form");
-        let body = parseForm(form);
-        console.log(this.location.params.id)
+  _handleSave = () => {
+    let form = this.shadowRoot.querySelector("form");
+    let body = parseForm(form);
+    console.log(this.location.params.id)
 
-        request('PUT', '/person/' + this.location.params.id, body)
-            .then(r => r)
-            .then(_ => Router.go('/'))
-            .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
-    }
+    request('PUT', '/person/' + this.location.params.id, body)
+      .then(r => r)
+      .then(_ => Router.go('/'))
+      .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
+  }
 
-    _provideResults = () => {
-      const state = store.getState().searchEmployee;
-      let results = state.segments.results;
-      this.results = [];
-      results.forEach(
-        element => {        
-        this.results.push({ value: element.id, name: element.firstname+" "+element.lastname })
-      });
-    }
+  _selectPerson = (e) => {
+    const person = e.detail;
+    const supervisorComponent = this.shadowRoot.querySelector("#supervisor");
+    supervisorComponent.items = [
+      {name: `${person.firstname} ${person.lastname}`, value: person.id},
+      {name: 'Geen', value: ""}
+    ]
+  }
 
-    render() {
-        return  html`
+  render() {
+    console.log(this.person)
+    return html`
         <cim-top-bar></cim-top-bar>
         <centered-layout>
           <h1>Medewerker Aanpassen: ${this.person.firstname+" "+this.person.lastname}</h1>
@@ -121,7 +130,7 @@ class ModifyEmployeeScreen extends LitElement {
           </div>
         </centered-layout>
       `
-    }
+  }
 }
 
 window.customElements.define('modify-employee-page', ModifyEmployeeScreen)

@@ -34,6 +34,12 @@ class FormDatePicker extends FormReadable {
         background: var(--cim-color-input-background-default);
       }
       
+      input:hover,
+      input:focus {
+        border: var(--cim-outline);
+        outline:none !important;
+      }
+      
       input:disabled {
         background: var(--cim-color-input-background-disabled);
       }

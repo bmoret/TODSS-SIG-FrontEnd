@@ -25,10 +25,11 @@
     --cim-color-gradient-header-grey: linear-gradient(45deg, var(--cim-color-secondary-light), var(--cim-color-secondary-medium));
     --cim-color-button: var(--cim-color-primary-light);
     --cim-color-button-focused: var(--cim-color-primary-medium);
-    --cim-color-shadow-subtle: rgba(0, 0, 0, 0.15);
-    --cim-color-shadow-medium: rgba(0, 0, 0, 0.2);
+    --cim-color-shadow-subtle: rgba(0, 0, 0, 0.2);
+    --cim-color-shadow-medium: rgba(0, 0, 0, 0.25);
 
     --cim-shadow-default: 0px 3px 6px var(--cim-color-shadow-subtle);
+    --cim-shadow-background: 0px 0px 15px 0px var(--cim-color-shadow-subtle);
     --cim-shadow-button-default: 0px 2px 4px var(--cim-color-shadow-medium);
     --cim-shadow-invalid-input: 0px 0px 4px var(--cim-color-warning-primary);
     --cim-shadow-top-down-inset: inset 0px 11px 8px -10px rgba(0, 0, 0, 0.2),
@@ -40,15 +41,24 @@
     --cim-font-size-headings:   30px;
 
     --cim-top-bar-height: 80px;
+
+    --cim-outline: 2px solid var(--cim-color-primary-dark) ;
 }
 
 html,
 body {
-    height: 100%;
     padding: 0;
     margin: 0;
     background-color: var(--cim-color-background-primary);
     color: var(--cim-color-text-primary-dark);
+}
+html{
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    height: 100%;
 }
 
 label {
@@ -61,6 +71,7 @@ textarea,
 span {
     font-size: var(--cim-font-size-form-input)
 }
+
 
 * {
     font-family: Verdana, serif;

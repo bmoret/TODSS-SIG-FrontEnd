@@ -32,6 +32,14 @@ class FormDateTimePicker extends FormReadable {
         border: 1px solid black;
         border-radius: 2px;
         background: var(--cim-color-input-background-default);
+        height: 31px;
+      }
+      
+      input:hover,
+      input:focus {
+        border: var(--cim-outline);
+        outline:none !important;
+        max-height: 29px;
       }
       
       input:disabled {

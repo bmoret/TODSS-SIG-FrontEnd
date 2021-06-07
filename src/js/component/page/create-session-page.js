@@ -3,7 +3,7 @@ import {Router} from '@vaadin/router';
 
 import {parseForm, isValidForm} from "../../utils/form-util";
 import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
 import {store} from "../../state/store/store.js";
@@ -115,14 +115,13 @@ class CreateSessionPage extends LitElement {
     if (!isValidForm(form)) return;
     let body = parseForm(form);
     let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
-    body.startDate = dateToTimestamp(new Date());
-    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    body.startDate = dateToTimestamp(new Date().getTime());
+    body.endDate = dateToTimestamp((new Date().getTime() + durationInMilliSeconds))
     body.contactPerson = this.contactPerson;
     delete body.duration
 
     request('POST', '/sessions', body)
-      .then(r => r)
-      .then(_ => Router.go('/'))
+      .then(r => Router.go('/session/' + r.id))
       .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
   }
 

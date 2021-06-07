@@ -3,13 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   segments: {
     zoekMedewerker: { open: true },
-    zoekSpreker: { open: true },
-    results: [],
-  }
+  },
+  results: [],
 };
 
 const fill = (state, action) => {
-    state.segments.results = action.payload;
+    state.results = action.payload;
     return state;
 }
 

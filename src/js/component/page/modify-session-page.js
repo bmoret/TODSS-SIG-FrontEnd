@@ -3,7 +3,7 @@ import {Router} from '@vaadin/router';
 
 import {parseForm, isValidForm} from "../../utils/form-util";
 import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
 import {store} from "../../state/store/store.js";
@@ -144,6 +144,13 @@ class ModifySessionPage extends LitElement {
     this.sessionType = e.detail;
   }
 
+  _calculateDuration = () => {
+    const startDate = new Date(this.session.details.startDate).getTime();
+    const endDate = new Date(this.session.details.endDate).getTime();
+    const differenceInMinutes = (endDate - startDate) / 1000 / 60;
+    return differenceInMinutes > 0 ? differenceInMinutes : 0;
+  }
+
   async _handleSegmentToggle(title, isOpen) {
     if (isOpen) {
       store.dispatch(actions.close({title: title}))
@@ -191,7 +198,7 @@ class ModifySessionPage extends LitElement {
                   .title="${"Tijdsindeling"}" 
                   .show="${segments.tijdsindeling.open}" 
                   @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${"02:00"}"></form-time-item>
+                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${_ => this._calculateDuration()}"></form-time-item>
                 </page-segment>
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>

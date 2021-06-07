@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import request from "../../service/connection-service";
+import {request} from "../../service/connection-service";
+import {store} from "../../state/store/store";
 
 class applyButton extends LitElement {
     static get styles() {
@@ -68,11 +69,9 @@ class applyButton extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        const userState = JSON.parse(localStorage.getItem("user_state")) || { };
-        this.employeeId = userState.id;
+        const userState = store.getState().user
+        this.employeeId = userState.personId;
         this._setEnroll()
-        console.log(this.employeeId)
-        console.log(this.sessionId)
     }
 
     _setEnroll() {
@@ -81,13 +80,12 @@ class applyButton extends LitElement {
     }
 
     _handleClick = (e) => {
-
         const body = {
             "state" : !this.enroll? "PRESENT" : "CANCELED",
-            "speaker" : false}
-
-        request("POST","/attendances/"+this.sessionId+"/"+this.employeeId, body)
-            .then(response => this.enroll = !this.enroll)
+            "speaker" : false
+        }
+        request("PATCH","/attendances/"+this.sessionId+"/"+this.employeeId, body)
+            .then(_ => this.enroll = !this.enroll)
     }
 
     render() {

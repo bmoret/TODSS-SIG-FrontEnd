@@ -1,9 +1,11 @@
-import { LitElement, html, css } from 'lit-element';
-import { store } from "../../state/store/store";
+import {css, html, LitElement} from 'lit-element';
+import {store} from "../../state/store/store";
+import {Router} from "@vaadin/router";
 
-class SeachEmployeePage extends LitElement {
+class SearchEmployeePage extends LitElement {
   static get styles() {
     return css`
+    main{display: block;}
       ul {
         list-style: none;
         margin: 0;
@@ -11,7 +13,6 @@ class SeachEmployeePage extends LitElement {
       }
     `
   }
-  
 
   static get properties() {
     return {
@@ -24,6 +25,7 @@ class SeachEmployeePage extends LitElement {
     document.title = "Medewerkers zoeken";
     this.results = [];
     this._provideResults();
+    store.subscribe(this._refresh)
   }
 
   connectedCallback() {
@@ -34,39 +36,31 @@ class SeachEmployeePage extends LitElement {
 
   _provideResults = async () => {
     const state = store.getState().searchEmployee;
-    const results = state.segments.results;
-    this.results = results;
+    this.results = state.segments.results;
+  }
+
+  _refresh = async () => {
+    history.replaceState(store.getState(), document.title, window.location)
+    await this.requestUpdate();
+  }
+
+  _viewPerson = (e) => {
+      Router.go(`/person/${e.detail.id}`)
   }
 
   render() {
-
     return html`
       <app-root>
         <cim-top-bar slot="header"></cim-top-bar>
         <centered-layout slot="body">
           <main>
-          <search-employee .title="${"Medewerkers zoeken"}"></search-employee>
-          <selected-speaker></selected-speaker>
-          
-          ${this.results.length > 0 ? html`
-            <page-segment .title="${"Zoek resultaten"}">
-              <ul>
-                ${this.results.map(
-                  result => html`
-                    <search-result
-                      .employee="${result}"
-                    ></search-result>
-                `)}
-              </ul>
-            ` 
-              : html ``}
-            
+            <h1>Medewerker zoeken</h1>
+            <search-employee @employeeResult="${this._viewPerson}"></search-employee>
           </main>
         </centered-layout>
       </app-root>
     `
-    
   }
 }
 
-window.customElements.define('search-employee-page', SeachEmployeePage)
+window.customElements.define('search-employee-page', SearchEmployeePage)

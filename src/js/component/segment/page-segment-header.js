@@ -8,6 +8,7 @@ class PageSegmentHeader extends LitElement {
           position: relative;
           display: block;
           padding: 10px;
+          height: 50px;
           width: 100%;
           background-image: var(--cim-color-gradient-light);
           box-sizing: border-box;

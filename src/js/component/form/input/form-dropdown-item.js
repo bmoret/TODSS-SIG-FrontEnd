@@ -24,7 +24,14 @@ class FormDropdownItem extends FormReadable {
         margin auto;
         border: 1px solid black;
         border-radius: 2px;
-        height: min-content;
+        height: min-content; 
+        min-height: 31px;
+      }
+      
+      select:hover,
+      select:focus {
+        border: var(--cim-outline);
+        outline:none !important;
       }
       
       @media screen and (min-width: 1040px) {
@@ -69,16 +76,10 @@ class FormDropdownItem extends FormReadable {
         <label for="${this.name}">${this.label}</label>
         <select name="${this.name}" @change="${this._handleChange}">
           ${this.items.map(item => {
-            return item.value === this.selected? html`
-              <option value="${item.value}" selected>${item.name}</option>
-            ` : html`
-              <option value="${item.value}">${item.name}</option>
-            `
+            return item.value === this.selected? html`<option value="${item.value}" selected>${item.name}</option>` 
+              : html`<option value="${item.value}">${item.name}</option>`
             })
           }
-      this.items.forEach(item => {
-            console.log(item)
-          return 
         </select>
       </div>
       `

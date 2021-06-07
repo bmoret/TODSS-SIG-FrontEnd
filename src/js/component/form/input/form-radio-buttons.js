@@ -23,7 +23,11 @@ class FormRadioButtons extends LitElement {
         margin: 0 10px 10px 0;
       }
       
-      
+      input:hover,
+      input:focus {
+        border: var(--cim-outline);
+        outline:none !important;
+      }
       
       @media screen and (min-width: 1040px) {
          .divTitle{

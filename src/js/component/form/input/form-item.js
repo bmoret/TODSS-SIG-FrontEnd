@@ -34,6 +34,12 @@ class FormItem extends FormReadable {
         background: var(--cim-color-input-background-default);
       }
       
+      input:hover,
+      input:focus {
+        border: var(--cim-outline);
+        outline:none !important;
+      }
+      
       input:disabled {
         background: var(--cim-color-input-background-disabled);
       }
@@ -63,12 +69,14 @@ class FormItem extends FormReadable {
   static get properties() {
     return {
       editable: {type: Boolean, attribute: "editable", reflect: true},
+      type: {type: String, attribute: false, reflect: true},
     }
   }
 
   constructor() {
     super();
     this.editable = true;
+    this.type = "text";
   }
 
   _checkValidity = () => {
@@ -81,7 +89,13 @@ class FormItem extends FormReadable {
       <style>${FormItem.styles}</style>
       <div> 
         <label for="${this.name}">${this.label}</label>
-        <input name="${this.name}" type="text" ?disabled="${!this.editable}" @input="${this._checkValidity}" value="${this.value || ""}"required>
+        <input 
+          name="${this.name}"
+          type="${this.type}" 
+          value="${this.value || ""}"
+          ?disabled="${!this.editable}" 
+          @input="${this._checkValidity}" 
+          required>
       </div>
       `
   }
