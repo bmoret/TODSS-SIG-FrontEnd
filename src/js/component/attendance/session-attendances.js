@@ -88,11 +88,6 @@ class SessionAttendances extends LitElement {
     this.cancellationPercent = roundToPercent(this.cancellations.length / totalAmount * 100);
   }
 
-  _updateAttendance = (e, id) => {
-    const body = { "isPresent" : e.detail.present, }
-    request("PATCH",`/attendances/${id}/presence`, body)
-  }
-
   render() {
     return html`
       <div class="type__container">
@@ -105,8 +100,8 @@ class SessionAttendances extends LitElement {
                 <attendance-item 
                   .name="${attendance.person.personName}"
                   .id="${attendance.person.personId}"
+                  .attendanceId="${attendance.id}"
                   present
-                  @updateAttendance="${e => this._updateAttendance(e, attendance.id)}"
                 ></attendance-item>
               </li>
             `)}
@@ -123,7 +118,6 @@ class SessionAttendances extends LitElement {
                 <attendance-item 
                   .name="${cancellation.person.personName}" 
                   .id="${cancellation.person.personId}"
-                  @updateAttendance="${e => this._updateAttendance(e, cancellation.id)}"
                 ></attendance-item>
               </li>
             `)}

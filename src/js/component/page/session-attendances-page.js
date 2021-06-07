@@ -85,25 +85,40 @@ class SessionAttendancesPage extends LitElement {
   }
 
   _handleUpdateAttendance = (e) => {
-
+    const body = { "isPresent" : e.detail.present, }
     if (e.detail.present){
+
+      console.log("present")
+
       const person = this.cancellations.find(attendee => attendee.person.personId === e.detail.id);
       if (person !== undefined){
+        console.log(e)
+        request("PATCH",`/attendances/${e.detail.attendanceId}/presence`, body)
+            .then(response => {
+              if (Object.keys(response).length > 0) {
+                this.removeFromArray(person, this.cancellations)
+                this.attendances = [...this.attendances, person]
+              }
+            })
 
-        //api call update attendance state, present : detail.present
-        //if api call ok,
-
-        this.removeFromArray(person, this.cancellations)
-        this.attendances = [ ...this.attendances, person]
       }
     }else {
+      console.log("not present")
+
       const person = this.attendances.find(attendee => attendee.person.personId === e.detail.id);
       if (person !== undefined){
+        console.log(e)
 
         //api call update attendance state, present : detail.present
         //if api call ok,
-        this.removeFromArray(person, this.attendances)
-        this.cancellations = [ ...this.cancellations, person]
+        request("PATCH",`/attendances/${e.detail.attendanceId}/presence`, body)
+            .then(response => {
+              if (Object.keys(response).length > 0) {
+                this.removeFromArray(person, this.attendances)
+                this.cancellations = [...this.cancellations, person]
+              }
+            })
+
       }
     }
   }
