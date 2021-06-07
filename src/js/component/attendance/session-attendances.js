@@ -1,5 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 import {roundToPercent} from "../../utils/number-utils";
+import {request} from "../../service/connection-service";
 
 class SessionAttendances extends LitElement {
   static get styles() {
@@ -87,9 +88,12 @@ class SessionAttendances extends LitElement {
     this.cancellationPercent = roundToPercent(this.cancellations.length / totalAmount * 100);
   }
 
+  _updateAttendance = (e, id) => {
+    const body = { "isPresent" : e.detail.present, }
+    request("PATCH",`/attendances/${id}/presence`, body)
+  }
 
   render() {
-    console.log(this.attendances)
     return html`
       <div class="type__container">
         <img src="/dist/assets/icon/checked-person.svg" alt=""/>
@@ -102,6 +106,7 @@ class SessionAttendances extends LitElement {
                   .name="${attendance.person.personName}"
                   .id="${attendance.person.personId}"
                   present
+                  @updateAttendance="${e => this._updateAttendance(e, attendance.id)}"
                 ></attendance-item>
               </li>
             `)}
@@ -118,6 +123,7 @@ class SessionAttendances extends LitElement {
                 <attendance-item 
                   .name="${cancellation.person.personName}" 
                   .id="${cancellation.person.personId}"
+                  @updateAttendance="${e => this._updateAttendance(e, cancellation.id)}"
                 ></attendance-item>
               </li>
             `)}
