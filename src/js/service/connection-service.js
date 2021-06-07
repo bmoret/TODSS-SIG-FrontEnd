@@ -1,7 +1,7 @@
 import {Router} from "@vaadin/router";
 import {retrieveAccessToken, retrieveRefreshToken, storeAccessToken} from "./authorization-service";
 
-const site = 'http://localhost:8080';
+const site = process.env.SNOWPACK_PUBLIC_API_URL || 'http://localhost:8080';
 
 export const request = (type, link, body) => {
     return fetchFullRequest(type, link, body)
