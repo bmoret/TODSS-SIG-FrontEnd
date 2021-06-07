@@ -26,7 +26,7 @@ const refreshAccessTokenAndRetry = async (type, link, body) => {
     };
     let response = await fetchRequest('POST', '/authenticate/refresh', bodyTokens)
     if (response.status === 200) {
-        storeAccessToken(response.headers.get('Access-Token'))
+        storeAccessToken("Bearer " + response.headers.get('Access-Token'))
         response = await fetchRequest(type, link, body);
         if (response.status >= 200 && response.status < 300) return response;
     }
@@ -41,7 +41,7 @@ const fetchRequest = (type, link, body) => {
     }
     let token = window.localStorage.getItem("access_token")
     token = token ? token : "";
-    if (link !== "/authenticate/refresh") fetchOptions.headers['Access-Token'] = 'Bearer ' + token;
+    if (link !== "/authenticate/refresh") fetchOptions.headers['Access-Token'] = token;
 
     return fetch(site + link, fetchOptions);
 }
