@@ -44,7 +44,6 @@ class TopBar extends LitElement {
     }
 
     _goHome = () => {
-        console.log("sss")
         Router.go("/")
     }
 
