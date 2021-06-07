@@ -95,16 +95,14 @@ class AttendanceItem extends LitElement {
     }))
   }
 
-  //todo disable button if present/not present
-
   render() {
     return html`
       <div>
         <p>${this.name}</p>
-        <button class="present" present="${this.present}" @click="${_ => this._handleUpdateAttendance(true)}">
+        <button class="present" present="${this.present}" ?disabled="${this.present}" @click="${_ => this._handleUpdateAttendance(true)}">
           <img class="checkmark" src="/dist/assets/icon/checkmark.svg">
         </button>
-        <button class="absent" absent="${!this.present}" @click="${_ => this._handleUpdateAttendance(false)}">
+        <button class="absent" absent="${!this.present}" ?disabled="${!this.present}" @click="${_ => this._handleUpdateAttendance(false)}">
           <img class="cross" src="/dist/assets/icon/cross.svg">
         </button>
       </div>
