@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 import {fetchFullRequest} from "../../../service/connection-service";
-import { storeAccessToken } from "../../../service/authorization-service";
+import { storeAccessToken, storeRefreshToken } from "../../../service/authorization-service";
 import {isValidForm, parseForm} from "../../../utils/form-util";
 import {actions} from "../../../state/reducer/user";
 import {store} from "../../../state/store/store";
@@ -24,7 +24,8 @@ class LoginForm extends LitElement {
     if (!isValidForm(form)) return;
     fetchFullRequest('POST', '/login', parseForm(form))
       .then(r => {
-        storeAccessToken(r.headers.get("Authorization"));
+        storeAccessToken(r.headers.get("Access-Token"));
+        storeRefreshToken(r.headers.get("Refresh-Token"));
         this._updateUserState(r)
       })
       .then(_ => this._emitLoginEvent())
@@ -37,7 +38,8 @@ class LoginForm extends LitElement {
       isLoggedIn: true,
       role: headers.get("User-Role"),
       username: headers.get("User-Username"),
-      id: headers.get("User-Id")
+      id: headers.get("User-Id"),
+      personId: headers.get("Person-Id")
     }));
   }
 

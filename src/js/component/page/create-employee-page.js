@@ -39,7 +39,6 @@ class CreateEmployeePage extends LitElement {
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
     let body = parseForm(form);
-
         request('POST', '/person', body)
             .then(r => Router.go('/person/' + r.id))
             .catch(_ => alert("Er was een error tijdens het aanmaken van de medewerker!"));

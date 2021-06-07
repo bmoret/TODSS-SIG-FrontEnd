@@ -16,7 +16,8 @@ class SearchEmployee extends LitElement {
   }
 
   _search = (e) => {
-    request('POST', '/person/search', {searchTerm: e.detail})
+    if (e.detail === "") return;
+    request('GET', '/person/search?name='+ e.detail)
       .then(r => {
         this.results = r;
         store.dispatch(actions.fill(r))

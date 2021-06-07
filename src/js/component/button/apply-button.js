@@ -70,7 +70,7 @@ class applyButton extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         const userState = store.getState().user
-        this.employeeId = userState.id;
+        this.employeeId = userState.personId;
         this._setEnroll()
     }
 
@@ -84,7 +84,7 @@ class applyButton extends LitElement {
             "state" : !this.enroll? "PRESENT" : "CANCELED",
             "speaker" : false
         }
-        request("POST","/attendances/"+this.sessionId+"/"+this.employeeId, body)
+        request("PATCH","/attendances/"+this.sessionId+"/"+this.employeeId, body)
             .then(_ => this.enroll = !this.enroll)
     }
 

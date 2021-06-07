@@ -1,12 +1,16 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
-import {MANAGER, SECRETARY} from "../../utils/user-roles";
+import {ADMIN, MANAGER, ORGANISER, SECRETARY} from "../../utils/user-roles";
 import {request} from "../../service/connection-service";
 import {store} from "../../state/store/store";
 
 class ViewSessionPage extends LitElement {
   static get styles() {
     return css`
+      :host {
+        display: block;
+      }
+      
       centered-layout  {
         display: flex;
         flex-direction: column;
@@ -79,6 +83,10 @@ class ViewSessionPage extends LitElement {
     }
   }
 
+  _handleViewAttendances() {
+    Router.go(`/session/${this.location.params.id}/attendances`)
+  }
+
   render() {
     const state = store.getState().user;
     const role = state.role;
@@ -101,9 +109,13 @@ class ViewSessionPage extends LitElement {
                <div>
                  <apply-button .sessionId="${this.location.params.id}"></apply-button>
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
-                  ${this.session.state === "DRAFT" && role === MANAGER? 
+                  ${this.session.state === "DRAFT" && [MANAGER, ADMIN].includes(role)? 
                   html`<sig-button @click="${() => this._handleRequestPlanning()}">Inplannen aanvragen</sig-button>` :
                   ''
+                  }
+                  ${["PLANNED", "ONGOING", "ENDED"].includes(this.session.state) && [ORGANISER, SECRETARY,MANAGER, ADMIN].includes(role)?
+                    html`<sig-button @click="${() => this._handleViewAttendances()}">Aanmeldingen zien</sig-button>` :
+                    ''
                   }
                </div>
             </main>

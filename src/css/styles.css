@@ -25,8 +25,8 @@
     --cim-color-gradient-header-grey: linear-gradient(45deg, var(--cim-color-secondary-light), var(--cim-color-secondary-medium));
     --cim-color-button: var(--cim-color-primary-light);
     --cim-color-button-focused: var(--cim-color-primary-medium);
-    --cim-color-shadow-subtle: rgba(0, 0, 0, 0.15);
-    --cim-color-shadow-medium: rgba(0, 0, 0, 0.2);
+    --cim-color-shadow-subtle: rgba(0, 0, 0, 0.2);
+    --cim-color-shadow-medium: rgba(0, 0, 0, 0.25);
 
     --cim-shadow-default: 0px 3px 6px var(--cim-color-shadow-subtle);
     --cim-shadow-background: 0px 0px 15px 0px var(--cim-color-shadow-subtle);
