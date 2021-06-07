@@ -6,7 +6,7 @@ const site = 'http://localhost:8080';
 export const request = (type, link, body) => {
     return fetchFullRequest(type, link, body)
     .then(response => {
-      if (response.headers.get("Content-Length") === "0") return {};
+      if (!response || response.headers.get("Content-Length") === "0") return {};
       return response.json();
     })
 }
@@ -15,13 +15,14 @@ export const fetchFullRequest = async (type, link, body) => {
     let response = await fetchRequest(type, link, body);
     if (response.status >= 200 && response.status < 300) return response;
     if (response.status === 403) {
-        refreshAccessTokenAndRetry()
+        return await refreshAccessTokenAndRetry(type, link, body)
     }
 };
-const refreshAccessTokenAndRetry = async () => {
+const refreshAccessTokenAndRetry = async (type, link, body) => {
+    let accessToken = retrieveAccessToken().replace("Bearer ", "")
     let bodyTokens = {
         refreshToken: retrieveRefreshToken(),
-        accessToken: retrieveAccessToken().split("Bearer ")[1],
+        accessToken: accessToken,
     };
     let response = await fetchRequest('POST', '/authenticate/refresh', bodyTokens)
     if (response.status === 200) {
