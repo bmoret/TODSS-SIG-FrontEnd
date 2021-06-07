@@ -38,7 +38,8 @@ class LoginForm extends LitElement {
       isLoggedIn: true,
       role: headers.get("User-Role"),
       username: headers.get("User-Username"),
-      id: headers.get("User-Id")
+      id: headers.get("User-Id"),
+      personId: headers.get("Person-Id")
     }));
   }
 

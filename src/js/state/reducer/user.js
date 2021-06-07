@@ -10,6 +10,8 @@ const initialState = userState() || {
   isLoggedIn: false,
   role: undefined,
   username: undefined,
+  id: undefined,
+  personId: undefined,
 };
 
 const setRole = (state, action) => {
