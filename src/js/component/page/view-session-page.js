@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
-import {ADMIN, MANAGER, ORGANISER, SECRETARY} from "../../utils/user-roles";
+import {ADMIN, EMPLOYEE, MANAGER, ORGANISER, SECRETARY} from "../../utils/user-roles";
 import {request} from "../../service/connection-service";
 import {store} from "../../state/store/store";
 
@@ -107,7 +107,10 @@ class ViewSessionPage extends LitElement {
                   ` : ''
                 }
                <div>
-                 <apply-button .sessionId="${this.location.params.id}"></apply-button>
+                 ${this.session.state === "PLANNED" && [SECRETARY, EMPLOYEE, ORGANISER, MANAGER, ADMIN].includes(role)?
+                    html`<apply-button .sessionId="${this.location.params.id}"></apply-button>` :
+                    ''
+                  }
                   <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
                   ${this.session.state === "DRAFT" && [MANAGER, ADMIN].includes(role)? 
                   html`<sig-button @click="${() => this._handleRequestPlanning()}">Inplannen aanvragen</sig-button>` :

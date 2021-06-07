@@ -32,6 +32,8 @@ const setState = (state, action) => {
 
 const logout = () => {
   localStorage.removeItem("user_state")
+  localStorage.removeItem("refresh_token")
+  localStorage.removeItem("access_token")
   return initialState
 }
 

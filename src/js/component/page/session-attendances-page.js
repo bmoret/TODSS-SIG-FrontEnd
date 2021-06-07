@@ -50,7 +50,7 @@ class SessionAttendancesPage extends LitElement {
     super();
     this.loading = false;
     this.attendances = []
-    this.cancellations =[]
+    this.cancellations = []
     document.title = "Aanmeldingen"
     this.message = "Loading..."
 
@@ -69,7 +69,7 @@ class SessionAttendancesPage extends LitElement {
       .then(r => {
         let attending = [];
         let canceled = [];
-        for(let attendance of r) {
+        for (let attendance of r) {
           if (attendance.state && attendance.state === "PRESENT") attending.push(attendance);
           else canceled.push(attendance);
         }
@@ -84,31 +84,26 @@ class SessionAttendancesPage extends LitElement {
       })
   }
 
-  _handleUpdateAttendance = (e) => {
-
-    if (e.detail.present){
-      const person = this.cancellations.find(attendee => attendee.person.personId === e.detail.id);
-      if (person !== undefined){
-
-        //api call update attendance state, present : detail.present
-        //if api call ok,
-
-        this.removeFromArray(person, this.cancellations)
-        this.attendances = [ ...this.attendances, person]
-      }
-    }else {
-      const person = this.attendances.find(attendee => attendee.person.personId === e.detail.id);
-      if (person !== undefined){
-
-        //api call update attendance state, present : detail.present
-        //if api call ok,
-        this.removeFromArray(person, this.attendances)
-        this.cancellations = [ ...this.cancellations, person]
-      }
+  _handleUpdateAttendance = async (e) => {
+    const body = {"isPresent": e.detail.present,}
+    let response = await request("PATCH", `/attendances/${e.detail.attendanceId}/presence`, body)
+    if (response === {}) return;
+    if (e.detail.present) {
+      const person = this._findPersonInArray(this.cancellations, e.detail.id)
+      this._removePersonFromArray(person, this.cancellations)
+      this.attendances = [...this.attendances, person]
+    } else {
+      const person = this._findPersonInArray(this.attendances, e.detail.id)
+      this._removePersonFromArray(person, this.attendances)
+      this.cancellations = [...this.cancellations, person]
     }
   }
+  _findPersonInArray = (array, id) => {
+    return array.find(attendee => attendee.person.personId === id);
+  }
 
-  removeFromArray = (item, array) => {
+  _removePersonFromArray = (item, array) => {
+    if (item === undefined) return;
     const index = array.indexOf(item);
     if (index > -1) {
       array.splice(index, 1);
@@ -116,7 +111,9 @@ class SessionAttendancesPage extends LitElement {
   }
 
   render() {
-    const comparator = function(a,b) {return (a.personName > b.personName) ? 1 : ((b.personName > a.personName) ? -1 : 0);}
+    const comparator = function (a, b) {
+      return (a.personName > b.personName) ? 1 : ((b.personName > a.personName) ? -1 : 0);
+    }
     this.attendances.sort(comparator);
     this.cancellations.sort(comparator);
 
