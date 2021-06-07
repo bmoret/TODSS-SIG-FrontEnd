@@ -9,3 +9,7 @@ export const retrieveAccessToken = () => {
   return localStorage.getItem("access_token");
 }
 
+export const retrieveRefreshToken = () => {
+  return localStorage.getItem("refresh_token")
+}
+
