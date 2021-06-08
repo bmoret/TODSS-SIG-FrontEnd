@@ -136,7 +136,7 @@ class ModifySessionPage extends LitElement {
 
     request('PUT', '/sessions/'+this.session.id, body)
       .then(r => r)
-      .then(_ => Router.go('/'))
+      .then(_ => Router.go('/session/' + this.session.id))
       .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
   }
 
