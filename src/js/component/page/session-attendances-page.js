@@ -87,7 +87,7 @@ class SessionAttendancesPage extends LitElement {
   _handleUpdateAttendance = async (e) => {
     const body = {"isPresent": e.detail.present,}
     let response = await request("PATCH", `/attendances/${e.detail.attendanceId}/presence`, body)
-    if (response === {}) return;
+    if (!response || Object.keys(response).length === 0 || response.constructor === Object) return;
     if (e.detail.present) {
       const person = this._findPersonInArray(this.cancellations, e.detail.id)
       this._removePersonFromArray(person, this.cancellations)
