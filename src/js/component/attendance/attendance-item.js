@@ -71,7 +71,8 @@ class AttendanceItem extends LitElement {
     return {
       name: {type: String, attribute: false, reflect: true},
       id: {type: String, attribute: false, reflect: true},
-      present: {type: Boolean, attribute: true, reflect: true}
+      present: {type: Boolean, attribute: true, reflect: true},
+      attendanceId: {type: String, attribute: false, reflect: true}
     }
   }
 
@@ -79,18 +80,19 @@ class AttendanceItem extends LitElement {
     super();
     this.name = "";
     this.id = "";
+    this.attendanceId = "";
     this.present = false;
   }
 
   _handleUpdateAttendance = (newVal) => {
-    this.present = newVal;
     this.dispatchEvent(new CustomEvent('updateAttendance', {
       bubbles: true,
       composed: true,
       detail: {
         name: this.name,
         id: this.id,
-        present: this.present
+        present: !this.present,
+        attendanceId: this.attendanceId
       }
     }))
   }
