@@ -1,6 +1,7 @@
 import {LitElement, html, css} from 'lit-element';
 import {store} from "../../state/store/store";
 import {actions} from "../../state/reducer/createSession";
+import {timestampToDateString} from "../../utils/date-time-util";
 
 class SessionView extends LitElement {
   static get styles() {
@@ -70,6 +71,7 @@ class SessionView extends LitElement {
           .title="${"Tijdsindeling"}" 
           .show="${segments.tijdsindeling.open}" 
           @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
+          <view-segment-item .name="${"Datum"}" .value="${timestampToDateString(this.session.details.startDate)}"></view-segment-item>
           <view-segment-item .name="${"Duratie"}" .value="${this._calculateDuration() + " minuten"}"></view-segment-item>
         </page-segment>
     `

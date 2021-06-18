@@ -15,12 +15,17 @@ export function dateToTimestamp(i) {
   return timestamp;
 }
 
+export function timestampToDateString(timestamp) {
+  let date = new Date(timestamp)
+  return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}  ${dateToTimeSeparatedByColumn(date.getTime())}`
+}
+
 export function dateToTimeSeparatedByColumn(duration) {
   let minutes = Math.floor(duration / (1000 * 60) % 60),
     hours = Math.floor(duration / (1000 * 60 * 60) % 60);
   hours = (hours < 10) ? "0" + hours : hours;
   minutes = (minutes < 10) ? "0" + minutes : minutes;
-  return hours + ":" + minutes + ":00";
+  return hours + ":" + minutes;
 }
 
 export function datesToDuration(start, end) {
