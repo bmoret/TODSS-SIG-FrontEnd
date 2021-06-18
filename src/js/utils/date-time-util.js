@@ -15,6 +15,21 @@ export function dateToTimestamp(i) {
   return timestamp;
 }
 
+export function dateToTimeSeparatedByColumn(duration) {
+  let minutes = Math.floor(duration / (1000 * 60) % 60),
+    hours = Math.floor(duration / (1000 * 60 * 60) % 60);
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  return hours + ":" + minutes + ":00";
+}
+
+export function datesToDuration(start, end) {
+  const startDate = new Date(start).getTime();
+  const endDate = new Date(end).getTime();
+  const differenceInMs = endDate - startDate;
+  return differenceInMs > 0 ? differenceInMs : 0;
+}
+
 function formatSingleDigitPart(part) {
   return part < 10?  0 + part.toString() : part.toString();
 }

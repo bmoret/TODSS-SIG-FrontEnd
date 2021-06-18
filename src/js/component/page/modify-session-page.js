@@ -2,7 +2,12 @@ import {LitElement, html, css} from 'lit-element';
 import {Router} from '@vaadin/router';
 
 import {parseForm, isValidForm} from "../../utils/form-util";
-import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
+import {
+  datesToDuration,
+  dateToTimeSeparatedByColumn,
+  dateToTimestamp,
+  timeSeparatedByColonToMilliseconds
+} from "../../utils/date-time-util"
 import {request} from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
@@ -144,11 +149,9 @@ class ModifySessionPage extends LitElement {
     this.sessionType = e.detail;
   }
 
-  _calculateDuration = () => {
-    const startDate = new Date(this.session.details.startDate).getTime();
-    const endDate = new Date(this.session.details.endDate).getTime();
-    const differenceInMinutes = (endDate - startDate) / 1000 / 60;
-    return differenceInMinutes > 0 ? differenceInMinutes : 0;
+  _getSessionDuration = () => {
+    const duration = datesToDuration(this.session.details.startDate, this.session.details.endDate);
+    return dateToTimeSeparatedByColumn(duration)
   }
 
   async _handleSegmentToggle(title, isOpen) {
@@ -162,6 +165,7 @@ class ModifySessionPage extends LitElement {
   render() {
     const state = store.getState().createSession;
     const segments = state.segments;
+    const duration =  this._getSessionDuration();
 
     return html`
         <app-root>
@@ -198,7 +202,7 @@ class ModifySessionPage extends LitElement {
                   .title="${"Tijdsindeling"}" 
                   .show="${segments.tijdsindeling.open}" 
                   @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${_ => this._calculateDuration()}"></form-time-item>
+                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${duration}"></form-time-item>
                 </page-segment>
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
