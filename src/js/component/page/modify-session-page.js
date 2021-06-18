@@ -121,13 +121,13 @@ class ModifySessionPage extends LitElement {
         this.sigPeople = result);
   };
 
-  _handleContactPerson = (e) => {
-    this.contactPerson = e.detail;
-  }
+  _handleSessionType = (e) => this.sessionType = e.detail;
 
-  _handleCancel = () => {
-    history.back();
-  }
+  _getSessionDuration = () => dateToTimeSeparatedByColumn(datesToDuration(this.session.details.startDate, this.session.details.endDate))
+
+  _handleContactPerson = (e) => this.contactPerson = e.detail;
+
+  _handleCancel = () => history.back();
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
@@ -135,7 +135,7 @@ class ModifySessionPage extends LitElement {
     let body = parseForm(form);
     let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
     body.startDate = dateToTimestamp(new Date());
-    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    body.endDate = dateToTimestamp(Date.now() + durationInMilliSeconds);
     body.contactPerson = this.contactPerson;
     delete body.duration
 
@@ -143,15 +143,6 @@ class ModifySessionPage extends LitElement {
       .then(r => r)
       .then(_ => Router.go('/session/' + this.session.id))
       .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
-  }
-
-  _handleSessionType = (e) => {
-    this.sessionType = e.detail;
-  }
-
-  _getSessionDuration = () => {
-    const duration = datesToDuration(this.session.details.startDate, this.session.details.endDate);
-    return dateToTimeSeparatedByColumn(duration)
   }
 
   async _handleSegmentToggle(title, isOpen) {
