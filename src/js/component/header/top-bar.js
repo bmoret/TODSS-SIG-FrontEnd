@@ -52,10 +52,7 @@ class TopBar extends LitElement {
         super();
     }
 
-    _goHome = () => {
-        console.log("sss")
-        Router.go("/")
-    }
+    _goHome = () => Router.go("/")
 
     render() {
         return html`
