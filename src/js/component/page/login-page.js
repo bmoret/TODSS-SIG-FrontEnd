@@ -36,9 +36,7 @@ class LoginPage extends LitElement {
   }
 
 
-  _handleLoggedIn = () => {
-    this.redirected? history.back() : Router.go("/")
-  }
+  _handleLoggedIn = () => this.redirected? history.back() : Router.go("/")
 
   render() {
     return html`

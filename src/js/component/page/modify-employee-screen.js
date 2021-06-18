@@ -48,7 +48,7 @@ class ModifyEmployeeScreen extends LitElement {
   }
 
   _handleCancel = () => {
-    window.location.href = "/";
+    history.back();
   }
     connectedCallback() {
       super.connectedCallback()

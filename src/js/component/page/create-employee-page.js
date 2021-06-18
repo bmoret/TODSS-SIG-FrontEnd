@@ -21,6 +21,10 @@ class CreateEmployeePage extends LitElement {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+      } 
+      
+      h1 {
+        margin:  0 auto 22px auto;
       }
         
       sig-button {
@@ -29,12 +33,7 @@ class CreateEmployeePage extends LitElement {
     `;
   }
 
-  constructor() {
-    super();
-  }
-  _handleCancel = () => {
-     history.back();
-  }
+  _handleCancel = () => history.back();
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");

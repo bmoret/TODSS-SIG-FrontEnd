@@ -63,7 +63,7 @@ class LoginForm extends LitElement {
         <form-item .name="${"password"}" .label="${"password"}" .type="${"password"}" @keydown="${e => this._handleEnter(e)}"></form-item>
         <div class="button__container">
             <sig-button @click="${this._handleLogin}">Inloggen</sig-button>
-            <sig-button @click="${this._goToRegister}">Maak een account</sig-button>
+            <sig-button @click="${this._goToRegister}">Registreren</sig-button>
         </div>
       </form>
     `
