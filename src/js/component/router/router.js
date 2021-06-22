@@ -22,6 +22,7 @@ router.setRoutes([
       { path: "search-employee", component: "search-employee-page" },
       { path: "person/:id", component: "view-employee-page" },
       { path: "session/:id", component: "view-session-page" },
+      { path: "sig/:id", component: "view-sig-page" },
       { path: "modify-session/:id", component: "modify-session-page" },
       { path: "session/:id/attendances", component: "session-attendances-page" },
       { path: "create-employee", component: "create-employee-page" },

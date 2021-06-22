@@ -71,7 +71,9 @@ class SessionView extends LitElement {
           .title="${"Tijdsindeling"}" 
           .show="${segments.tijdsindeling.open}" 
           @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-          <view-segment-item .name="${"Datum"}" .value="${timestampToDateString(this.session.details.startDate)}"></view-segment-item>
+          ${ !["DRAFT", "TO_BE_PLANNED"].includes(this.session.state)? 
+            html`<view-segment-item .name="${"Datum"}" .value="${timestampToDateString(this.session.details.startDate)}"></view-segment-item>`: ''
+          }
           <view-segment-item .name="${"Duratie"}" .value="${this._calculateDuration() + " minuten"}"></view-segment-item>
         </page-segment>
     `
