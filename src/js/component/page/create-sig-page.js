@@ -67,7 +67,7 @@ class CreateSpecialInterestGroupPage extends LitElement {
           <form>
             <page-segment .title="${"info"}" >
               <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
-              <form-dropdown-item id="manager" .name="${"managerId"}" .label="${"Supervisor"}"></form-dropdown-item>
+              <form-dropdown-item id="manager" .name="${"managerId"}" .label="${"Manager"}"></form-dropdown-item>
               <search-employee @employeeResult="${this._selectManager}"></search-employee>
               <view-clickable-list-segment-item 
               .name="${"Organisatoren"}"

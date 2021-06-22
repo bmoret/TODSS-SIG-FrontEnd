@@ -75,7 +75,7 @@ class ModifySpecialInterestGroupScreen extends LitElement {
           <form>
             <page-segment .title="${"info"}" >
               <form-item .name="${"subject"}" .label="${"Onderwerp"}" .value="${this.sig.subject}"></form-item>
-              <form-dropdown-item id="manager" .name="${"managerId"}" .label="${"Supervisor"}" .items="${manager}"></form-dropdown-item>
+              <form-dropdown-item id="manager" .name="${"managerId"}" .label="${"Manager"}" .items="${manager}"></form-dropdown-item>
               <search-employee @employeeResult="${this._selectManager}"></search-employee>
               <view-clickable-list-segment-item 
               .name="${"Organisatoren"}"
