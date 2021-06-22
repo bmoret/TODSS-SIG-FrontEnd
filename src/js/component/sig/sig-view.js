@@ -37,7 +37,7 @@ class SpecialInterestGroupView extends LitElement {
           <view-segment-item .name="${"Onderwerp"}" .value="${this.sig.subject}"></view-segment-item>
           <view-segment-item 
             class="clickable" 
-            .name="${"manager"}" 
+            .name="${"Manager"}" 
             .value="${this.sig.manager.personName}" 
             @click="${_ => this._goToPerson(this.sig.manager.personId)}"></view-segment-item>
           <view-clickable-list-segment-item 

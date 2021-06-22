@@ -58,14 +58,20 @@ class ViewClickableListSegmentItem extends LitElement {
   }
 
   render() {
+    let count = 0;
+    for(const key in this.items) {
+      if(this.items.hasOwnProperty(key)) count++;
+    }
+
     return html`
       <div> 
         <h3>${this.name}</h3>
         <ul>
-        ${this.items.map(item => html`
-          <li @click="${e => this._emitClick(e, item.value)}">
-            <p>${item.name}</p>
-          </li>`)
+        ${count === 0? html`<li><p>Geen</p></li>`
+          :this.items.map(item => html`
+            <li @click="${e => this._emitClick(e, item.value)}">
+              <p>${item.name}</p>
+            </li>`)
         }
         </ul>
       </div>

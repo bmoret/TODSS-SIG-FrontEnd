@@ -54,8 +54,9 @@ class CreateEmployeePage extends LitElement {
 
   render() {
     return html`
-        <cim-top-bar></cim-top-bar>
-        <centered-layout>
+      <app-root>
+        <cim-top-bar slot="header"></cim-top-bar>
+        <centered-layout slot="body">
           <h1>Medewerker Aanmaken</h1>
             <form>
                 <page-segment .title="${"Persoonsgegevens"}" >
@@ -77,7 +78,9 @@ class CreateEmployeePage extends LitElement {
             <sig-button @click="${this._handleSave}">Opslaan</sig-button>
           </div>
         </centered-layout>
-      `
+        
+      <app-root>
+    `
   }
 }
 
