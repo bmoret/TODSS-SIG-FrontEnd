@@ -1,6 +1,6 @@
 import {html, css, LitElement} from 'lit-element';
 
-class ViewListSegmentItem extends LitElement {
+class ViewClickableListSegmentItem extends LitElement {
   static get styles() {
     return css`
       div {
@@ -17,6 +17,7 @@ class ViewListSegmentItem extends LitElement {
       }
       
       li {
+        cursor: pointer;
         flex: 1 1 50%
       }
       
@@ -47,7 +48,9 @@ class ViewListSegmentItem extends LitElement {
     this.name = "";
   }
 
-  _emitClick = (value) => {
+  _emitClick = (e, value) => {
+    e.preventDefault();
+    e.stopPropagation();
     let event = new CustomEvent('click', { bubbles: true, composed: true, detail: value });
     this.dispatchEvent(event);
   }
@@ -58,9 +61,9 @@ class ViewListSegmentItem extends LitElement {
         <h3>${this.name}</h3>
         <ul>
         ${this.items.map(item => html`
-            <li @click="${this._emitClick(item.value)}">
-              <p>${item.name}</p>
-            </li>`)
+          <li @click="${e => this._emitClick(e, item.value)}">
+            <p>${item.name}</p>
+          </li>`)
         }
         </ul>
       </div>
@@ -68,4 +71,4 @@ class ViewListSegmentItem extends LitElement {
   }
 }
 
-window.customElements.define('view-list-segment-item', ViewListSegmentItem)
+window.customElements.define('view-clickable-list-segment-item', ViewClickableListSegmentItem)

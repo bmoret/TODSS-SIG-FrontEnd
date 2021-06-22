@@ -18,21 +18,32 @@ class SpecialInterestGroupView extends LitElement {
 
   constructor() {
     super();
-    this.sig = {};
+    this.sig = {
+      organizers: []
+    };
   }
 
   _goToPerson = (id) => {
-    Router.go(`/person/${id}`)
+    const link = `/person/${id}`
+    console.log(link)
+    Router.go(link)
   }
 
   render() {
-    const organizerItems = this.sig.organizers.map(organizer => {return {name: organizer.personName, value: organizer.PersonId}})
+    const organizerItems = this.sig.organizers.map(organizer => {return {name: organizer.personName, value: organizer.personId}})
 
     return html`
         <page-segment .title="${"Info"}">
           <view-segment-item .name="${"Onderwerp"}" .value="${this.sig.subject}"></view-segment-item>
-          <view-segment-item class="clickable" .name="${"manager"}" .value="${this.sig.manager.personName}" @click="${_ => this._goToPerson(this.sig.manager.personId)}"></view-segment-item>
-          <view-list-segment-item .name="${"Organisatoren"}" .items="${organizerItems}"></view-list-segment-item>
+          <view-segment-item 
+            class="clickable" 
+            .name="${"manager"}" 
+            .value="${this.sig.manager.personName}" 
+            @click="${_ => this._goToPerson(this.sig.manager.personId)}"></view-segment-item>
+          <view-clickable-list-segment-item 
+            .name="${"Organisatoren"}"
+            .items="${organizerItems}" 
+            @click="${e => this._goToPerson(e.detail)}"></view-clickable-list-segment-item>
         </page-segment>
     `
   }
