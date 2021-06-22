@@ -28,6 +28,7 @@ router.setRoutes([
       { path: "sig/:id", component: "view-sig-page" },
       { path: "modify-session/:id", component: "modify-session-page" },
       { path: "modify-employee/:id", component: "modify-employee-page" },
+      { path: "modify-sig/:id", component: "modify-sig-page" },
       { path: "(.*)", component: "page-not-found-page" }, //Keep as last path to keep normal page priority above error page
     ],
     action: checkLogin()

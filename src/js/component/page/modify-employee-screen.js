@@ -47,9 +47,6 @@ class ModifyEmployeeScreen extends LitElement {
     this.managers = {};
   }
 
-  _handleCancel = () => {
-    history.back();
-  }
     connectedCallback() {
       super.connectedCallback()
       document.addEventListener('provideResults', this._provideResults);
@@ -76,7 +73,7 @@ class ModifyEmployeeScreen extends LitElement {
     }
 
     _handleCancel = () => {
-        window.location.href = "/";
+        history.back();
     }
 
   _handleSave = () => {
@@ -99,8 +96,7 @@ class ModifyEmployeeScreen extends LitElement {
     ]
   }
 
-  render() {
-    console.log(this.person)
+  render() {//todo
     return html`
         <cim-top-bar></cim-top-bar>
         <centered-layout>
