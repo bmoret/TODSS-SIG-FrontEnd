@@ -12,6 +12,7 @@ class ViewClickableListSegmentItem extends LitElement {
       ul {
         display: flex;
         flex-direction:row;
+        flex-wrap: wrap;
         list-style: none;
         padding: 0;
         margin: 0;
@@ -41,12 +42,14 @@ class ViewClickableListSegmentItem extends LitElement {
     return {
       items: {type: Array, attribute: false, reflect: true},
       name: {type: String, attribute: false, reflect: true},
+      formItem: {type: Boolean, attribute: false, reflect: true},
     }
   }
 
   constructor() {
     super();
     this.items = [];
+    this.formItem = false;
     this.name = "";
   }
 
@@ -65,7 +68,7 @@ class ViewClickableListSegmentItem extends LitElement {
 
     return html`
       <div> 
-        <h3>${this.name}</h3>
+        ${this.formItem? html`<p>${this.name}</p>` : html`<h3>${this.name}</h3>`}
         <ul>
         ${count === 0? html`<li><p>Geen</p></li>`
           :this.items.map(item => html`

@@ -18,9 +18,7 @@ class SpecialInterestGroupView extends LitElement {
 
   constructor() {
     super();
-    this.sig = {
-      organizers: []
-    };
+    this.sig = { organizers: [] };
   }
 
   _goToPerson = (id) => {
