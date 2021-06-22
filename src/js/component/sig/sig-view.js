@@ -26,10 +26,13 @@ class SpecialInterestGroupView extends LitElement {
   }
 
   render() {
+    const organizerItems = this.sig.organizers.map(organizer => {return {name: organizer.personName, value: organizer.PersonId}})
+
     return html`
         <page-segment .title="${"Info"}">
           <view-segment-item .name="${"Onderwerp"}" .value="${this.sig.subject}"></view-segment-item>
           <view-segment-item class="clickable" .name="${"manager"}" .value="${this.sig.manager.personName}" @click="${_ => this._goToPerson(this.sig.manager.personId)}"></view-segment-item>
+          <view-list-segment-item .name="${"Organisatoren"}" .items="${organizerItems}"></view-list-segment-item>
         </page-segment>
     `
   }
