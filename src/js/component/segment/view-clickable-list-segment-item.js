@@ -4,6 +4,7 @@ class ViewClickableListSegmentItem extends LitElement {
   static get styles() {
     return css`
       div {
+      padding: 10px;
         display: flex;
         flex-direction:column;
       }
@@ -23,6 +24,7 @@ class ViewClickableListSegmentItem extends LitElement {
       
       h3 {
         width: 100%;
+        margin: 0;
       }
       
       li:nth-child(even) p {
