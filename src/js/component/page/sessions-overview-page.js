@@ -30,15 +30,47 @@ class SessionsOverviewPage extends LitElement {
         margin-top: 0;
       }
       
-      main div {
+      .filter-buttons {
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: center;
         margin-bottom: 20px;
+      }
+      
+      button {
+        padding: 10px;
+        margin: 10px;
+        font-size: 20px;
+        border: 0px;
+        border-radius: 4px;
+      }
+      
+      main button[selected=true] {
+        background-color: var(--cim-color-button-focused);
+        -webkit-box-shadow: var(--cim-shadow-button-default);
+             -moz-box-shadow: var(--cim-shadow-button-default);
+                  box-shadow: var(--cim-shadow-button-default);
+      }
+      
+      main button:hover {
+        cursor: pointer;
+        background-color: var(--cim-color-button-focused);
+        -webkit-box-shadow: var(--cim-shadow-button-default);
+             -moz-box-shadow: var(--cim-shadow-button-default);
+                  box-shadow: var(--cim-shadow-button-default);
       }
       
       sig-button {
         margin-left: 10px;
+      }
+      
+      .header { 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .header > *:nth-child(2) {
+         margin-left: auto;
       }
     `;
     }
@@ -90,6 +122,14 @@ class SessionsOverviewPage extends LitElement {
             })
     }
 
+    _handleShowPast = () => {
+        this.showPast = true;
+    }
+
+    _handleHidePast = () => {
+        this.showPast = false;
+    }
+
     render() {
         const state = store.getState().user;
         const role = state.role;
@@ -100,8 +140,15 @@ class SessionsOverviewPage extends LitElement {
           <centered-layout slot="body">
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
-                <p>Geweest    Aankomend</p>
-              <compacted-sessions .futureSessions="${this.futureSessions}" 
+                <div class="header">
+                    <h1>Kennissessies</h1>
+                    <sig-button @click="${_ => Router.go(`/person/${this.location.params.id}`)}">Terug</sig-button>
+                </div>
+                <div class="filter-buttons">
+                    <button selected="${this.showPast}" @click="${_ => this._handleShowPast()}">Historisch</button>
+                    <button selected="${!this.showPast}" @click="${_ => this._handleHidePast()}">Aankomend</button>
+                </div>
+                <compacted-sessions .futureSessions="${this.futureSessions}" 
                                   .pastSessions="${this.pastSessions}"
                                   .showPast="${this.showPast}"
               ></compacted-sessions>
