@@ -22,6 +22,7 @@ router.setRoutes([
       { path: "create-special-interest-group", component: "create-sig-page" },
       { path: "create-employee", component: "create-employee-page" },
       { path: "search-employee", component: "search-employee-page" },
+      { path: "search-sessions", component: "search-sessions-page" },
       { path: "session/:id", component: "view-session-page" },
       { path: "session/:id/attendances", component: "session-attendances-page" },
       { path: "person/:id", component: "view-employee-page" },
