@@ -77,17 +77,6 @@ class SearchSessionsPage extends LitElement {
         this.loading = true;
         this.message = "Error, Kan de sessie niet laden"
       })
-    // request('GET', `/sessions/history/${this.location.params.id}`)
-    //   .then(r => {
-    //     // if (!r || Object.keys(r).length === 0) throw ""
-    //     this.pastSessions = r
-    //     console.log(r)
-    //   })
-    //   .then(_ => this.loading = false)
-    //   .catch(_ => {
-    //     this.loading = true;
-    //     this.message = "Error, Kan de sessie niet laden"
-    //   })
   }
 
   render() {

@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
+import {Router} from "@vaadin/router/dist/vaadin-router";
 
 class CompactedSessions extends LitElement {
     static get styles() {
@@ -6,24 +7,15 @@ class CompactedSessions extends LitElement {
        ul {
         display: flex;
         flex-direction: column;
+        padding: 0;
+        list-style: none;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
-        width: 100%;
-        padding: 0;
-        justify-content: space-between;
       }
       
       li {
+        width: 100%;
         padding: 5px 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      
-      img {
-        width: 70px;
-        max-height: 80px;
-        margin: 70px 20px 0 0;
       }
       
       p {
@@ -31,34 +23,11 @@ class CompactedSessions extends LitElement {
         font-size: 20px
         text-align: center;
       }
-    
-      .sessions__container {
-        width: 100%;
-      }
-     
-      @media screen and (max-width: 1040px) {
-       ul {
-        flex-direction: column;
-       }
-       
-       li {
-        width: 100%;
-       }
-      }
       
-      @media screen and (min-width: 1040px) {
-           ul {
-            flex-direction: row;
-           }
-           
-           li {
-            flex: 1 0 40%;
-           }
-           
-           li:nth-child(odd) {
-            padding-right: 10px;
-           }
-       }
+      session-historical-compact,
+      session-compact {
+        cursor: pointer;
+      }
     `;
     }
 
@@ -77,17 +46,29 @@ class CompactedSessions extends LitElement {
         this.showPast = false;
     }
 
+    _goToSession = (id) => {
+        Router.go("/session/" + id);
+    }
+
     render() {
         return html`
         <div class="sessions__container">
             <ul>
                 ${this.showPast ? this.pastSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
                     : this.pastSessions.map(session => html`
-                      <li><session-historical-compact .session="${session}"></session-historical-compact></li>
+                      <li>
+                          <session-historical-compact 
+                          .session="${session}" 
+                          @click="${_ => this._goToSession(session.id)}"></session-historical-compact>
+                      </li>
                     `)
                    : this.futureSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
                       : this.futureSessions.map(session => html`
-                        <li><session-compact .session="${session}"></session-compact></li>
+                        <li>
+                        <session-compact 
+                            .session="${session}" 
+                            @click="${_ => this._goToSession(session.id)}"></session-compact>
+                        </li>
                       `)
                 }
             <ul>
