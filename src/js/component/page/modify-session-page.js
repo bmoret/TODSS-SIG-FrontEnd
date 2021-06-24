@@ -200,7 +200,7 @@ class ModifySessionPage extends LitElement {
                     .title="${"Tijdsindeling"}" 
                     .show="${segments.tijdsindeling.open}" 
                     @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                    <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${duration}"></form-time-item>
+                    <form-time-item .name="${"duration"}" .label="${"Duur"}" .value="${duration}"></form-time-item>
                   </page-segment>` : ''
                 }
                 <div>
