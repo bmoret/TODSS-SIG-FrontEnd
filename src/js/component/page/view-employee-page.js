@@ -63,6 +63,10 @@ class ViewEmployeePage extends LitElement {
     Router.go(`modify-employee/${this.location.params.id}`)
   }
 
+  _handleViewSessions = () => {
+    Router.go(`/person/${this.location.params.id}/sessions`)
+  }
+
   render() {
     return html`
        <app-root>
@@ -72,7 +76,8 @@ class ViewEmployeePage extends LitElement {
             <main>
               <employee-view .employee="${this.employee}"></employee-view>
                <div>
-                <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
+                 <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
+                 <sig-button @click="${() => this._handleViewSessions()}">Sessies weergeven</sig-button>
                </div>
             </main>
             `}
