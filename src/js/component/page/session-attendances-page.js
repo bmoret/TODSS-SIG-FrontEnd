@@ -82,6 +82,12 @@ class SessionAttendancesPage extends LitElement {
         this.loading = true;
         this.message = "Error, Kan de sessie niet laden"
       })
+
+    request('GET', '/sessions/'+this.location.params.id)
+        .then(r => {
+          console.log(r.state)
+          this.state = r.state;
+        })
   }
 
   _handleUpdateAttendance = async (e) => {
@@ -130,6 +136,7 @@ class SessionAttendancesPage extends LitElement {
               <session-attendances 
                 .attendances="${this.attendances}"
                 .cancellations="${this.cancellations}"
+                .state="${this.state}"
                 @updateAttendance="${e => this._handleUpdateAttendance(e)}"
               ></session-attendances>
             </main>
