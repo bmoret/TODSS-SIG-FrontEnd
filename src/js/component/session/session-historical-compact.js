@@ -4,19 +4,16 @@ class SessionCompact extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
-        position: relative;
-        width: 100%;
         min-width: 250px;
       }
     
       div {
-        display: flex;
-        flex-direction: row;
-        flex-flow: wrap;
+        display: grid;
+        grid-template-areas: 
+          "date  subject  type"
+          ".  description  people"; 
+        grid-template-columns: 110px auto 200px ;
         border-radius: 2px;
-        max-width: 100%;
-        margin: 0;
         padding: 5px;
         vertical-align: middle;
         -webkit-box-shadow: var(--cim-shadow-default);
@@ -24,44 +21,26 @@ class SessionCompact extends LitElement {
                 box-shadow: var(--cim-shadow-default);
       }
       
-      button {
-        display: block;
-        position: relative;
-        height: 2.5em;
-        width: 2.5em;
-        text-align: center;
-        margin-right: 10px;
-        border: solid 1px #999999;
-        border-radius: 2px;
-        padding: 0;
+      grid-date {
+        max-width: 120px;
+        grid-area: date;
       }
-      
-      button:hover {
-        border: 1px;
+      .grid-subject {grid-area: subject;}
+      .grid-type {
+        margin-right: 20px;
+        justify-self: end;
+        grid-area: type;
       }
-      
-      button[present=true], .present:hover {
-        background-color: #bbffbb;
-      }
-      
-      button[absent=true], .absent:hover {
-        background-color: #ffbbbb;
+      .grid-description {grid-area: description;}
+      .grid-people {
+        margin-right: 20px;
+        justify-self: end;
+        grid-area: people;
       }
      
-      img {
-        max-height: 100%;
-        box-sizing: border-box;
-      }
-     
-      .cross {
-        padding: 6px;
-      }
-      
-      .checkmark {
-        padding: 3.5px; 
-      }
       
       p {
+        display: inline-block;
         margin: auto;
         margin-left: 5px;
       }
@@ -82,11 +61,11 @@ class SessionCompact extends LitElement {
   render() {
     return html`
       <div>
-        <p>${this.session.details.startDate.split("T")[0]}</p>
-        <p>${this.session.details.subject}</p>
-        <p>${this.session.type}</p>
-        <p>${this.session.details.description}</p>
-        <p>aantal leden</p>
+        <p class="grid-date">${this.session.details.startDate.split("T")[0]}</p>
+        <p class="subject">${this.session.details.subject}</p>
+        <p class="grid-type">${this.session.type}</p>
+        <p class="grid-description">${this.session.details.description}</p>
+        <p class="grid-people">aantal leden</p>
       </div>
     `
   }
