@@ -100,8 +100,7 @@ class SearchSessionsPage extends LitElement {
           <centered-layout slot="body">
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
-              <h1>Sessies zoeken</h1>
-              <p>Geweest    Aankomend</p>
+              <h1>Sessies</h1>
               <compacted-sessions 
               .futureSessions="${this.futureSessions}" 
               .pastSessions="${this.pastSessions}"

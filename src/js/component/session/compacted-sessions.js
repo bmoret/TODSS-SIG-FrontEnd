@@ -1,12 +1,13 @@
 import {LitElement, html, css} from 'lit-element';
-import {roundToPercent} from "../../utils/number-utils";
-import {request} from "../../service/connection-service";
 
 class CompactedSessions extends LitElement {
     static get styles() {
         return css`
-      ul {
+       ul {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
         width: 100%;
         padding: 0;
@@ -28,14 +29,10 @@ class CompactedSessions extends LitElement {
       p {
         font-weight: bold;
         font-size: 20px
-      }
-      
-      .type__container {
-        display: flex;
-        flex-direction: row;
+        text-align: center;
       }
     
-      .attendances__container {
+      .sessions__container {
         width: 100%;
       }
      
@@ -50,18 +47,18 @@ class CompactedSessions extends LitElement {
       }
       
       @media screen and (min-width: 1040px) {
-       ul {
-        flex-direction: row;
-       }
-       
-       li {
-        flex: 1 0 40%;
-        max-width: 50%;
-       }
-       
-       li:nth-child(odd) {
-        padding-right: 10px;
-       }
+           ul {
+            flex-direction: row;
+           }
+           
+           li {
+            flex: 1 0 40%;
+            max-width: 50%;
+           }
+           
+           li:nth-child(odd) {
+            padding-right: 10px;
+           }
        }
     `;
     }
@@ -82,33 +79,20 @@ class CompactedSessions extends LitElement {
     }
 
     render() {
-        console.log(this.futureSessions.length)
         return html`
-        <div class="attendances__container">
-            ${this.showPast ? html`
-          <ul>
-            ${this.pastSessions.map(session => html`
-                ${console.log(session)}
-              <li>
-                <session-compact .session="${session}"><session-compact>
-              </li>
-            `)}
-          </ul>`
-           : 
-            html `<ul>
-            ${this.futureSessions.map(session => 
-                html`
-                    ${console.log(session)}
-                    <li>
-                        <session-compact .session="${session}">
-                            <session-compact>
-                    </li>
-                `
-            )}
-          </ul>`}
+        <div class="sessions__container">
+            <ul>
+                ${this.showPast ? this.pastSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
+                    : this.pastSessions.map(session => html`
+                      <li><session-historical-compact .session="${session}"></session-historical-compact></li>
+                    `)
+                   : this.futureSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
+                      : this.futureSessions.map(session => html`
+                        <li><session-compact .session="${session}"></session-compact></li>
+                      `)
+                }
+            <ul>
         </div>
-<!--        <session-compact .session="${this.session}"></session-compact>-->
-      
     `
     }
 }

@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 
 class SessionCompact extends LitElement {
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
       :host {
         display: block;
         position: relative;
@@ -66,29 +66,30 @@ class SessionCompact extends LitElement {
         margin-left: 5px;
       }
     `;
-    }
+  }
 
-    static get properties() {
-        return {
-            session: {type: Object, attribute: false, reflect: true}
-        }
+  static get properties() {
+    return {
+      session: {type: Object, attribute: false, reflect: true}
     }
+  }
 
-    constructor() {
-        super()
-        this.session = {};
-    }
+  constructor() {
+    super()
+    this.session = {};
+  }
 
-    render() {
-        return html`
-            <div>
-                <p>${this.session.details.startDate.split("T")[0]}</p>
-                <p>${this.session.details.subject}</p>
-                <p>${this.session.type}</p>
-                <p>${this.session.details.description}</p>
-            </div>
-        `
-    }
+  render() {
+    return html`
+      <div>
+        <p>${this.session.details.startDate.split("T")[0]}</p>
+        <p>${this.session.details.subject}</p>
+        <p>${this.session.type}</p>
+        <p>${this.session.details.description}</p>
+        <p>aantal leden</p>
+      </div>
+    `
+  }
 }
 
-window.customElements.define('session-compact', SessionCompact);
+window.customElements.define('session-historical-compact', SessionCompact);

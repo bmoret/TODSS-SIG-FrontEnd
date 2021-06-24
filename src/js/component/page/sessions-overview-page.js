@@ -101,20 +101,14 @@ class SessionsOverviewPage extends LitElement {
 
     _load = async () => {
         request('GET', `/sessions/future/${this.location.params.id}`)
-            .then(r => {
-                // if (!r || Object.keys(r).length === 0) throw ""
-                this.futureSessions = r
-            })
+            .then(r => this.futureSessions = r)
             .then(_ => this.loading = false)
             .catch(_ => {
                 this.loading = true;
                 this.message = "Error, Kan de sessie niet laden"
             })
         request('GET', `/sessions/history/${this.location.params.id}`)
-            .then(r => {
-                // if (!r || Object.keys(r).length === 0) throw ""
-                this.pastSessions = r
-            })
+            .then(r => this.pastSessions = r)
             .then(_ => this.loading = false)
             .catch(_ => {
                 this.loading = true;
