@@ -53,7 +53,6 @@ class CompactedSessions extends LitElement {
            
            li {
             flex: 1 0 40%;
-            max-width: 50%;
            }
            
            li:nth-child(odd) {
