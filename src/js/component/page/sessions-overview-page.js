@@ -70,7 +70,7 @@ class SessionsOverviewPage extends LitElement {
     _load = async () => {
         request('GET', `/sessions/future/${this.location.params.id}`)
             .then(r => {
-                if (!r || Object.keys(r).length === 0) throw ""
+                // if (!r || Object.keys(r).length === 0) throw ""
                 this.futureSessions = r
             })
             .then(_ => this.loading = false)
@@ -80,7 +80,7 @@ class SessionsOverviewPage extends LitElement {
             })
         request('GET', `/sessions/history/${this.location.params.id}`)
             .then(r => {
-                if (!r || Object.keys(r).length === 0) throw ""
+                // if (!r || Object.keys(r).length === 0) throw ""
                 this.pastSessions = r
             })
             .then(_ => this.loading = false)

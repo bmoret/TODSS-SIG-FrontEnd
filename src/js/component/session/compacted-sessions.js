@@ -74,12 +74,21 @@ class CompactedSessions extends LitElement {
         }
     }
 
+    constructor() {
+        super()
+        this.futureSessions = [];
+        this.pastSessions = [];
+        this.showPast = false;
+    }
+
     render() {
+        console.log(this.futureSessions.length)
         return html`
         <div class="attendances__container">
             ${this.showPast ? html`
           <ul>
             ${this.pastSessions.map(session => html`
+                ${console.log(session)}
               <li>
                 <session-compact .session="${session}"><session-compact>
               </li>
@@ -87,13 +96,18 @@ class CompactedSessions extends LitElement {
           </ul>`
            : 
             html `<ul>
-            ${this.futureSessions.map(session => html`
-              <li>
-                <session-compact .session="${session}"><session-compact>
-              </li>
-            `)}
+            ${this.futureSessions.map(session => 
+                html`
+                    ${console.log(session)}
+                    <li>
+                        <session-compact .session="${session}">
+                            <session-compact>
+                    </li>
+                `
+            )}
           </ul>`}
         </div>
+<!--        <session-compact .session="${this.session}"></session-compact>-->
       
     `
     }

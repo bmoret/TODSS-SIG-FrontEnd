@@ -74,11 +74,15 @@ class SessionCompact extends LitElement {
         }
     }
 
+    constructor() {
+        super()
+        this.session = {};
+    }
+
     render() {
-        console.log(this.session)
+        console.log(this.session.details.subject)
         return html`
             <div>
-                <p>${this.session.specialInterestGroup.subject}</p>
                 <p>${this.session.details.startDate.split("T")[0]}</p>
                 <p>${this.session.details.subject}</p>
                 <p>${this.session.type}</p>
