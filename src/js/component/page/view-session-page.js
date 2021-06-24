@@ -36,6 +36,10 @@ class ViewSessionPage extends LitElement {
         justify-content: flex-end;
         margin-bottom: 20px;
       }
+      
+      sig-button {
+        margin-left: 10px;
+      }
     `;
   }
 
