@@ -133,9 +133,15 @@ class ModifySessionPage extends LitElement {
     let form = this.shadowRoot.querySelector("form");
     if (!isValidForm(form)) return;
     let body = parseForm(form);
-    let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
-    body.startDate = dateToTimestamp(new Date());
-    body.endDate = dateToTimestamp(Date.now() + durationInMilliSeconds);
+    if (body.duration){
+      let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
+      body.startDate = dateToTimestamp(new Date());
+      body.endDate = dateToTimestamp(Date.now() + durationInMilliSeconds);
+    } else {
+      body.startDate = this.session.details.startDate;
+      body.endDate = this.session.details.endDate;
+    }
+    delete body.duration
     body.contactPerson = this.contactPerson;
     delete body.duration
 
@@ -189,12 +195,14 @@ class ModifySessionPage extends LitElement {
                   `: html`<form-item .name="${"address"}" .label="${"Adres"}" .value="${this.session.address}"></form-item>`
                 } 
                 </page-segment>
-                <page-segment 
-                  .title="${"Tijdsindeling"}" 
-                  .show="${segments.tijdsindeling.open}" 
-                  @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${duration}"></form-time-item>
-                </page-segment>
+                ${["DRAFT", "TO_BE_PLANNED"].includes(this.session.state)?
+                  html`<page-segment 
+                    .title="${"Tijdsindeling"}" 
+                    .show="${segments.tijdsindeling.open}" 
+                    @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
+                    <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${duration}"></form-time-item>
+                  </page-segment>` : ''
+                }
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
                   <sig-button @click="${() => this._handleSave()}">Opslaan</sig-button>
