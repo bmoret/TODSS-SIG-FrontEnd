@@ -5,8 +5,8 @@ import {request} from "../../service/connection-service";
 import {store} from "../../state/store/store";
 
 class SessionsOverviewPage extends LitElement {
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
       :host {
         display: block;
       }
@@ -73,68 +73,63 @@ class SessionsOverviewPage extends LitElement {
          margin-left: auto;
       }
     `;
+  }
+
+  static get properties() {
+    return {
+      loading: {type: Boolean, attribute: false, reflect: true},
+      message: {type: String, attribute: false, reflect: true},
+      futureSessions: {type: Array, attribute: false, reflect: true},
+      pastSessions: {type: Array, attribute: false, reflect: true},
+      showPast: {type: Boolean, attribute: false, reflect: true}
     }
+  }
 
-    static get properties() {
-        return {
-            loading: {type: Boolean, attribute: false, reflect: true},
-            message: {type: String, attribute: false, reflect: true},
-            futureSessions: {type: Array, attribute: false, reflect: true},
-            pastSessions: {type: Array, attribute: false, reflect: true},
-            showPast: {type: Boolean, attribute: false, reflect: true}        }
-    }
+  constructor() {
+    super();
+    this.loading = false;
+    document.title = "Sessie"
+    this.message = "Loading..."
+    this.futureSessions = [];
+    this.pastSessions = [];
+    this.showPast = false;
+  }
 
-    constructor() {
-        super();
-        this.loading = false;
-        document.title = "Sessie"
-        this.message = "Loading..."
-        this.futureSessions = [];
-        this.pastSessions = [];
-        this.showPast = false;
-    }
+  connectedCallback() {
+    super.connectedCallback();
+    this._load()
+  }
 
-    connectedCallback() {
-        super.connectedCallback();
-        this._load()
-    }
+  _load = async () => {
+    request('GET', `/sessions/future/${this.location.params.id}`)
+      .then(r => this.futureSessions = r)
+      .then(_ => this.loading = false)
+      .catch(_ => {
+        this.loading = true;
+        this.message = "Error, Kan de sessie niet laden"
+      })
+    request('GET', `/sessions/history/${this.location.params.id}`)
+      .then(r => this.pastSessions = r)
+      .then(_ => this.loading = false)
+      .catch(_ => {
+        this.loading = true;
+        this.message = "Error, Kan de sessie niet laden"
+      })
+  }
 
-    _load = async () => {
-        request('GET', `/sessions/future/${this.location.params.id}`)
-            .then(r => {
-                // if (!r || Object.keys(r).length === 0) throw ""
-                this.futureSessions = r
-            })
-            .then(_ => this.loading = false)
-            .catch(_ => {
-                this.loading = true;
-                this.message = "Error, Kan de sessie niet laden"
-            })
-        request('GET', `/sessions/history/${this.location.params.id}`)
-            .then(r => {
-                // if (!r || Object.keys(r).length === 0) throw ""
-                this.pastSessions = r
-            })
-            .then(_ => this.loading = false)
-            .catch(_ => {
-                this.loading = true;
-                this.message = "Error, Kan de sessie niet laden"
-            })
-    }
+  _handleShowPast = () => {
+    this.showPast = true;
+  }
 
-    _handleShowPast = () => {
-        this.showPast = true;
-    }
+  _handleHidePast = () => {
+    this.showPast = false;
+  }
 
-    _handleHidePast = () => {
-        this.showPast = false;
-    }
+  render() {
+    const state = store.getState().user;
+    const role = state.role;
 
-    render() {
-        const state = store.getState().user;
-        const role = state.role;
-
-        return html`
+    return html`
        <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
           <centered-layout slot="body">
@@ -148,16 +143,17 @@ class SessionsOverviewPage extends LitElement {
                     <button selected="${this.showPast}" @click="${_ => this._handleShowPast()}">Historisch</button>
                     <button selected="${!this.showPast}" @click="${_ => this._handleHidePast()}">Aankomend</button>
                 </div>
-                <compacted-sessions .futureSessions="${this.futureSessions}" 
-                                  .pastSessions="${this.pastSessions}"
-                                  .showPast="${this.showPast}"
+                <compacted-sessions 
+                  .futureSessions="${this.futureSessions}" 
+                  .pastSessions="${this.pastSessions}"
+                  .showPast="${this.showPast}"
               ></compacted-sessions>
             </main>
             `}
           </centered-layout>
         </app-root>
       `
-    }
+  }
 }
 
 window.customElements.define('sessions-overview-page', SessionsOverviewPage)

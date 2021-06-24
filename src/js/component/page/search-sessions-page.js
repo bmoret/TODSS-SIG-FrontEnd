@@ -77,17 +77,6 @@ class SearchSessionsPage extends LitElement {
         this.loading = true;
         this.message = "Error, Kan de sessie niet laden"
       })
-    // request('GET', `/sessions/history/${this.location.params.id}`)
-    //   .then(r => {
-    //     // if (!r || Object.keys(r).length === 0) throw ""
-    //     this.pastSessions = r
-    //     console.log(r)
-    //   })
-    //   .then(_ => this.loading = false)
-    //   .catch(_ => {
-    //     this.loading = true;
-    //     this.message = "Error, Kan de sessie niet laden"
-    //   })
   }
 
   render() {
@@ -100,8 +89,7 @@ class SearchSessionsPage extends LitElement {
           <centered-layout slot="body">
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
-              <h1>Sessies zoeken</h1>
-              <p>Geweest    Aankomend</p>
+              <h1>Sessies</h1>
               <compacted-sessions 
               .futureSessions="${this.futureSessions}" 
               .pastSessions="${this.pastSessions}"

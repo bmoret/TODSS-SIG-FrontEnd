@@ -1,68 +1,33 @@
 import {LitElement, html, css} from 'lit-element';
-import {roundToPercent} from "../../utils/number-utils";
-import {request} from "../../service/connection-service";
+import {Router} from "@vaadin/router/dist/vaadin-router";
 
 class CompactedSessions extends LitElement {
     static get styles() {
         return css`
-      ul {
+       ul {
         display: flex;
-        flex-wrap: wrap;
-        width: 100%;
+        flex-direction: column;
         padding: 0;
-        justify-content: space-between;
+        list-style: none;
+        justify-content: center;
+        align-items: center;
       }
       
       li {
+        width: 100%;
         padding: 5px 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      
-      img {
-        width: 70px;
-        max-height: 80px;
-        margin: 70px 20px 0 0;
       }
       
       p {
         font-weight: bold;
         font-size: 20px
+        text-align: center;
       }
       
-      .type__container {
-        display: flex;
-        flex-direction: row;
+      session-historical-compact,
+      session-compact {
+        cursor: pointer;
       }
-    
-      .attendances__container {
-        width: 100%;
-      }
-     
-      @media screen and (max-width: 1040px) {
-       ul {
-        flex-direction: column;
-       }
-       
-       li {
-        width: 100%;
-       }
-      }
-      
-      @media screen and (min-width: 1040px) {
-       ul {
-        flex-direction: row;
-       }
-       
-       li {
-        flex: 1 0 40%;
-        max-width: 50%;
-       }
-       
-       li:nth-child(odd) {
-        padding-right: 10px;
-       }
-       }
     `;
     }
 
@@ -81,34 +46,33 @@ class CompactedSessions extends LitElement {
         this.showPast = false;
     }
 
+    _goToSession = (id) => {
+        Router.go("/session/" + id);
+    }
+
     render() {
-        console.log(this.futureSessions.length)
         return html`
-        <div class="attendances__container">
-            ${this.showPast ? html`
-          <ul>
-            ${this.pastSessions.map(session => html`
-                ${console.log(session)}
-              <li>
-                <session-compact .session="${session}"><session-compact>
-              </li>
-            `)}
-          </ul>`
-           : 
-            html `<ul>
-            ${this.futureSessions.map(session => 
-                html`
-                    ${console.log(session)}
-                    <li>
-                        <session-compact .session="${session}">
-                            <session-compact>
-                    </li>
-                `
-            )}
-          </ul>`}
+        <div class="sessions__container">
+            <ul>
+                ${this.showPast ? this.pastSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
+                    : this.pastSessions.map(session => html`
+                      <li>
+                          <session-historical-compact 
+                          .session="${session}" 
+                          @click="${_ => this._goToSession(session.id)}"></session-historical-compact>
+                      </li>
+                    `)
+                   : this.futureSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
+                      : this.futureSessions.map(session => html`
+                        <li>
+                        <session-compact 
+                            .session="${session}" 
+                            @click="${_ => this._goToSession(session.id)}"></session-compact>
+                        </li>
+                      `)
+                }
+            <ul>
         </div>
-<!--        <session-compact .session="${this.session}"></session-compact>-->
-      
     `
     }
 }

@@ -129,8 +129,6 @@ class ViewSessionPage extends LitElement {
                     ''
                   }
                </div>
-                <session-compact .session="${this.session}"></session-compact>
-
             </main>
             `}
           </centered-layout>
