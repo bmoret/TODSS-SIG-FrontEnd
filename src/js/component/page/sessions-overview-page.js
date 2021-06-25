@@ -139,7 +139,7 @@ class SessionsOverviewPage extends LitElement {
             <main>
                 <div class="header">
                     <h1>Kennissessies</h1>
-                    <sig-button @click="${_ => Router.go(`/person/${this.location.params.id}`)}">Terug</sig-button>
+                    <sig-button @click="${_ => history.back()}">Terug</sig-button>
                 </div>
                 <div class="filter-buttons">
                     <button selected="${this.showPast}" @click="${_ => this._handleShowPast()}">Historisch</button>
