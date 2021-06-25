@@ -1,7 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
-import {Router} from "@vaadin/router";
 import {request} from "../../service/connection-service";
-import {store} from "../../state/store/store";
 
 class SessionAttendancesPage extends LitElement {
   static get styles() {
@@ -52,10 +50,6 @@ class SessionAttendancesPage extends LitElement {
     this.cancellations = []
     document.title = "Aanmeldingen"
     this.message = "Loading..."
-
-    // this.attendances = [{personName: "Jan Jansen", personId: "aaa"}, {personName: "Kelvin karens", personId: "bbb"}, {personName: "Willem Walters", personId: "ccc"},]
-    // this.cancellations = [{personName: "Jenny Jovel", personId: "eee"}, {personName: "Berend B", personId: "ddd"}, {personName: "Xander Xeros", personId: "fff"},]
-
   }
 
   connectedCallback() {
