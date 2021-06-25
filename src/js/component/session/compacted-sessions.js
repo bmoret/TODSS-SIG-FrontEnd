@@ -57,9 +57,9 @@ class CompactedSessions extends LitElement {
                 ${this.showPast ? this.pastSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
                     : this.pastSessions.map(session => html`
                       <li>
-                          <session-historical-compact 
+                          <session-compact 
                           .session="${session}" 
-                          @click="${_ => this._goToSession(session.id)}"></session-historical-compact>
+                          @click="${_ => this._goToSession(session.id)}"></session-compact>
                       </li>
                     `)
                    : this.futureSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
