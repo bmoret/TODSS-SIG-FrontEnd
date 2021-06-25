@@ -2,8 +2,6 @@ import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 
 import {parseForm} from "../../utils/form-util";
-import {request} from "../../service/connection-service";
-
 class CreateSpecialInterestGroupPage extends LitElement {
   static get styles() {
     return css`
@@ -19,6 +17,10 @@ class CreateSpecialInterestGroupPage extends LitElement {
         
       sig-button {
         margin: 15px 10px;
+      }
+      
+      view-clickable-list-segment-item {
+        color: red;
       }
     `;
   }
@@ -41,10 +43,10 @@ class CreateSpecialInterestGroupPage extends LitElement {
     let form = this.shadowRoot.querySelector("form");
     let body = parseForm(form);
     body.organizerIds = this.organizers.map(organizer => organizer.value);
-    if (body.subject === undefined || body.manager === undefined || body.organizerIds.size === 0) return;
+    if (body.subject === undefined || body.managerId === undefined || body.organizerIds.length === 0) return;
     request('POST', '/sig', body)
-      .then(r => Router.go('/sig/' + r.id))
-      .catch(_ => alert("Er was een error tijdens het aanmaken van de medewerker!"));
+        .then(r => Router.go('/sig/' + r.id))
+        .catch(_ => alert("Er was een error tijdens het aanmaken van de medewerker!"));
   }
 
   _selectManager = (e) => {
@@ -60,23 +62,28 @@ class CreateSpecialInterestGroupPage extends LitElement {
     this.organizers = [...this.organizers, organizer]
   }
 
+  _removeItem = (e) => {
+    this.organizers = [...this.organizers.filter(item => item.value !== e.detail)]
+  }
+
   render() {
     return html`
       <cim-top-bar></cim-top-bar>
       <centered-layout>
         <h1>Special Interest Group aanmaken</h1>
-          <form>
-            <page-segment .title="${"info"}" >
-              <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
-              <form-dropdown-item id="manager" .name="${"managerId"}" .label="${"Manager"}"></form-dropdown-item>
-              <search-employee @employeeResult="${this._selectManager}"></search-employee>
-              <view-clickable-list-segment-item 
-              .name="${"Organisatoren"}"
-              .items="${this.organizers}" 
-              .formItem="${true}"></view-clickable-list-segment-item>
-              <search-employee @employeeResult="${this._selectOrganizer}"></search-employee>
-            </page-segment>
-          </form>
+        <form>
+          <page-segment .title="${"info"}" >
+            <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
+            <form-dropdown-item id="manager" .name="${"managerId"}" .label="${"Manager"}"></form-dropdown-item>
+            <search-employee @employeeResult="${this._selectManager}"></search-employee>
+            <view-clickable-list-segment-item
+                .name="${"Organisatoren"}"
+                .items="${this.organizers}"
+                .formItem="${true}"
+                @custom="${e => this._removeItem(e)}"></view-clickable-list-segment-item>
+            <search-employee @employeeResult="${this._selectOrganizer}"></search-employee>
+          </page-segment>
+        </form>
         <div>
           <sig-button @click="${this._handleCancel}">Annuleren</sig-button>
           <sig-button @click="${this._handleSave}">Opslaan</sig-button>
@@ -85,5 +92,7 @@ class CreateSpecialInterestGroupPage extends LitElement {
     `
   }
 }
+
+import {request} from "../../service/connection-service";
 
 window.customElements.define('create-sig-page', CreateSpecialInterestGroupPage)
