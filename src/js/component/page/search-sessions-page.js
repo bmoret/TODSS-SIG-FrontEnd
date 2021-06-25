@@ -53,12 +53,13 @@ class SearchSessionsPage extends LitElement {
 
   constructor() {
     super();
-    this.loading = false;
+    this.loading = true;
     document.title = "Sessie"
     this.message = "Loading..."
     this.futureSessions = [];
     this.pastSessions = [];
     this.showPast = false;
+    document.title = "Sessies"
   }
 
   connectedCallback() {
@@ -71,10 +72,10 @@ class SearchSessionsPage extends LitElement {
       .then(r => {
         // if (!r || Object.keys(r).length === 0) throw ""
         this.futureSessions = r
+        this.loading = false;
       })
       .then(_ => this.loading = false)
       .catch(_ => {
-        this.loading = true;
         this.message = "Error, Kan de sessie niet laden"
       })
   }

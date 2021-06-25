@@ -21,7 +21,6 @@ class SessionAttendancesPage extends LitElement {
       h1 {
       display: inline-block;
         text-align:center;
-        width: min-content;
         margin-right: 0;
       }
       

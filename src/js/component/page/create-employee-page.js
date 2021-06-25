@@ -37,6 +37,11 @@ class CreateEmployeePage extends LitElement {
     `;
   }
 
+  constructor() {
+    super();
+    document.title = "Medewerker Aanmaken"
+  }
+
   _handleCancel = () => history.back();
 
   _handleSave = () => {

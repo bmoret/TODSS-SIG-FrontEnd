@@ -35,7 +35,7 @@ class CompactedSessions extends LitElement {
         return {
             futureSessions: {type: Array, attribute: false, reflect: true},
             pastSessions: {type: Array, attribute: false, reflect: true},
-            showPast: {type: Boolean, attribute: false, reflect: true}
+            showPast: {type: Boolean, attribute: false, reflect: true},
         }
     }
 

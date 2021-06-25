@@ -42,7 +42,7 @@ class ViewSpecialInterestGroupPage extends LitElement {
 
   constructor() {
     super();
-    this.loading = false;
+    this.loading = true;
     this.employee = {};
     this.specialInterestGroup = "Loading...";
     document.title = "SIG";
@@ -55,7 +55,13 @@ class ViewSpecialInterestGroupPage extends LitElement {
 
   _load = async () => {
     request('GET', `/sig/${this.location.params.id}`)
-      .then(r => this.specialInterestGroup = r)
+      .then(r => {
+        if (r.id === undefined) throw "";
+        if (r)
+        this.specialInterestGroup = r
+      })
+        .then(_ => this.loading = false)
+        .catch(_ => this.message = "Er ging iets mis tijdens het laden.")
   }
 
   _handleEdit = () => {

@@ -32,6 +32,7 @@ class CreateSpecialInterestGroupPage extends LitElement {
   constructor() {
     super();
     this.organizers = [];
+    document.title = "SIG Aanmaken"
   }
 
   _handleCancel = () => history.back();

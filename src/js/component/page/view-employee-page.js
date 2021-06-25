@@ -42,7 +42,7 @@ class ViewEmployeePage extends LitElement {
 
   constructor() {
     super();
-    this.loading = false;
+    this.loading = true;
     document.title = "Sessie";
     this.message = "Loading...";
     //employee filler weg te halen na fix
@@ -56,7 +56,13 @@ class ViewEmployeePage extends LitElement {
 
   _load = async () => {
     request('GET', `/person/${this.location.params.id}`)
-      .then(r => this.employee = r)
+      .then(r => {
+        console.log(r)
+        if (r.email === undefined) throw "";
+        this.employee = r
+        this.loading = false;
+      })
+        .catch(_ => this.message = "Er ging iets mis tijdens het laden.")
   }
 
   _handleEdit = () => {

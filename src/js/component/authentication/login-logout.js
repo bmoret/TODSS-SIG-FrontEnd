@@ -27,6 +27,7 @@ class LoginLogout extends LitElement {
   _logout = () => {
     store.dispatch(actions.logout({}));
     Router.go("/login");
+    this.isLoggedIn = false;
   }
 
   render() {
