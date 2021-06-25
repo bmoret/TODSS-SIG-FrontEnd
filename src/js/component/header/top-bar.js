@@ -40,16 +40,19 @@ class TopBar extends LitElement {
               margin: auto;
             }
             
-            login-logout {
+            div {
                 position: absolute;
-                right: 0;
-                margin-right: 20px;
+                display: flex;
+                flex direction: row;
+                align-items: center;
+                right: 20px;
             }
+            
+            div *:not(first-child) {
+                margin-left: 10px;
+            }
+            
         `;
-    }
-
-    constructor() {
-        super();
     }
 
     _goHome = () => Router.go("/")
@@ -61,7 +64,11 @@ class TopBar extends LitElement {
                     <img src="/dist/assets/image/app-logo.svg" alt="cimsolution logo">
                     <p>Home</p>
                 </button>
-                <login-logout></login-logout>
+                <div>
+                    <user-account-icon></user-account-icon>
+                    <login-logout></login-logout>
+                </div>
+                
             </header>
         `;
     }

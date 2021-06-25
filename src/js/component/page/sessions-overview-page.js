@@ -78,8 +78,6 @@ class SessionsOverviewPage extends LitElement {
   static get properties() {
     return {
       loading: {type: Boolean, attribute: false, reflect: true},
-      loading1: {type: Boolean, attribute: false, reflect: true},
-      loading2: {type: Boolean, attribute: false, reflect: true},
       message: {type: String, attribute: false, reflect: true},
       futureSessions: {type: Array, attribute: false, reflect: true},
       pastSessions: {type: Array, attribute: false, reflect: true},
@@ -90,9 +88,6 @@ class SessionsOverviewPage extends LitElement {
   constructor() {
     super();
     this.loading = true;
-    this.loading1 = true;
-    this.loading2 = true;
-    document.title = "Sessie"
     this.message = "Loading..."
     this.futureSessions = [];
     this.pastSessions = [];
@@ -105,31 +100,23 @@ class SessionsOverviewPage extends LitElement {
     this._load()
   }
 
-  update(x) {
-    super.update(x);
-    if (!this.loading1 && !this.loading2) this.loading = false
-  }
-
   _load = async () => {
     request('GET', `/sessions/future/${this.location.params.id}`)
       .then(r => {
         if (r.length === undefined) throw "";
         this.futureSessions = r
       })
-      .then(_ => this.loading1 = false)
       .catch(_ => {
-        this.message = "Error, Kan de sessie niet laden"
+        this.message = "Error, Kan de sessie niet laden";
+        return;
       })
     request('GET', `/sessions/history/${this.location.params.id}`)
       .then(r => {
         if (r.length === undefined) throw "";
         this.pastSessions = r
       })
-      .then(_ => this.loading2 = false)
-      .catch(_ => {
-        console.log(r.length)
-        this.message = "Error, Kan de sessie niet laden"
-      })
+      .then(_ => this.loading = false)
+      .catch(_ => this.message = "Error, Kan de sessie niet laden")
   }
 
   _handleShowPast = () => {
