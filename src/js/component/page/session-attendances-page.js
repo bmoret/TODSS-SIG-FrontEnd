@@ -50,12 +50,8 @@ class SessionAttendancesPage extends LitElement {
     this.loading = false;
     this.attendances = []
     this.cancellations = []
-    document.title = "Aanmeldingen"
     this.message = "Loading..."
-
-    // this.attendances = [{personName: "Jan Jansen", personId: "aaa"}, {personName: "Kelvin karens", personId: "bbb"}, {personName: "Willem Walters", personId: "ccc"},]
-    // this.cancellations = [{personName: "Jenny Jovel", personId: "eee"}, {personName: "Berend B", personId: "ddd"}, {personName: "Xander Xeros", personId: "fff"},]
-
+    document.title = "Aanmeldingen"
   }
 
   connectedCallback() {
@@ -83,10 +79,7 @@ class SessionAttendancesPage extends LitElement {
       })
 
     request('GET', '/sessions/'+this.location.params.id)
-        .then(r => {
-          console.log(r.state)
-          this.state = r.state;
-        })
+        .then(r => this.state = r.state)
   }
 
   _handleUpdateAttendance = async (e) => {
