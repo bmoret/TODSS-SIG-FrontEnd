@@ -151,6 +151,7 @@ class SearchSessionsPage extends LitElement {
               .futureSessions="${this.futureSessions}" 
               .pastSessions="${this.pastSessions}"
               .showPast="${this.showPast}"
+              .pastSortType="${1}"
               ></compacted-sessions>
             </main>
             `}
