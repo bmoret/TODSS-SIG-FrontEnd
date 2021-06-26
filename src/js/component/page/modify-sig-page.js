@@ -43,7 +43,6 @@ class ModifySpecialInterestGroupScreen extends LitElement {
   _load = () => {
     request('GET', `/sig/${this.location.params.id}`)
       .then(r => {
-        console.log(r.id)
         if (r.id === undefined) throw "";
         this.sig = r
       })
