@@ -1,6 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
 import {request} from "../../service/connection-service";
-import {store} from "../../state/store/store";
 
 class SearchSessionsPage extends LitElement {
   static get styles() {
@@ -50,14 +49,25 @@ class SearchSessionsPage extends LitElement {
       
       .filter-buttons {
         display: flex;
-        flex-direction: row;
         justify-content: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+      }
+      
+      @media screen and (min-width: 330) {
+        .filter-buttons {
+          flex-direction: row;
+        }
+      }
+      
+      @media screen and (max-width: 330px) {
+        .filter-buttons {
+          flex-direction: column;
+        }
       }
       
       button {
         padding: 10px;
-        margin: 10px;
+        margin: 0 10px 10px 10px;
         font-size: 20px;
         border: 0px;
         border-radius: 4px;
@@ -94,7 +104,6 @@ class SearchSessionsPage extends LitElement {
     this.loading = true;
     this.loading1 = true;
     this.loading2 = true;
-    document.title = "Sessie"
     this.message = "Loading..."
     this.futureSessions = [];
     this.pastSessions = [];
@@ -136,9 +145,6 @@ class SearchSessionsPage extends LitElement {
   }
 
   render() {
-    const state = store.getState().user;
-    const role = state.role;
-
     return html`
        <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
@@ -146,7 +152,7 @@ class SearchSessionsPage extends LitElement {
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
               <div class="header">
-                    <h1>Sessies</h1>
+                    <h1>Kennissessies</h1>
                     <sig-button @click="${_ => history.back()}">Terug</sig-button>
                 </div>
                 <div class="filter-buttons">
@@ -154,11 +160,10 @@ class SearchSessionsPage extends LitElement {
                     <button selected="${!this.showPast}" @click="${_ => this._handleHidePast()}">Aankomend</button>
                 </div>
               <compacted-sessions 
-              .futureSessions="${this.futureSessions}" 
-              .pastSessions="${this.pastSessions}"
-              .showPast="${this.showPast}"
-              .pastSortType="${1}"
-              ></compacted-sessions>
+                .futureSessions="${this.futureSessions}" 
+                .pastSessions="${this.pastSessions}"
+                .showPast="${this.showPast}"
+                .pastSortType="${1}"></compacted-sessions>
             </main>
             `}
           </centered-layout>
