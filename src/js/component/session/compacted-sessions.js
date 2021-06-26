@@ -51,7 +51,6 @@ class CompactedSessions extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         if (this.pastSortType === 1) {
-            console.log("sort")
             const comparator = function (a, b) {
                 return (a.attendanceInfo.attendeeAmount < b.attendanceInfo.attendeeAmount) ? 1 : ((b.attendanceInfo.attendeeAmount < a.attendanceInfo.attendeeAmount) ? -1 : 0);
             }
