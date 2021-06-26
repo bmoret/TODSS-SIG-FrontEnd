@@ -97,7 +97,6 @@ class ModifySessionPage extends LitElement {
       .then (_ => this.sigs[0]? this._handleLoadAssociatedPeople({detail : this.sigs[0].value}) :'')
       .then(_ => this.loading = false)
       .catch(_ => {
-        console.log("test")
         this.loading = true;
         this.shadowRoot.getElementById("load-info").innerText = "Error, Kan iets niet laden"
       })
@@ -111,7 +110,6 @@ class ModifySessionPage extends LitElement {
         })
         .then(_ => this.loading = false)
         .catch(_ => {
-          console.log("test")
           this.loading = true;
           this.message = "Error, Kan de sessie niet laden"
         })
@@ -164,7 +162,6 @@ class ModifySessionPage extends LitElement {
   render() {
     const state = store.getState().createSession;
     const segments = state.segments;
-    // const duration =  this._getSessionDuration();
 
     return html`
         <app-root>
