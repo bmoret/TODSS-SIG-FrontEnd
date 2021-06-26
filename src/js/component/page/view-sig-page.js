@@ -2,7 +2,7 @@ import {LitElement, html, css} from 'lit-element';
 import {request} from "../../service/connection-service";
 import {Router} from "@vaadin/router";
 
-class ViewEmployeePage extends LitElement {
+class ViewSpecialInterestGroupPage extends LitElement {
   static get styles() {
     return css`
       centered-layout  {
@@ -36,17 +36,16 @@ class ViewEmployeePage extends LitElement {
     return {
       loading: {type: Boolean, attribute: false, reflect: true},
       message: {type: String, attribute: false, reflect: true},
-      employee: {type: Object, attribute: false, reflect: true}
+      specialInterestGroup: {type: Object, attribute: false, reflect: true}
     }
   }
 
   constructor() {
     super();
     this.loading = true;
-    document.title = "Sessie";
-    this.message = "Loading...";
-    //employee filler weg te halen na fix
     this.employee = {};
+    this.specialInterestGroup = "Loading...";
+    document.title = "SIG";
   }
 
   connectedCallback() {
@@ -55,22 +54,18 @@ class ViewEmployeePage extends LitElement {
   }
 
   _load = async () => {
-    request('GET', `/person/${this.location.params.id}`)
+    request('GET', `/sig/${this.location.params.id}`)
       .then(r => {
-        console.log(r)
-        if (r.email === undefined) throw "";
-        this.employee = r
-        this.loading = false;
+        if (r.id === undefined) throw "";
+        if (r)
+        this.specialInterestGroup = r
       })
+        .then(_ => this.loading = false)
         .catch(_ => this.message = "Er ging iets mis tijdens het laden.")
   }
 
   _handleEdit = () => {
-    Router.go(`modify-employee/${this.location.params.id}`)
-  }
-
-  _handleViewSessions = () => {
-    Router.go(`/person/${this.location.params.id}/sessions`)
+    Router.go(`modify-sig/${this.location.params.id}`)
   }
 
   render() {
@@ -80,10 +75,10 @@ class ViewEmployeePage extends LitElement {
           <centered-layout slot="body">
           ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
-              <employee-view .employee="${this.employee}"></employee-view>
+              <h1>Special Interest Group</h1>
+              <sig-view .sig="${this.specialInterestGroup}"></sig-view>
                <div>
-                 <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
-                 <sig-button @click="${() => this._handleViewSessions()}">Sessies weergeven</sig-button>
+                <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
                </div>
             </main>
             `}
@@ -93,4 +88,4 @@ class ViewEmployeePage extends LitElement {
   }
 }
 
-window.customElements.define('view-employee-page', ViewEmployeePage)
+window.customElements.define('view-sig-page', ViewSpecialInterestGroupPage)

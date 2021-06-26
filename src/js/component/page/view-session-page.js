@@ -34,6 +34,11 @@ class ViewSessionPage extends LitElement {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+        margin-bottom: 20px;
+      }
+      
+      sig-button {
+        margin-left: 10px;
       }
     `;
   }
@@ -60,7 +65,10 @@ class ViewSessionPage extends LitElement {
 
   _load = async () => {
     request('GET', `/sessions/${this.location.params.id}`)
-      .then(r => this.session = r)
+      .then(r => {
+        if (!r || Object.keys(r).length === 0) throw ""
+        this.session = r
+      })
       .then(_ => this.loading = false)
       .catch(_ => {
         this.loading = true;

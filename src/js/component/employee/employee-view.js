@@ -22,6 +22,7 @@ class EmployeeView extends LitElement {
   }
 
   _goToSupervisor = () => {
+    if (!this.employee.supervisor) return;
     Router.go("/person/" + this.employee.supervisor.personId)
   }
 
@@ -38,9 +39,12 @@ class EmployeeView extends LitElement {
     <page-segment .title="${"Werkgegevens"}" >
       <view-segment-item .name="${"Expertise"}" .value="${this.employee.expertise}"></view-segment-item>
       <view-segment-item .name="${"Werkzaam sinds"}" .value="${this.employee.employedSince}"></view-segment-item>
-      <view-segment-item .name="${"Filiaal"}" .value="${this.employee.branch}"></view-segment-item>
+      <view-segment-item .name="${"Vestiging"}" .value="${this.employee.branch}"></view-segment-item>
       <view-segment-item .name="${"Rol"}" .value="${this.employee.role}"></view-segment-item>
-      <view-segment-item id="supervisor" .name="${"Supervisor"}" .value="${supervisorName}" @click="${this._goToSupervisor}"></view-segment-item>
+      <view-segment-item id="${this.employee.supervisor? "supervisor" : ""}" 
+      .name="${"Supervisor"}" 
+      .value="${supervisorName}" 
+      @click="${this._goToSupervisor}"></view-segment-item>
     </page-segment>
     `
   }

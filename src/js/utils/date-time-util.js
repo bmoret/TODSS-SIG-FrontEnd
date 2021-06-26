@@ -15,6 +15,24 @@ export function dateToTimestamp(i) {
   return timestamp;
 }
 
+export function timestampToDateString(timestamp) {
+  let date = new Date(timestamp)
+  return `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}  ${dateToTimeSeparatedByColumn(date.getTime())}`
+}
+
+export function dateToTimeSeparatedByColumn(duration) {
+  let date = new Date(duration);
+  return date.toLocaleTimeString()
+    .substr(0, 5);
+}
+
+export function datesToDuration(start, end) {
+  const startDate = new Date(start).getTime();
+  const endDate = new Date(end).getTime();
+  const differenceInMs = endDate - startDate;
+  return differenceInMs > 0 ? differenceInMs : 0;
+}
+
 function formatSingleDigitPart(part) {
   return part < 10?  0 + part.toString() : part.toString();
 }

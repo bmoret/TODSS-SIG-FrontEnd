@@ -30,7 +30,7 @@ const refreshAccessTokenAndRetry = async (type, link, body) => {
         response = await fetchRequest(type, link, body);
         if (response.status >= 200 && response.status < 300) return response;
     }
-    Router.go("/login");
+    if (response.status === 403) Router.go("/login");
 }
 
 const fetchRequest = (type, link, body) => {

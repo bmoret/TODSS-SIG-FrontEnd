@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 
-import {parseForm} from "../../utils/form-util";
+import {isValidForm, parseForm} from "../../utils/form-util";
 import {request} from "../../service/connection-service";
 
 const branchTypes = [{name: "Vianen", value: "VIANEN"}, {name: "Best", value: "BEST"}, {
@@ -21,23 +21,32 @@ class CreateEmployeePage extends LitElement {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+      } 
+      
+      h1 {
+        margin:  0 auto 22px auto;
       }
         
       sig-button {
         margin: 15px 10px;
+      }
+      
+      *[invalid]{
+          box-shadow: var(--cim-shadow-invalid-input);
       }
     `;
   }
 
   constructor() {
     super();
+    document.title = "Medewerker Aanmaken"
   }
-  _handleCancel = () => {
-     history.back();
-  }
+
+  _handleCancel = () => history.back();
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
+    if (!isValidForm(form)) return;
     let body = parseForm(form);
         request('POST', '/person', body)
             .then(r => Router.go('/person/' + r.id))
@@ -55,8 +64,9 @@ class CreateEmployeePage extends LitElement {
 
   render() {
     return html`
-        <cim-top-bar></cim-top-bar>
-        <centered-layout>
+      <app-root>
+        <cim-top-bar slot="header"></cim-top-bar>
+        <centered-layout slot="body">
           <h1>Medewerker Aanmaken</h1>
             <form>
                 <page-segment .title="${"Persoonsgegevens"}" >
@@ -78,7 +88,9 @@ class CreateEmployeePage extends LitElement {
             <sig-button @click="${this._handleSave}">Opslaan</sig-button>
           </div>
         </centered-layout>
-      `
+        
+      <app-root>
+    `
   }
 }
 

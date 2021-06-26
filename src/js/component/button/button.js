@@ -41,7 +41,7 @@ class Button extends LitElement {
 
     render() {
         return html`
-          <button  @click="${this._handleClick}" @keydown="${e => this._handleEnter(e)}">
+          <button @click="${this._handleClick}" @keydown="${e => this._handleEnter(e)}">
             <slot></slot>
           </button>
         `

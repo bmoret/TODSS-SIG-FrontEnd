@@ -118,6 +118,7 @@ class CreateSessionPage extends LitElement {
     body.startDate = dateToTimestamp(new Date().getTime());
     body.endDate = dateToTimestamp((new Date().getTime() + durationInMilliSeconds))
     body.contactPerson = this.contactPerson;
+    body["@type"] = body["@type"] === "TEAMS_ONLINE_SESSION_REQUEST"? "ONLINE_SESSION_REQUEST" : body["@type"];
     delete body.duration
 
     request('POST', '/sessions', body)
@@ -166,7 +167,7 @@ class CreateSessionPage extends LitElement {
                   <form-dropdown-item .items="${sessionTypes}" .name="${"@type"}" .label="${"Sessie type"}" @change="${this._handleSessionType}"></form-dropdown-item>
                 ${this.sessionType === "ONLINE_SESSION_REQUEST" || this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"
                   ? html`
-                    <form-item .name="${"platform"}" .label="${"Platform"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
+                    <form-item .name="${"platform"}" .label="${"Platform"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}" .value="${this.sessionType === "TEAMS_ONLINE_SESSION_REQUEST"? "Teams": ""}"></form-item>
                     <form-item .name="${"joinUrl"}" .label="${"Join link"}" .editable="${this.sessionType !== "TEAMS_ONLINE_SESSION_REQUEST"}"></form-item>
                   `: html`<form-item .name="${"address"}" .label="${"Adres"}"></form-item>`
                 } 

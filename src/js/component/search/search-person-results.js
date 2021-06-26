@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
+import {store} from "../../state/store/store";
+import {actions} from "../../state/reducer/searchEmployee";
 
 class SearchResults extends LitElement {
   static get styles() {
@@ -52,12 +54,17 @@ class SearchResults extends LitElement {
     this.results = [];
   }
 
+  _clickedResult = () => {
+    this.results = [];
+    store.dispatch(actions.fill([]))
+  }
+
   render() {
     return html`
       <ul>
         ${this.results.map( result => html`
           <li>
-            <search-result .employee="${result}"></search-result>
+            <search-result .employee="${result}" @employeeResult="${_ => this._clickedResult()}"></search-result>
           </li>
         `)}
       </ul>

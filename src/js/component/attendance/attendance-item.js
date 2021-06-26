@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import {Router} from "@vaadin/router";
 
 class AttendanceItem extends LitElement {
   static get styles() {
@@ -10,17 +11,30 @@ class AttendanceItem extends LitElement {
         min-width: 250px;
       }
     
-      div {
+      div.all {
         display: flex;
         flex-direction: row;
         border-radius: 2px;
         max-width: 100%;
+        height: 2em;
         margin: 0;
         padding: 5px;
         vertical-align: middle;
         -webkit-box-shadow: var(--cim-shadow-default);
            -moz-box-shadow: var(--cim-shadow-default);
                 box-shadow: var(--cim-shadow-default);
+      }
+      
+      div.person-link {
+        display: flex;
+        height: 2em;
+        width: 100%;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+      
+      div.person-link:hover {
+        cursor: pointer;
       }
       
       button {
@@ -37,6 +51,7 @@ class AttendanceItem extends LitElement {
       
       button:hover {
         border: 1px;
+        cursor: pointer;
       }
       
       button[present=true], .present:hover {
@@ -99,14 +114,18 @@ class AttendanceItem extends LitElement {
 
   render() {
     return html`
-      <div>
-        <p>${this.name}</p>
+      <div class="all">
+        <div class="person-link" @click="${_ => Router.go("/person/"+this.id)}">
+          <p>${this.name}</p>
+        </div>
+        ${this.state !== "ENDED" ? html `
         <button class="present" present="${this.present}" ?disabled="${this.present}" @click="${_ => this._handleUpdateAttendance(true)}">
           <img class="checkmark" src="/dist/assets/icon/checkmark.svg">
         </button>
         <button class="absent" absent="${!this.present}" ?disabled="${!this.present}" @click="${_ => this._handleUpdateAttendance(false)}">
           <img class="cross" src="/dist/assets/icon/cross.svg">
         </button>
+        ` : html``}
       </div>
     `
   }

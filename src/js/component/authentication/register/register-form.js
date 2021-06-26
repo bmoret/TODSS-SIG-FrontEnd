@@ -21,6 +21,10 @@ class RegisterForm extends LitElement {
       sig-button {
         margin:5px
       }
+      
+      *[invalid]{
+          box-shadow: var(--cim-shadow-invalid-input);
+      }
     `;
   }
 
@@ -67,7 +71,7 @@ class RegisterForm extends LitElement {
           </page-segment>
           <div class="button__container">
              <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleRegister}">Registreren</sig-button>
-             <sig-button @click="${this._goToLogin}">Al een account?</sig-button>
+             <sig-button @click="${this._goToLogin}">Inloggen</sig-button>
           </div>
       </form>
     `

@@ -74,6 +74,8 @@ class FormDatePicker extends FormReadable {
     constructor() {
         super();
         this.editable = true;
+        var x = new Date()
+        this.value = x.getFullYear().toString()+"-"+(x.getMonth()+1 < 10 ? "0"+ (x.getMonth()+1).toString() : (x.getMonth()+1).toString()) +"-"+x.getDate().toString();
     }
 
     render() {

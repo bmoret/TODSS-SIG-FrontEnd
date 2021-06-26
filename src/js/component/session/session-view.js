@@ -1,10 +1,15 @@
 import {LitElement, html, css} from 'lit-element';
 import {store} from "../../state/store/store";
 import {actions} from "../../state/reducer/createSession";
+import {timestampToDateString} from "../../utils/date-time-util";
+import {Router} from "@vaadin/router";
 
 class SessionView extends LitElement {
   static get styles() {
     return css`
+      .clickable {
+        cursor: pointer;
+      }
     `
   }
 
@@ -40,6 +45,10 @@ class SessionView extends LitElement {
     }
   }
 
+  _goToSig = (id) => {
+    Router.go('/sig/'+ id)
+  }
+
   render() {
     const state = store.getState().createSession;
     const segments = state.segments;
@@ -51,8 +60,10 @@ class SessionView extends LitElement {
            @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
           <view-segment-item .name="${"Onderwerp"}" .value="${this.session.details.subject}"></view-segment-item>
           <view-segment-item .name="${"Omschrijving"}" .value="${this.session.details.description}"></view-segment-item>
-          <view-segment-item .name="${"Special interest group"}" 
-          .value="${this.session.specialInterestGroup? this.session.specialInterestGroup.subject : '-'}" ></view-segment-item>
+          <view-segment-item class="clickable"
+          .name="${"Special interest group"}" 
+          .value="${this.session.specialInterestGroup? this.session.specialInterestGroup.subject : '-'}" 
+          @click="${_ => this._goToSig(this.session.specialInterestGroup.id)}"></view-segment-item>
         </page-segment>
         <page-segment 
           .title="${"Soort"}" 
@@ -70,7 +81,10 @@ class SessionView extends LitElement {
           .title="${"Tijdsindeling"}" 
           .show="${segments.tijdsindeling.open}" 
           @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-          <view-segment-item .name="${"Duratie"}" .value="${this._calculateDuration() + " minuten"}"></view-segment-item>
+          ${ !["DRAFT", "TO_BE_PLANNED"].includes(this.session.state)? 
+            html`<view-segment-item .name="${"Datum"}" .value="${timestampToDateString(this.session.details.startDate)}"></view-segment-item>`: ''
+          }
+          <view-segment-item .name="${"Duur"}" .value="${this._calculateDuration() + " minuten"}"></view-segment-item>
         </page-segment>
     `
   }

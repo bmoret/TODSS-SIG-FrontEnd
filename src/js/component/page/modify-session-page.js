@@ -2,7 +2,12 @@ import {LitElement, html, css} from 'lit-element';
 import {Router} from '@vaadin/router';
 
 import {parseForm, isValidForm} from "../../utils/form-util";
-import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
+import {
+  datesToDuration,
+  dateToTimeSeparatedByColumn,
+  dateToTimestamp,
+  timeSeparatedByColonToMilliseconds
+} from "../../utils/date-time-util"
 import {request} from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
@@ -116,21 +121,27 @@ class ModifySessionPage extends LitElement {
         this.sigPeople = result);
   };
 
-  _handleContactPerson = (e) => {
-    this.contactPerson = e.detail;
-  }
+  _handleSessionType = (e) => this.sessionType = e.detail;
 
-  _handleCancel = () => {
-    history.back();
-  }
+  _getSessionDuration = () => dateToTimeSeparatedByColumn(datesToDuration(this.session.details.startDate, this.session.details.endDate))
+
+  _handleContactPerson = (e) => this.contactPerson = e.detail;
+
+  _handleCancel = () => history.back();
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
     if (!isValidForm(form)) return;
     let body = parseForm(form);
-    let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
-    body.startDate = dateToTimestamp(new Date());
-    body.endDate = dateToTimestamp(new Date() + durationInMilliSeconds)
+    if (body.duration){
+      let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
+      body.startDate = dateToTimestamp(new Date());
+      body.endDate = dateToTimestamp(Date.now() + durationInMilliSeconds);
+    } else {
+      body.startDate = this.session.details.startDate;
+      body.endDate = this.session.details.endDate;
+    }
+    delete body.duration
     body.contactPerson = this.contactPerson;
     delete body.duration
 
@@ -138,17 +149,6 @@ class ModifySessionPage extends LitElement {
       .then(r => r)
       .then(_ => Router.go('/session/' + this.session.id))
       .catch(_ => alert("Er was een error tijdens het aanmaken van de sessie!"));
-  }
-
-  _handleSessionType = (e) => {
-    this.sessionType = e.detail;
-  }
-
-  _calculateDuration = () => {
-    const startDate = new Date(this.session.details.startDate).getTime();
-    const endDate = new Date(this.session.details.endDate).getTime();
-    const differenceInMinutes = (endDate - startDate) / 1000 / 60;
-    return differenceInMinutes > 0 ? differenceInMinutes : 0;
   }
 
   async _handleSegmentToggle(title, isOpen) {
@@ -167,7 +167,7 @@ class ModifySessionPage extends LitElement {
         <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
           <centered-layout slot="body">
-          ${this.loading ? html`<h1 id="load-info">Loading...</h1>` : html`
+          ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
               <h1>Sessie ${this.session.details.subject} aanpassen</h1>
               <form>
@@ -194,12 +194,14 @@ class ModifySessionPage extends LitElement {
                   `: html`<form-item .name="${"address"}" .label="${"Adres"}" .value="${this.session.address}"></form-item>`
                 } 
                 </page-segment>
-                <page-segment 
-                  .title="${"Tijdsindeling"}" 
-                  .show="${segments.tijdsindeling.open}" 
-                  @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                  <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${_ => this._calculateDuration()}"></form-time-item>
-                </page-segment>
+                ${["DRAFT", "TO_BE_PLANNED"].includes(this.session.state)?
+                  html`<page-segment 
+                    .title="${"Tijdsindeling"}" 
+                    .show="${segments.tijdsindeling.open}" 
+                    @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
+                    <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${this._getSessionDuration()}"></form-time-item>
+                  </page-segment>` : ''
+                }
                 <div>
                   <sig-button @click="${() => this._handleCancel()}">Annuleren</sig-button>
                   <sig-button @click="${() => this._handleSave()}">Opslaan</sig-button>
