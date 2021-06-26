@@ -110,11 +110,6 @@ class PageLinkButtons extends LitElement {
                 <img src="/dist/assets/icon/diploma-cap.svg" alt="" height="30px"/>
                 <p>Sessie aanmaken</p>
             </sig-full-size-button>` : ''}
-        ${[MANAGER, ADMIN].includes(role)?
-          html`<sig-full-size-button @click="${_ =>this._handleLink("/create-employee")}">
-              <img src="/dist/assets/icon/person.svg" alt="" height="30px"/>
-              <p>Medewerker aanmaken</p>
-          </sig-full-size-button>` : ''}
          ${[MANAGER, ADMIN].includes(role)?
           html`<sig-full-size-button @click="${_ =>this._handleLink("/search-employee")}">
               <img src="/dist/assets/icon/people.svg" alt="" height="30px"/>
