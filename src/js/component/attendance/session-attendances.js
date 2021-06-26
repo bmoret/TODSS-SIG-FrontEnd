@@ -71,6 +71,7 @@ class SessionAttendances extends LitElement {
       cancellations: {type: Array, attribute: false, reflect: true},
       attendancePercent: {type: Number, attribute: false, reflect: true},
       cancellationPercent: {type: Number, attribute: false, reflect: true},
+      state: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -78,6 +79,7 @@ class SessionAttendances extends LitElement {
     super();
     this.attendances = [];
     this.cancellations = [];
+    this.state = "";
   }
 
   updated(_changedProperties) {

@@ -87,7 +87,8 @@ class AttendanceItem extends LitElement {
       name: {type: String, attribute: false, reflect: true},
       id: {type: String, attribute: false, reflect: true},
       present: {type: Boolean, attribute: true, reflect: true},
-      attendanceId: {type: String, attribute: false, reflect: true}
+      attendanceId: {type: String, attribute: false, reflect: true},
+      state: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -96,6 +97,7 @@ class AttendanceItem extends LitElement {
     this.name = "";
     this.id = "";
     this.attendanceId = "";
+    this.state = "";
     this.present = false;
   }
 
@@ -118,14 +120,14 @@ class AttendanceItem extends LitElement {
         <div class="person-link" @click="${_ => Router.go("/person/"+this.id)}">
           <p>${this.name}</p>
         </div>
-        ${this.state !== "ENDED" ? html `
+        ${this.state === "ENDED" || this.state === "ONGOING" ? html `
         <button class="present" present="${this.present}" ?disabled="${this.present}" @click="${_ => this._handleUpdateAttendance(true)}">
           <img class="checkmark" src="/dist/assets/icon/checkmark.svg">
         </button>
         <button class="absent" absent="${!this.present}" ?disabled="${!this.present}" @click="${_ => this._handleUpdateAttendance(false)}">
           <img class="cross" src="/dist/assets/icon/cross.svg">
         </button>
-        ` : html``}
+        ` : ''}
       </div>
     `
   }
