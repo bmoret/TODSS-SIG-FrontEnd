@@ -60,14 +60,8 @@ class RegisterForm extends LitElement {
           <page-segment .title="${"Werkgegevens"}" >
               <form-item .name="${"expertise"}" .label="${"Expertise"}">Expertise</form-item>
               <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}">Werkzaam sinds</form-date-picker>
-              <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}"
-                  .items="${branchTypes}"
-              >Branch</form-dropdown-item>
-              <form-dropdown-item .name="${"role"}" .label="${"Rol"}"
-                  .items="${roleTypes}"
-              >Rol</form-dropdown-item>
-              <form-dropdown-item .name="${"supervisorId"}" .label="${"Supervisor"}"
-              >Supervisor</form-dropdown-item>
+              <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}" .items="${branchTypes}">Branch</form-dropdown-item>
+              <form-dropdown-item .name="${"role"}" .label="${"Rol"}" .items="${roleTypes}">Rol</form-dropdown-item>
           </page-segment>
           <div class="button__container">
              <sig-button @keydown="${e => e.key === 'Enter' && this._handleLogin()}" @click="${this._handleRegister}">Registreren</sig-button>
