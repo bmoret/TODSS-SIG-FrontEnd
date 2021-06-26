@@ -98,7 +98,6 @@ class SessionCompact extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log(this.session.state)
         this.tooltip = this.session.attendanceInfo.attendeeAmount
                         +" van de "
                         + this.session.attendanceInfo.reactionAmount
