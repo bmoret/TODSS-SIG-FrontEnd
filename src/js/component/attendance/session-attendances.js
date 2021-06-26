@@ -1,6 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
 import {roundToPercent} from "../../utils/number-utils";
-import {request} from "../../service/connection-service";
 
 class SessionAttendances extends LitElement {
   static get styles() {
@@ -72,6 +71,7 @@ class SessionAttendances extends LitElement {
       cancellations: {type: Array, attribute: false, reflect: true},
       attendancePercent: {type: Number, attribute: false, reflect: true},
       cancellationPercent: {type: Number, attribute: false, reflect: true},
+      state: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -79,6 +79,7 @@ class SessionAttendances extends LitElement {
     super();
     this.attendances = [];
     this.cancellations = [];
+    this.state = "";
   }
 
   updated(_changedProperties) {

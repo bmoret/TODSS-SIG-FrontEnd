@@ -40,6 +40,7 @@ class SessionAttendancesPage extends LitElement {
       message: {type: String, attribute: false, reflect: true},
       attendances: {type: Array, attribute: false, reflect: true},
       cancellations: {type: Array, attribute: false, reflect: true},
+      state: {type: String, attribute: false, reflect: true},
     }
   }
 
@@ -48,6 +49,7 @@ class SessionAttendancesPage extends LitElement {
     this.loading = false;
     this.attendances = []
     this.cancellations = []
+    this.state = ""
     this.message = "Loading..."
     document.title = "Aanmeldingen"
   }
@@ -77,13 +79,14 @@ class SessionAttendancesPage extends LitElement {
       })
 
     request('GET', '/sessions/'+this.location.params.id)
-        .then(r => this.state = r.state)
+        .then(r => this.state = r.state);
+
   }
 
   _handleUpdateAttendance = async (e) => {
     const body = {"isPresent": e.detail.present,}
     let response = await request("PATCH", `/attendances/${e.detail.attendanceId}/presence`, body)
-    if (!response || Object.keys(response).length === 0 || response.constructor === Object) return;
+    if (!response || Object.keys(response).length === 0) return;
     if (e.detail.present) {
       const person = this._findPersonInArray(this.cancellations, e.detail.id)
       this._removePersonFromArray(person, this.cancellations)
