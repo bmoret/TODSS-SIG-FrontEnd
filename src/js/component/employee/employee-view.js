@@ -39,7 +39,7 @@ class EmployeeView extends LitElement {
     <page-segment .title="${"Werkgegevens"}" >
       <view-segment-item .name="${"Expertise"}" .value="${this.employee.expertise}"></view-segment-item>
       <view-segment-item .name="${"Werkzaam sinds"}" .value="${this.employee.employedSince}"></view-segment-item>
-      <view-segment-item .name="${"Filiaal"}" .value="${this.employee.branch}"></view-segment-item>
+      <view-segment-item .name="${"Vestiging"}" .value="${this.employee.branch}"></view-segment-item>
       <view-segment-item .name="${"Rol"}" .value="${this.employee.role}"></view-segment-item>
       <view-segment-item id="${this.employee.supervisor? "supervisor" : ""}" 
       .name="${"Supervisor"}" 

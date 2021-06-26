@@ -114,10 +114,16 @@ class SearchSessionsPage extends LitElement {
 
   _load = async () => {
     request('GET', `/sessions/future`)
-      .then(r => this.futureSessions = r )
+      .then(r => {
+        this.futureSessions = r
+        if (r.length === undefined) this.futureSessions = []
+      })
       .then(_ => this.loading1 = false)
     request('GET', `/sessions/history`)
-        .then(r => this.pastSessions = r )
+        .then(r => {
+          this.pastSessions = r
+          if (r.length === undefined) this.pastSessions = []
+        } )
         .then(_ => this.loading2 = false)
   }
 

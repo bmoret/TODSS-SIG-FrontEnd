@@ -113,8 +113,8 @@ class ModifyEmployeeScreen extends LitElement {
                 <page-segment .title="${"Werkgegevens"}" >
                     <form-item .name="${"expertise"}" .label="${"Expertise"}" .value="${this.person.expertise}">Expertise</form-item>
                     <form-date-picker .name="${"employedSince"}" .label="${"Werkzaam sinds"}" .value="${this.person.employedSince}">Werkzaam sinds</form-date-picker>
-                    <form-dropdown-item .name="${"branch"}" .label="${"Filiaal"}" .items="${branchTypes}"
-                        .selected="${this.person.branch}">Branch</form-dropdown-item>
+                    <form-dropdown-item .name="${"Vestiging"}" .label="${"Vestiging"}" .items="${branchTypes}"
+                        .selected="${this.person.branch}"></form-dropdown-item>
                     <form-dropdown-item .name="${"role"}" .label="${"Rol"}"
                                         .items="${ roleTypes}"
                                         .selected="${this.person.role}"
