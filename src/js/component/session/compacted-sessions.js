@@ -36,6 +36,7 @@ class CompactedSessions extends LitElement {
             futureSessions: {type: Array, attribute: false, reflect: true},
             pastSessions: {type: Array, attribute: false, reflect: true},
             showPast: {type: Boolean, attribute: false, reflect: true},
+            pastSortType: {type: Number, attribute: false, reflect: true}
         }
     }
 
@@ -44,6 +45,41 @@ class CompactedSessions extends LitElement {
         this.futureSessions = [];
         this.pastSessions = [];
         this.showPast = false;
+        this.pastSortType = 2;
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        console.log(this.pastSessions[0])
+        if (this.pastSortType === 1) {
+            console.log("sort")
+            const comparator = function (a, b) {
+                return (a.attendanceInfo.attendeeAmount < b.attendanceInfo.attendeeAmount) ? 1 : ((b.attendanceInfo.attendeeAmount < a.attendanceInfo.attendeeAmount) ? -1 : 0);
+            }
+            for (var x = 0; x < this.pastSessions.length; x++) {
+                console.log(this.pastSessions[x].attendanceInfo.attendeeAmount)
+            }
+
+            this.pastSessions.sort(comparator);
+
+            for (var x = 0; x < this.pastSessions.length; x++) {
+                console.log(this.pastSessions[x].attendanceInfo.attendeeAmount)
+            }
+        }
+        else {
+            const comparator = function (a, b) {
+                return (a.details.startDate < b.details.startDate) ? 1 : ((b.details.startDate < a.details.startDate) ? -1 : 0);
+            }
+            for (var x = 0; x < this.pastSessions.length; x++) {
+                console.log(this.pastSessions[x].details.startDate)
+            }
+
+            this.pastSessions.sort(comparator);
+
+            for (var x = 0; x < this.pastSessions.length; x++) {
+                console.log(this.pastSessions[x].details.startDate)
+            }
+        }
     }
 
     _goToSession = (id) => {
@@ -57,9 +93,9 @@ class CompactedSessions extends LitElement {
                 ${this.showPast ? this.pastSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 
                     : this.pastSessions.map(session => html`
                       <li>
-                          <session-historical-compact 
+                          <session-compact 
                           .session="${session}" 
-                          @click="${_ => this._goToSession(session.id)}"></session-historical-compact>
+                          @click="${_ => this._goToSession(session.id)}"></session-compact>
                       </li>
                     `)
                    : this.futureSessions.length === 0? html `<p class="no__results">Geen sessies gevonden</p>` 

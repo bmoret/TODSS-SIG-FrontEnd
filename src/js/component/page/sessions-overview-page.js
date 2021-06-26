@@ -45,7 +45,8 @@ class SessionsOverviewPage extends LitElement {
         border-radius: 4px;
       }
       
-      main button[selected=true] {
+      main button[selected=true],
+      main button:hover {
         background-color: var(--cim-color-button-focused);
         -webkit-box-shadow: var(--cim-shadow-button-default);
              -moz-box-shadow: var(--cim-shadow-button-default);
@@ -54,10 +55,6 @@ class SessionsOverviewPage extends LitElement {
       
       main button:hover {
         cursor: pointer;
-        background-color: var(--cim-color-button-focused);
-        -webkit-box-shadow: var(--cim-shadow-button-default);
-             -moz-box-shadow: var(--cim-shadow-button-default);
-                  box-shadow: var(--cim-shadow-button-default);
       }
       
       sig-button {
@@ -78,6 +75,8 @@ class SessionsOverviewPage extends LitElement {
   static get properties() {
     return {
       loading: {type: Boolean, attribute: false, reflect: true},
+      loading1: {type: Boolean, attribute: false, reflect: true},
+      loading2: {type: Boolean, attribute: false, reflect: true},
       message: {type: String, attribute: false, reflect: true},
       futureSessions: {type: Array, attribute: false, reflect: true},
       pastSessions: {type: Array, attribute: false, reflect: true},
@@ -88,6 +87,9 @@ class SessionsOverviewPage extends LitElement {
   constructor() {
     super();
     this.loading = true;
+    this.loading1 = true;
+    this.loading2 = true;
+    document.title = "Sessie"
     this.message = "Loading..."
     this.futureSessions = [];
     this.pastSessions = [];
@@ -100,23 +102,30 @@ class SessionsOverviewPage extends LitElement {
     this._load()
   }
 
+  update(x) {
+    super.update(x);
+    if (!this.loading1 && !this.loading2) this.loading = false
+  }
+
   _load = async () => {
     request('GET', `/sessions/future/${this.location.params.id}`)
       .then(r => {
         if (r.length === undefined) throw "";
         this.futureSessions = r
       })
+      .then(_ => this.loading1 = false)
       .catch(_ => {
-        this.message = "Error, Kan de sessie niet laden";
-        return;
+        this.message = "Error, Kan de sessie niet laden"
       })
     request('GET', `/sessions/history/${this.location.params.id}`)
       .then(r => {
         if (r.length === undefined) throw "";
         this.pastSessions = r
       })
-      .then(_ => this.loading = false)
-      .catch(_ => this.message = "Error, Kan de sessie niet laden")
+      .then(_ => this.loading2 = false)
+      .catch(_ => {
+        this.message = "Error, Kan de sessie niet laden"
+      })
   }
 
   _handleShowPast = () => {
@@ -139,7 +148,7 @@ class SessionsOverviewPage extends LitElement {
             <main>
                 <div class="header">
                     <h1>Kennissessies</h1>
-                    <sig-button @click="${_ => Router.go(`/person/${this.location.params.id}`)}">Terug</sig-button>
+                    <sig-button @click="${_ => history.back()}">Terug</sig-button>
                 </div>
                 <div class="filter-buttons">
                     <button selected="${this.showPast}" @click="${_ => this._handleShowPast()}">Historisch</button>
