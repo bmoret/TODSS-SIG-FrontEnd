@@ -1,8 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
-import {Router} from "@vaadin/router";
-import {ADMIN, EMPLOYEE, MANAGER, ORGANISER, SECRETARY} from "../../utils/user-roles";
 import {request} from "../../service/connection-service";
-import {store} from "../../state/store/store";
 
 class SessionsOverviewPage extends LitElement {
   static get styles() {
@@ -89,7 +86,6 @@ class SessionsOverviewPage extends LitElement {
     this.loading = true;
     this.loading1 = true;
     this.loading2 = true;
-    document.title = "Sessie"
     this.message = "Loading..."
     this.futureSessions = [];
     this.pastSessions = [];
@@ -137,9 +133,6 @@ class SessionsOverviewPage extends LitElement {
   }
 
   render() {
-    const state = store.getState().user;
-    const role = state.role;
-
     return html`
        <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
