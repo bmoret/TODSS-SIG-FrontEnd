@@ -50,35 +50,18 @@ class CompactedSessions extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log(this.pastSessions[0])
         if (this.pastSortType === 1) {
             console.log("sort")
             const comparator = function (a, b) {
                 return (a.attendanceInfo.attendeeAmount < b.attendanceInfo.attendeeAmount) ? 1 : ((b.attendanceInfo.attendeeAmount < a.attendanceInfo.attendeeAmount) ? -1 : 0);
             }
-            for (var x = 0; x < this.pastSessions.length; x++) {
-                console.log(this.pastSessions[x].attendanceInfo.attendeeAmount)
-            }
-
             this.pastSessions.sort(comparator);
-
-            for (var x = 0; x < this.pastSessions.length; x++) {
-                console.log(this.pastSessions[x].attendanceInfo.attendeeAmount)
-            }
         }
         else {
             const comparator = function (a, b) {
                 return (a.details.startDate < b.details.startDate) ? 1 : ((b.details.startDate < a.details.startDate) ? -1 : 0);
             }
-            for (var x = 0; x < this.pastSessions.length; x++) {
-                console.log(this.pastSessions[x].details.startDate)
-            }
-
             this.pastSessions.sort(comparator);
-
-            for (var x = 0; x < this.pastSessions.length; x++) {
-                console.log(this.pastSessions[x].details.startDate)
-            }
         }
     }
 
