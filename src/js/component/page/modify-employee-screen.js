@@ -60,15 +60,15 @@ class ModifyEmployeeScreen extends LitElement {
         request('GET', `/person/${this.location.params.id}`)
             .then(r => {
               if (r.id === undefined) throw "";
-                this.person = r
-                if (r.supervisor) {
-                    this.results.push({
-                        value: r.supervisor.personId,
-                        name: r.supervisor.personName.split(", ")[1] + " " + r.supervisor.personName.split(", ")[0]
-                    })
-                }
+              this.person = r
+              if (r.supervisor) {
+                  this.results.push({
+                      value: r.supervisor.personId,
+                      name: r.supervisor.personName.split(", ")[1] + " " + r.supervisor.personName.split(", ")[0]
+                  })
+              }
+              this.loading = false
             })
-            .then(_ => this.loading = false)
             .catch(_ => {
                 this.message = "Er ging iets fout tijdens het laden."
             })
