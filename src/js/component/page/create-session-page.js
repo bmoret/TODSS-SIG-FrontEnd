@@ -2,7 +2,7 @@ import {LitElement, html, css} from 'lit-element';
 import {Router} from '@vaadin/router';
 
 import {parseForm, isValidForm} from "../../utils/form-util";
-import {dateToTimestamp, timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
+import {timeSeparatedByColonToMilliseconds} from "../../utils/date-time-util"
 import {request} from "../../service/connection-service";
 
 import {actions} from "../../state/reducer/createSession.js";
@@ -115,8 +115,8 @@ class CreateSessionPage extends LitElement {
     if (!isValidForm(form)) return;
     let body = parseForm(form);
     let durationInMilliSeconds = timeSeparatedByColonToMilliseconds(body.duration)
-    body.startDate = dateToTimestamp(new Date().getTime());
-    body.endDate = dateToTimestamp((new Date().getTime() + durationInMilliSeconds))
+    body.startDate = new Date().toISOString();
+    body.endDate = new Date(new Date().getTime() + durationInMilliSeconds).toISOString()
     body.contactPerson = this.contactPerson;
     body["@type"] = body["@type"] === "TEAMS_ONLINE_SESSION_REQUEST"? "ONLINE_SESSION_REQUEST" : body["@type"];
     delete body.duration
