@@ -42,7 +42,7 @@ class ViewEmployeePage extends LitElement {
 
   constructor() {
     super();
-    this.loading = false;
+    this.loading = true;
     document.title = "Sessie";
     this.message = "Loading...";
     //employee filler weg te halen na fix
@@ -56,11 +56,21 @@ class ViewEmployeePage extends LitElement {
 
   _load = async () => {
     request('GET', `/person/${this.location.params.id}`)
-      .then(r => this.employee = r)
+      .then(r => {
+        console.log(r)
+        if (r.email === undefined) throw "";
+        this.employee = r
+        this.loading = false;
+      })
+        .catch(_ => this.message = "Er ging iets mis tijdens het laden.")
   }
 
   _handleEdit = () => {
     Router.go(`modify-employee/${this.location.params.id}`)
+  }
+
+  _handleViewSessions = () => {
+    Router.go(`/person/${this.location.params.id}/sessions`)
   }
 
   render() {
@@ -72,7 +82,8 @@ class ViewEmployeePage extends LitElement {
             <main>
               <employee-view .employee="${this.employee}"></employee-view>
                <div>
-                <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
+                 <sig-button @click="${() => this._handleEdit()}">Aanpassen</sig-button>
+                 <sig-button @click="${() => this._handleViewSessions()}">Sessies weergeven</sig-button>
                </div>
             </main>
             `}

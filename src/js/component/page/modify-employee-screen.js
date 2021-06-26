@@ -35,12 +35,15 @@ class ModifyEmployeeScreen extends LitElement {
         results: {type: Array, attribute: false, reflect: true},
         person: {type: Object, attribute: false, reflect: true},
         supervisor: {type: String, attribute: false, reflect: true},
+        message: {type: String, attribute: false, reflect: true},
         managers: {type: Object, attribute: false, refelct: true}
       }
     }
 
   constructor() {
     super();
+    this.loading = true;
+    this.message = "Loading...";
     this.results = [];
     this.person = {};
     this.supervisor = {};
@@ -56,6 +59,7 @@ class ModifyEmployeeScreen extends LitElement {
     _load = () => {
         request('GET', `/person/${this.location.params.id}`)
             .then(r => {
+              if (r.id === undefined) throw "";
                 this.person = r
                 if (r.supervisor) {
                     this.results.push({
@@ -63,11 +67,10 @@ class ModifyEmployeeScreen extends LitElement {
                         name: r.supervisor.personName.split(", ")[1] + " " + r.supervisor.personName.split(", ")[0]
                     })
                 }
-
             })
             .then(_ => this.loading = false)
             .catch(_ => {
-                this.loading = true;
+                this.message = "Er ging iets fout tijdens het laden."
             })
 
     }
@@ -100,7 +103,7 @@ class ModifyEmployeeScreen extends LitElement {
     return html`
         <cim-top-bar></cim-top-bar>
         <centered-layout>
-          <h1>Medewerker Aanpassen: ${this.person.firstname+" "+this.person.lastname}</h1>
+          ${this.loading ? html`<h1>${this.message}</h1>` : html`<h1>Medewerker Aanpassen: ${this.person.firstname+" "+this.person.lastname}</h1>
             <form>
                 <page-segment .title="${"Persoonsgegevens"}" >
                     <form-item .name="${"firstname"}" .label="${"Voornaam"}" .value="${this.person.firstname}">Voornaam</form-item>
@@ -124,6 +127,7 @@ class ModifyEmployeeScreen extends LitElement {
             <sig-button @click="${this._handleCancel}">Annuleren</sig-button>
             <sig-button @click="${this._handleSave}">Opslaan</sig-button>
           </div>
+          `}
         </centered-layout>
       `
   }

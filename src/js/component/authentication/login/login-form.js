@@ -16,6 +16,10 @@ class LoginForm extends LitElement {
     sig-button {
       margin:5px
     }
+    
+    *[invalid]{
+          box-shadow: var(--cim-shadow-invalid-input);
+      }
     `
   }
 

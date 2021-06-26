@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit-element';
 import {Router} from "@vaadin/router";
 
-import {parseForm} from "../../utils/form-util";
+import {isValidForm, parseForm} from "../../utils/form-util";
 import {request} from "../../service/connection-service";
 
 const branchTypes = [{name: "Vianen", value: "VIANEN"}, {name: "Best", value: "BEST"}, {
@@ -30,13 +30,23 @@ class CreateEmployeePage extends LitElement {
       sig-button {
         margin: 15px 10px;
       }
+      
+      *[invalid]{
+          box-shadow: var(--cim-shadow-invalid-input);
+      }
     `;
+  }
+
+  constructor() {
+    super();
+    document.title = "Medewerker Aanmaken"
   }
 
   _handleCancel = () => history.back();
 
   _handleSave = () => {
     let form = this.shadowRoot.querySelector("form");
+    if (!isValidForm(form)) return;
     let body = parseForm(form);
         request('POST', '/person', body)
             .then(r => Router.go('/person/' + r.id))

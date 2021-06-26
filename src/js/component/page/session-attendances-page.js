@@ -1,7 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
-import {Router} from "@vaadin/router";
 import {request} from "../../service/connection-service";
-import {store} from "../../state/store/store";
 
 class SessionAttendancesPage extends LitElement {
   static get styles() {
@@ -21,7 +19,6 @@ class SessionAttendancesPage extends LitElement {
       h1 {
       display: inline-block;
         text-align:center;
-        width: min-content;
         margin-right: 0;
       }
       
@@ -51,12 +48,8 @@ class SessionAttendancesPage extends LitElement {
     this.loading = false;
     this.attendances = []
     this.cancellations = []
-    document.title = "Aanmeldingen"
     this.message = "Loading..."
-
-    // this.attendances = [{personName: "Jan Jansen", personId: "aaa"}, {personName: "Kelvin karens", personId: "bbb"}, {personName: "Willem Walters", personId: "ccc"},]
-    // this.cancellations = [{personName: "Jenny Jovel", personId: "eee"}, {personName: "Berend B", personId: "ddd"}, {personName: "Xander Xeros", personId: "fff"},]
-
+    document.title = "Aanmeldingen"
   }
 
   connectedCallback() {
@@ -82,6 +75,9 @@ class SessionAttendancesPage extends LitElement {
         this.loading = true;
         this.message = "Error, Kan de sessie niet laden"
       })
+
+    request('GET', '/sessions/'+this.location.params.id)
+        .then(r => this.state = r.state)
   }
 
   _handleUpdateAttendance = async (e) => {
@@ -125,11 +121,12 @@ class SessionAttendancesPage extends LitElement {
             <main>
               <div>
                 <h1>Aanmeldingen</h1>
-                <sig-button @click="${_ => Router.go(`/session/${this.location.params.id}`)}">Terug</sig-button>
+                <sig-button @click="${_ => history.back()}">Terug</sig-button>
               </div>
               <session-attendances 
                 .attendances="${this.attendances}"
                 .cancellations="${this.cancellations}"
+                .state="${this.state}"
                 @updateAttendance="${e => this._handleUpdateAttendance(e)}"
               ></session-attendances>
             </main>

@@ -162,13 +162,12 @@ class ModifySessionPage extends LitElement {
   render() {
     const state = store.getState().createSession;
     const segments = state.segments;
-    const duration =  this._getSessionDuration();
 
     return html`
         <app-root>
           <cim-top-bar slot="header"></cim-top-bar>
           <centered-layout slot="body">
-          ${this.loading ? html`<h1 id="load-info">Loading...</h1>` : html`
+          ${this.loading ? html`<h1 id="load-info">${this.message}</h1>` : html`
             <main>
               <h1>Sessie ${this.session.details.subject} aanpassen</h1>
               <form>
@@ -200,7 +199,7 @@ class ModifySessionPage extends LitElement {
                     .title="${"Tijdsindeling"}" 
                     .show="${segments.tijdsindeling.open}" 
                     @toggle="${_ => this._handleSegmentToggle("tijdsindeling", segments.tijdsindeling.open)}">
-                    <form-time-item .name="${"duration"}" .label="${"Duur"}" .value="${duration}"></form-time-item>
+                    <form-time-item .name="${"duration"}" .label="${"Duratie"}" .value="${this._getSessionDuration()}"></form-time-item>
                   </page-segment>` : ''
                 }
                 <div>

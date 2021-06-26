@@ -35,6 +35,14 @@ class ViewClickableListSegmentItem extends LitElement {
       li:nth-child(odd) p {
         text-align: left;
       }
+      
+      p {
+        color: black;
+      }
+      
+      #item:hover {
+        color: inherit;
+      }
       `
   }
 
@@ -56,7 +64,7 @@ class ViewClickableListSegmentItem extends LitElement {
   _emitClick = (e, value) => {
     e.preventDefault();
     e.stopPropagation();
-    let event = new CustomEvent('click', { bubbles: true, composed: true, detail: value });
+    let event = new CustomEvent('custom', { bubbles: true, composed: true, detail: value });
     this.dispatchEvent(event);
   }
 
@@ -73,7 +81,7 @@ class ViewClickableListSegmentItem extends LitElement {
         ${count === 0? html`<li><p>Geen</p></li>`
           :this.items.map(item => html`
             <li @click="${e => this._emitClick(e, item.value)}">
-              <p>${item.name}</p>
+              <p id="item">${item.name}</p>
             </li>`)
         }
         </ul>
