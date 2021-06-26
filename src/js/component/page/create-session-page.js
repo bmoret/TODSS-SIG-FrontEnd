@@ -97,6 +97,7 @@ class CreateSessionPage extends LitElement {
   }
 
   _handleLoadAssociatedPeople = (e) => {
+    console.log(e)
     let requestLink = "/sig/" + e.detail + "/people";
     request('GET', requestLink).then(result =>
         this.sigPeople = result);
@@ -156,9 +157,16 @@ class CreateSessionPage extends LitElement {
                    @toggle="${_ => this._handleSegmentToggle("inhoud", segments.inhoud.open)}">
                   <form-item .name="${"subject"}" .label="${"Onderwerp"}"></form-item>
                   <form-item .name="${"description"}" .label="${"Omschrijving"}"></form-item>
-                  <form-dropdown-item .items="${this.sigs}" .name="${"sigId"}" .label="${"Special Interest Group"}" ></form-dropdown-item>
-                  <form-radio-buttons @change="${e => this._handleContactPerson(e)}" .items="${this.sigPeople}"
-                                        .name="${"contactPerson"}" .label="${"Contact persoon"}"></form-radio-buttons>
+                  <form-dropdown-item 
+                  .items="${this.sigs}" 
+                  .name="${"sigId"}" 
+                  .label="${"Special Interest Group"}" 
+                  @change="${e => this._handleLoadAssociatedPeople(e)}"></form-dropdown-item>
+                  <form-radio-buttons 
+                  .items="${this.sigPeople}"
+                  .name="${"contactPerson"}" 
+                  .label="${"Contact persoon"}"
+                  @change="${e => this._handleContactPerson(e)}" ></form-radio-buttons>
                 </page-segment>
                 <page-segment 
                   .title="${"Soort"}" 
