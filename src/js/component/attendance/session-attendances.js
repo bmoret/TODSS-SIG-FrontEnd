@@ -1,6 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
 import {roundToPercent} from "../../utils/number-utils";
-import {request} from "../../service/connection-service";
 
 class SessionAttendances extends LitElement {
   static get styles() {
