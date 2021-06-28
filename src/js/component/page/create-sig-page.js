@@ -43,7 +43,7 @@ class CreateSpecialInterestGroupPage extends LitElement {
     let form = this.shadowRoot.querySelector("form");
     let body = parseForm(form);
     body.organizerIds = this.organizers.map(organizer => organizer.value);
-    if (body.subject === undefined || body.managerId === undefined || body.organizerIds.length === 0) return;
+    if (body.subject === undefined || body.managerId === undefined) return;
     request('POST', '/sig', body)
         .then(r => Router.go('/sig/' + r.id))
         .catch(_ => alert("Er was een error tijdens het aanmaken van de medewerker!"));
